@@ -4,7 +4,7 @@ module gov.iti.link{
     requires java.sql;
     requires transitive javafx.graphics;
 
-    opens gov.iti.link.presentation to javafx.fxml;
+    opens gov.iti.link.presentation.controllers to javafx.fxml;
 
     exports gov.iti.link;
     // exports gov.iti.link.persistence.Models;

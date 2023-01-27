@@ -1,4 +1,4 @@
-package gov.iti.link.presentation;
+package gov.iti.link.presentation.controllers;
 
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.UserService;
@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class RegisterController {
+public class LoginController {
     @FXML
     private TextField tfPhone;
     @FXML

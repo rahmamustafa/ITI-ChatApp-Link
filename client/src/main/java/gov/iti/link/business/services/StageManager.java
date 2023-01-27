@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 public class StageManager {
     private static final StageManager instance = new StageManager();
     private final Map<String, Scene> scenes = new HashMap<>();
-    private final int SCENE_WIDTH = 1024;
-    private final int SCENE_HEIGHT = 768;
+    private final int SCENE_WIDTH = 800;
+    private final int SCENE_HEIGHT = 560;
     private Stage primaryStage;
 
     public static StageManager getInstance() {
