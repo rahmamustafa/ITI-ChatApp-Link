@@ -89,7 +89,6 @@ public class RegisterValidation {
         if (phone == null) {
             return false;
         }
-       
         return true;
     }
 

@@ -1,5 +1,9 @@
 package gov.iti.link.persistence.DAOs;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -25,7 +29,11 @@ public class UserDaoImp implements UserDao {
             preparedStatement.setString(1, user.getPhone());
             preparedStatement.setString(2, user.getName());
             preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPicture());
+            try {
+                preparedStatement.setBlob(4, new FileInputStream(user.getPicture().substring(6)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             preparedStatement.setString(5, user.getPassword());
             preparedStatement.setString(6, user.getGender());
             preparedStatement.setString(7, user.getCountry());
@@ -49,13 +57,14 @@ public class UserDaoImp implements UserDao {
                     Integer id = resultSet.getInt(1);
                     String userName = resultSet.getString(3);
                     String email = resultSet.getString(4);
-                    String picture = resultSet.getString(5);
+                    String picture = convertFromBlobtoString(resultSet.getBlob(5));
                     String password = resultSet.getString(6);
                     String gender = resultSet.getString(7);
                     String country = resultSet.getString(8);
                     Date datOfBirth = resultSet.getDate(9);
                     String bio = resultSet.getString(10);
-                    UserEntity userEntity = new UserEntity(phone, userName, email,picture,gender,country,datOfBirth,bio,password);
+                    UserEntity userEntity = new UserEntity(phone, userName, email, picture, gender, country, datOfBirth,
+                            bio, password);
                     return Optional.of(userEntity);
                 }
             }
@@ -66,6 +75,18 @@ public class UserDaoImp implements UserDao {
         }
         return Optional.empty();
     }
-    
+
+    private String convertFromBlobtoString(Blob blob) {
+        byte[] bdata;
+        String text = new String();
+        try {
+            bdata = blob.getBytes(1, (int) blob.length());
+            text = new String(bdata);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return text;
+    }
 
 }

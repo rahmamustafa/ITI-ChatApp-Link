@@ -80,6 +80,7 @@ public class RegisterController implements Initializable {
             UserDTO user = new UserDTO();
             setUserData(user);
             UserService userService = new UserServiceImp();
+            System.out.println(userPictureUrl);
             userService.save(user);
             System.out.println("register");
 
@@ -209,5 +210,7 @@ public class RegisterController implements Initializable {
         Date date = Date.valueOf(localdate);
         return date;
     }
+
+
 
 }
