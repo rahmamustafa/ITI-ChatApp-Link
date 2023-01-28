@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
@@ -11,62 +9,42 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="501.0" prefWidth="763.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+<fx:root id="AnchorPane" prefHeight="620.0" prefWidth="796.0" style="-fx-background-color: #fff;" type="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LoginController">
     <children>
-        <AnchorPane prefHeight="501.0" prefWidth="327.0" style="-fx-background-color: #0C39FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane fx:id="leftPane" prefHeight="501.0" prefWidth="379.0" stylesheets="@../css/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="166.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/icons8_Google_Wallet_50px.png" />
-                    </image>
-                </ImageView>
-                <Label alignment="CENTER" layoutX="58.0" layoutY="261.0" prefHeight="34.0" prefWidth="180.0" text="Link in" textFill="WHITE">
-                    <font>
-                        <Font name="Segoe UI" size="18.0" />
-                    </font>
-                </Label>
-                <Label alignment="CENTER" layoutX="42.0" layoutY="291.0" prefHeight="23.0" prefWidth="205.0" text="Stay connected" textFill="WHITE">
-                    <font>
-                        <Font name="Segoe UI" size="12.0" />
-                    </font>
-                </Label>
-            <Circle fx:id="circlePic" fill="DODGERBLUE" layoutX="164.0" layoutY="120.0" radius="85.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <ImageView fx:id="imageView" fitHeight="251.0" fitWidth="393.0" layoutX="1.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Picture1.png" />
+               </image>
+            </ImageView>
             </children>
         </AnchorPane>
-        <Pane layoutX="377.0" layoutY="14.0" prefHeight="474.0" prefWidth="419.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="13.0" AnchorPane.topAnchor="14.0">
+        <Pane layoutX="405.0" layoutY="31.0" prefHeight="589.0" prefWidth="354.0" stylesheets="@../css/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="31.0">
             <children>
-                <TextField fx:id="txtDisplayName" layoutX="41.0" layoutY="33.0" prefHeight="34.0" prefWidth="275.0" promptText="Display name" style="-fx-background-radius: 20; -fx-border-color: blue; -fx-border-radius: 20;" />
-                <PasswordField fx:id="txtEmail" layoutX="41.0" layoutY="78.0" prefHeight="34.0" prefWidth="275.0" promptText="Email" style="-fx-background-radius: 20;" stylesheets="@../styling/fullpackstyling.css" />
-                <Button fx:id="btnLogin" layoutX="40.0" layoutY="404.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="275.0" stylesheets="@../styling/fullpackstyling.css" text="Log in" />
-                <Separator layoutX="40.0" layoutY="385.0" prefHeight="7.0" prefWidth="275.0" />
-                <Label alignment="CENTER" layoutX="162.0" layoutY="377.0" prefHeight="23.0" prefWidth="31.0" style="-fx-background-color: #fff;" text="Or" textFill="#5b5a5a">
+                <Button fx:id="btnRegister" layoutX="50.0" layoutY="439.0" mnemonicParsing="false" onAction="#onSgnUp" prefHeight="34.0" prefWidth="292.0" text="Sign up">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
+                <Separator layoutX="50.0" layoutY="416.0" prefHeight="6.0" prefWidth="292.0" />
+                <Label alignment="CENTER" layoutX="189.0" layoutY="407.0" prefHeight="23.0" prefWidth="31.0" style="-fx-background-color: #fff;" text="Or" textFill="#5b5a5a">
                     <font>
                         <Font name="Segoe UI" size="12.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnRegister" contentDisplay="CENTER" layoutX="43.0" layoutY="335.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="269.0" style="-fx-background-color: #0C39FF;" text="Register" textAlignment="CENTER" textFill="WHITE">
-                    <graphic>
-                        <ImageView fitHeight="16.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../images/icons8_Facebook_F_48px.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            <DatePicker fx:id="dateOfBirth" layoutX="204.0" layoutY="282.0" prefHeight="25.0" prefWidth="105.0" />
-            <PasswordField fx:id="txtPassword" layoutX="41.0" layoutY="131.0" prefHeight="34.0" prefWidth="275.0" promptText="password" style="-fx-background-radius: 20;" />
-            <PasswordField fx:id="txtConfirmPassword" layoutX="40.0" layoutY="181.0" prefHeight="34.0" prefWidth="275.0" promptText="confirm password" style="-fx-background-radius: 20;" />
-            <TextField fx:id="txtBio" layoutX="41.0" layoutY="225.0" prefHeight="34.0" prefWidth="275.0" promptText="Add your bio" style="-fx-background-radius: 20;" />
-            <ComboBox fx:id="genderComboBox" layoutX="47.0" layoutY="282.0" prefHeight="25.0" prefWidth="124.0" promptText="Gender" visibleRowCount="2" />
+                <Button fx:id="btnLogin" contentDisplay="CENTER" layoutX="212.0" layoutY="353.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="34.0" prefWidth="107.0" text="Login" textAlignment="CENTER" textFill="WHITE" />
+            <PasswordField fx:id="txtPassword" layoutX="38.0" layoutY="257.0" prefHeight="45.0" prefWidth="281.0" promptText="password" />
+            <TextField fx:id="txtPhone" layoutX="38.0" layoutY="191.0" prefHeight="45.0" prefWidth="281.0" promptText="Phone" />
+            <Label fx:id="lblLeft" alignment="CENTER" layoutY="53.0" prefHeight="88.0" prefWidth="265.0" stylesheets="@../css/login.css" text="Sign In" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblErr" layoutX="81.0" layoutY="324.0" prefHeight="17.0" prefWidth="193.0" text="invalid phone number or password" textFill="#da0f0f" visible="false" />
             </children>
         </Pane>
-        <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="394.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../images/icons8_XING_100px.png" />
-            </image>
-        </ImageView>
     </children>
-</AnchorPane>
+</fx:root>
