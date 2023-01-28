@@ -9,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="796.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LoginController">
@@ -16,18 +17,18 @@
         <AnchorPane fx:id="leftPane" prefHeight="501.0" prefWidth="379.0" stylesheets="@../css/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
             <ImageView fx:id="imageView" fitHeight="251.0" fitWidth="393.0" layoutX="1.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
-               <image>
+                    <image>
                   <Image url="@../images/Picture1.png" />
-               </image>
-            </ImageView>
+                    </image>
+                </ImageView>
             </children>
         </AnchorPane>
         <Pane layoutX="405.0" layoutY="31.0" prefHeight="589.0" prefWidth="354.0" stylesheets="@../css/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="31.0">
             <children>
                 <Button fx:id="btnRegister" layoutX="50.0" layoutY="439.0" mnemonicParsing="false" onAction="#onSgnUp" prefHeight="34.0" prefWidth="292.0" text="Sign up">
-               <font>
+                    <font>
                   <Font size="13.0" />
-               </font>
+                    </font>
             </Button>
                 <Separator layoutX="50.0" layoutY="416.0" prefHeight="6.0" prefWidth="292.0" />
                 <Label alignment="CENTER" layoutX="189.0" layoutY="407.0" prefHeight="23.0" prefWidth="31.0" style="-fx-background-color: #fff;" text="Or" textFill="#5b5a5a">
@@ -39,12 +40,17 @@
             <PasswordField fx:id="txtPassword" layoutX="38.0" layoutY="257.0" prefHeight="45.0" prefWidth="281.0" promptText="password" />
             <TextField fx:id="txtPhone" layoutX="38.0" layoutY="191.0" prefHeight="45.0" prefWidth="281.0" promptText="Phone" />
             <Label fx:id="lblLeft" alignment="CENTER" layoutY="53.0" prefHeight="88.0" prefWidth="265.0" stylesheets="@../css/login.css" text="Sign In" textFill="WHITE">
-               <font>
+                    <font>
                   <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
+                    </font>
+                </Label>
             <Label fx:id="lblErr" layoutX="81.0" layoutY="324.0" prefHeight="17.0" prefWidth="193.0" text="invalid phone number or password" textFill="#da0f0f" visible="false" />
             </children>
         </Pane>
+        <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="394.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/icons8_XING_100px.png" />
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>
