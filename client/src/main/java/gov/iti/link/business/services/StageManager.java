@@ -29,6 +29,11 @@ public class StageManager {
         }
         primaryStage = stage;
     }
+    public Stage getCurrentStage() {
+        
+        return primaryStage;
+    }
+
 
     public void switchToLogin() {
         String sceneName = "login";

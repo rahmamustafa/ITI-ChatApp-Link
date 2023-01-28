@@ -1,6 +1,6 @@
 package gov.iti.link.business.DTOs;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class UserDTO {
     private String phone;
@@ -10,6 +10,7 @@ public class UserDTO {
     private String gender;
     private String country;
     private Date date;
+    private String password;
     private String bio;
 
     public String getPhone() {
@@ -37,11 +38,20 @@ public class UserDTO {
     }
 
     public Date getDate() {
+
         return date;
     }
 
+
     public String getBio() {
         return bio;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setPhone(String phone) {

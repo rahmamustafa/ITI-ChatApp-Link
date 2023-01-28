@@ -1,6 +1,6 @@
 package gov.iti.link.persistence.entities;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class UserEntity {
     private String phone;
@@ -11,6 +11,15 @@ public class UserEntity {
     private String country;
     private Date date;
     private String bio;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public void setPhone(String phone) {
         this.phone = phone;
@@ -43,7 +52,7 @@ public class UserEntity {
     public void setBio(String bio) {
         this.bio = bio;
     }
-
+  
     public String getPhone() {
         return phone;
     }
@@ -76,7 +85,4 @@ public class UserEntity {
         return bio;
     }
 
-    
-
-    
 }
