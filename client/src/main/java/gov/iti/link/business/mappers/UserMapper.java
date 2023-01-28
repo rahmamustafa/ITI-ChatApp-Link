@@ -15,7 +15,7 @@ public class UserMapper {
         userEntity.setDate(user.getDate());
         userEntity.setGender(user.getGender());
         userEntity.setPassword(user.getPassword());
-        userEntity.setPicture(user.getName());
+        userEntity.setPicture(user.getPicture());
         return userEntity;
     }
 
@@ -29,7 +29,7 @@ public class UserMapper {
         userDTO.setDate(user.getDate());
         userDTO.setGender(user.getGender());
         userDTO.setPassword(user.getPassword());
-        userDTO.setPicture(user.getName());
+        userDTO.setPicture(user.getPicture());
         return userDTO;
     }
 
