@@ -1,5 +1,6 @@
 package gov.iti.link.presentation.controllers;
 
+import java.io.File;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 
 public class RegisterController implements Initializable {
@@ -47,7 +49,27 @@ public class RegisterController implements Initializable {
     @FXML
     private TextField txtPhone;
     @FXML
+    private Label lblImageUrl;
+    @FXML
+    private Label lblErrName;
+    @FXML
+    private Label lblErrEmail;
+    @FXML
+    private Label lblErrPhone;
+    @FXML
+    private Label lblErrPass;
+    @FXML
+    private Label lblErrConfirmPass;
+    @FXML
+    private Label lblErrGender;
+    @FXML
+    private Label lblErrDate;
+    @FXML
+    private Label lblErrBio;
+    @FXML
     private Circle circlePic;
+
+    private String userPictureUrl =null;
     private String[] gender = { "Female", "Male" };
     boolean userValid = true;
 
@@ -61,10 +83,25 @@ public class RegisterController implements Initializable {
             userService.save(user);
             System.out.println("register");
 
-        } else {
+        } /*else {
             Popup popup = new Popup();
             popup.getContent().add(new Label(check));
             popup.show(StageManager.getInstance().getCurrentStage());
+        }*/
+    }
+
+    @FXML
+    private void onChooseProfile(){
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif","*.jpeg");
+        fileChooser.getExtensionFilters().add(filter);
+
+        File file = fileChooser.showOpenDialog(StageManager.getInstance().getCurrentStage());
+
+        if (file != null) {
+            userPictureUrl = file.toURI().toString();
+            lblImageUrl.setText(userPictureUrl);
+            
         }
     }
 
@@ -84,35 +121,69 @@ public class RegisterController implements Initializable {
             System.out.println("accept alphabets and only space character between 2 and 30 characters");
             errMsg += "accept alphabets and only space character between 2 and 30 characters \n";
             userValid = false;
-        }
+            lblErrName.setVisible(true);
+
+        }else lblErrName.setVisible(false);
+        
         if (!RegisterValidation.validEmail(txtEmail.getText())) {
             System.out.println("please Enter valid Email ");
             errMsg += "please Email like 'user@domain.com' \n";
+            lblErrEmail.setVisible(true);
             userValid = false;
-        }
-        if (!RegisterValidation.validPassword(txtPassword.getText(), txtConfirmPassword.getText())) {
+        }else  lblErrEmail.setVisible(false);
+
+
+        if (!RegisterValidation.validPassword(txtPassword.getText())) {
             System.out.println("please Enter valid pass ");
             errMsg += "please Enter valid password only numbers between 6 and 10 \n";
+            lblErrPass.setVisible(true);
             userValid = false;
-        }
+        }else lblErrPass.setVisible(false);
+        if (!RegisterValidation.validConfirmPassword(txtPassword.getText(), txtConfirmPassword.getText())) {
+            System.out.println("please Enter valid pass ");
+            errMsg += "password doesn't match \n";
+            lblErrConfirmPass.setVisible(true);
+            userValid = false;
+        }else lblErrConfirmPass.setVisible(false);
+
         if (!RegisterValidation.validPhone(txtPhone.getText())) {
             System.out.println("please Enter valid phone ");
-            errMsg += "please Enter valid phine only numbers between 6 and 10\n ";
+            errMsg += "please Enter valid phone only numbers between 6 and 10\n ";
+            lblErrPhone.setVisible(true);
             userValid = false;
         }
+        else if(!RegisterValidation.uniquePhone(txtPhone.getText())){
+            System.out.println("please Enter valid phone ");
+            errMsg += "this number is exist \n ";
+            lblErrPhone.setText("this number exists");
+            lblErrPhone.setVisible(true);
+            userValid = false;
+        }else lblErrPhone.setVisible(false);
+
         if (!RegisterValidation.validBio(txtBio.getText())) {
             System.out.println("please Enter bio ");
             errMsg += "please Enter bio \n";
+            lblErrBio.setVisible(true);
             userValid = false;
-        }
+        }else lblErrPhone.setVisible(false);
+
         if (!RegisterValidation.validDate(convertLocalDatetoSqlDate(dateOfBirth.getValue()))) {
             System.out.println("please Enter date ");
             errMsg += "please Enter date \n";
+            lblErrDate.setVisible(true);
             userValid = false;
-        }
+        }else lblErrDate.setVisible(false);
+
         if (!RegisterValidation.validGender(genderComboBox.getValue())) {
             System.out.println("please Enter gender ");
             errMsg += "please Enter gender \n";
+            lblErrGender.setVisible(true);
+            userValid = false;
+        }else lblErrGender.setVisible(false);
+
+        if(userPictureUrl==null){
+            System.out.println("please Enter profile ");
+            errMsg += "please choose profile \n";
             userValid = false;
         }
 
@@ -128,7 +199,7 @@ public class RegisterController implements Initializable {
         user.setEmail(txtEmail.getText());
         user.setGender((String) genderComboBox.getValue());
         user.setPassword(txtPassword.getText());
-        user.setPicture(txtDisplayName.getText());
+        user.setPicture(userPictureUrl);
     }
 
     Date convertLocalDatetoSqlDate(LocalDate localdate){

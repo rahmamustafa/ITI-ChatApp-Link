@@ -85,4 +85,20 @@ public class UserEntity {
         return bio;
     }
 
+    public UserEntity() {
+    }
+
+    public UserEntity(String phone, String name, String email, String picture, String gender, String country, Date date,
+            String bio, String password) {
+        this.phone = phone;
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+        this.gender = gender;
+        this.country = country;
+        this.date = date;
+        this.bio = bio;
+        this.password = password;
+    }
+
 }

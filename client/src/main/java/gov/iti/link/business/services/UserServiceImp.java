@@ -1,5 +1,7 @@
 package gov.iti.link.business.services;
 
+import java.util.Optional;
+
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.mappers.UserMapper;
 import gov.iti.link.persistence.DAOs.UserDao;
@@ -16,6 +18,15 @@ public class UserServiceImp implements UserService {
         UserEntity userEntity = userMapper.dtoToEntity(user);
         this.userDAO.save(userEntity);
         return user;
+    }
+
+    @Override
+    public UserDTO findByPhone(String phone) {
+        Optional<UserEntity> userEntity = this.userDAO.findByPhone(phone);
+        if(userEntity.isPresent())
+            return userMapper.entityToDTO(userEntity.get());      
+        else
+            return null; 
     }
 
 }
