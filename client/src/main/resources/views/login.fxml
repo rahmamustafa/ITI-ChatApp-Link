@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" prefHeight="620.0" prefWidth="796.0" style="-fx-background-color: #fff;" type="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="796.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LoginController">
     <children>
         <AnchorPane fx:id="leftPane" prefHeight="501.0" prefWidth="379.0" stylesheets="@../css/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -47,4 +47,4 @@
             </children>
         </Pane>
     </children>
-</fx:root>
+</AnchorPane>
