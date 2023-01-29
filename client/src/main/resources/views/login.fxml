@@ -25,7 +25,7 @@
         </AnchorPane>
         <Pane layoutX="405.0" layoutY="31.0" prefHeight="589.0" prefWidth="354.0" stylesheets="@../css/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="31.0">
             <children>
-                <Button fx:id="btnRegister" layoutX="50.0" layoutY="439.0" mnemonicParsing="false" onAction="#onSgnUp" prefHeight="34.0" prefWidth="292.0" text="Sign up">
+                <Button fx:id="btnRegister" layoutX="50.0" layoutY="439.0" mnemonicParsing="false" onAction="#onSignUp" prefHeight="34.0" prefWidth="292.0" text="Sign up">
                     <font>
                   <Font size="13.0" />
                     </font>
