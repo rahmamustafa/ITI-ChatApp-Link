@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.UserDTO;
+import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.UserService;
 import gov.iti.link.business.services.UserServiceImp;
 import javafx.event.ActionEvent;
@@ -44,13 +45,12 @@ public class LoginController implements Initializable{
 
     @FXML
     void onLogin(ActionEvent event) {
-
         UserDTO user = new UserDTO();
-        setUserData(user);
         UserService userService = new UserServiceImp();
-        if(userService.findByPhone(user.getPhone()) != null ){
-
-            //go to next page
+        user = userService.findByPhone(txtPhone.getText());
+        if( user!= null && user.getPassword().equals(txtPassword.getText())){
+            System.out.println("loggged");
+           //StageManager.getInstance().loadView("home");
         }
         else{
             lblErr.setVisible(true);
@@ -60,6 +60,7 @@ public class LoginController implements Initializable{
 
     @FXML
     void onSgnUp(ActionEvent event) {
+        StageManager.getInstance().loadView("register");
 
     }
 
