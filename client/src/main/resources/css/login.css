@@ -1,0 +1,60 @@
+.root{
+    -fx-background-color:rgb(241, 241, 241);
+}
+
+#leftPane {
+    -fx-background-color : linear-gradient(to bottom left , #431FA0 , #6F4CBB)
+}
+
+
+#btnLogin {    
+    -fx-background-color : linear-gradient(to bottom left , #431FA0 , #6F4CBB);
+    -fx-background-radius : 6;
+}
+
+
+#btnRegister {
+    -fx-background-color : #D5CBEB;
+    -fx-background-radius : 6;
+    -fx-text-fill : #371897;
+    -fx-border-color : #6F4CBB;
+    -fx-border-radius : 5 ;    
+}
+
+
+#btnRegister:hover{
+    -fx-background-color : #4a3098;
+    -fx-text-fill : white;
+}
+
+#txtPassword , #txtPhone {
+    -fx-background-radius : 5;
+    -fx-border-color : #6F4CBB;
+    -fx-border-radius : 5;
+    
+
+}
+
+ #lblLeft{
+    -fx-text-fill : black;
+    -fx-font-size : 60 ;
+    -fx-font-family : "comic sans ms";
+}
+
+
+
+#btnLogin:hover{
+    -fx-background-color :  #431FA0
+}
+
+#btnLogin:pressed{
+    -fx-background-color :  #6F4CBB
+}
+
+#imageView {
+    -fx-background-image: url("..\images\image.jpg");
+}
+
+#btnRegister:pressed{
+    -fx-background-color :  #6F4CBB
+}

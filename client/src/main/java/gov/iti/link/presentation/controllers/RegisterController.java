@@ -69,7 +69,7 @@ public class RegisterController implements Initializable {
     @FXML
     private Circle circlePic;
 
-    private String userPictureUrl =null;
+    private String userPictureUrl = null;
     private String[] gender = { "Female", "Male" };
     boolean userValid = true;
 
@@ -84,17 +84,27 @@ public class RegisterController implements Initializable {
             userService.save(user);
             System.out.println("register");
 
-        } /*else {
-            Popup popup = new Popup();
-            popup.getContent().add(new Label(check));
-            popup.show(StageManager.getInstance().getCurrentStage());
-        }*/
-    }
+            /*
+             * else {
+             * Popup popup = new Popup();
+             * popup.getContent().add(new Label(check));
+             * popup.show(StageManager.getInstance().getCurrentStage());
+             * }
+             */
 
+            //circlePic.setFill(new ImagePattern(new Image(user.getPicture())));
+        }
+    }
     @FXML
-    private void onChooseProfile(){
+    void onLogin() {
+        StageManager.getInstance().loadView("login");
+
+    }
+    @FXML
+    private void onChooseProfile() {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif","*.jpeg");
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif",
+                "*.jpeg");
         fileChooser.getExtensionFilters().add(filter);
 
         File file = fileChooser.showOpenDialog(StageManager.getInstance().getCurrentStage());
@@ -102,11 +112,11 @@ public class RegisterController implements Initializable {
         if (file != null) {
             userPictureUrl = file.toURI().toString();
             lblImageUrl.setText(userPictureUrl);
-            
+
         }
     }
 
-//TODO chose pic and popup design and country
+    // TODO chose pic and popup design and country
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -124,65 +134,71 @@ public class RegisterController implements Initializable {
             userValid = false;
             lblErrName.setVisible(true);
 
-        }else lblErrName.setVisible(false);
-        
+        } else
+            lblErrName.setVisible(false);
+
         if (!RegisterValidation.validEmail(txtEmail.getText())) {
             System.out.println("please Enter valid Email ");
             errMsg += "please Email like 'user@domain.com' \n";
             lblErrEmail.setVisible(true);
             userValid = false;
-        }else  lblErrEmail.setVisible(false);
-
+        } else
+            lblErrEmail.setVisible(false);
 
         if (!RegisterValidation.validPassword(txtPassword.getText())) {
             System.out.println("please Enter valid pass ");
             errMsg += "please Enter valid password only numbers between 6 and 10 \n";
             lblErrPass.setVisible(true);
             userValid = false;
-        }else lblErrPass.setVisible(false);
+        } else
+            lblErrPass.setVisible(false);
         if (!RegisterValidation.validConfirmPassword(txtPassword.getText(), txtConfirmPassword.getText())) {
             System.out.println("please Enter valid pass ");
             errMsg += "password doesn't match \n";
             lblErrConfirmPass.setVisible(true);
             userValid = false;
-        }else lblErrConfirmPass.setVisible(false);
+        } else
+            lblErrConfirmPass.setVisible(false);
 
         if (!RegisterValidation.validPhone(txtPhone.getText())) {
             System.out.println("please Enter valid phone ");
             errMsg += "please Enter valid phone only numbers between 6 and 10\n ";
             lblErrPhone.setVisible(true);
             userValid = false;
-        }
-        else if(!RegisterValidation.uniquePhone(txtPhone.getText())){
+        } else if (!RegisterValidation.uniquePhone(txtPhone.getText())) {
             System.out.println("please Enter valid phone ");
             errMsg += "this number is exist \n ";
             lblErrPhone.setText("this number exists");
             lblErrPhone.setVisible(true);
             userValid = false;
-        }else lblErrPhone.setVisible(false);
+        } else
+            lblErrPhone.setVisible(false);
 
         if (!RegisterValidation.validBio(txtBio.getText())) {
             System.out.println("please Enter bio ");
             errMsg += "please Enter bio \n";
             lblErrBio.setVisible(true);
             userValid = false;
-        }else lblErrPhone.setVisible(false);
+        } else
+            lblErrPhone.setVisible(false);
 
         if (!RegisterValidation.validDate(convertLocalDatetoSqlDate(dateOfBirth.getValue()))) {
             System.out.println("please Enter date ");
             errMsg += "please Enter date \n";
             lblErrDate.setVisible(true);
             userValid = false;
-        }else lblErrDate.setVisible(false);
+        } else
+            lblErrDate.setVisible(false);
 
         if (!RegisterValidation.validGender(genderComboBox.getValue())) {
             System.out.println("please Enter gender ");
             errMsg += "please Enter gender \n";
             lblErrGender.setVisible(true);
             userValid = false;
-        }else lblErrGender.setVisible(false);
+        } else
+            lblErrGender.setVisible(false);
 
-        if(userPictureUrl==null){
+        if (userPictureUrl == null) {
             System.out.println("please Enter profile ");
             errMsg += "please choose profile \n";
             userValid = false;
@@ -195,7 +211,7 @@ public class RegisterController implements Initializable {
         user.setPhone(txtPhone.getText());
         user.setName(txtDisplayName.getText());
         user.setBio(txtBio.getText());
-        user.setCountry(txtBio.getText());    
+        user.setCountry(txtBio.getText());
         user.setDate(convertLocalDatetoSqlDate(dateOfBirth.getValue()));
         user.setEmail(txtEmail.getText());
         user.setGender((String) genderComboBox.getValue());
@@ -203,14 +219,12 @@ public class RegisterController implements Initializable {
         user.setPicture(userPictureUrl);
     }
 
-    Date convertLocalDatetoSqlDate(LocalDate localdate){
-        if(localdate==null){
+    Date convertLocalDatetoSqlDate(LocalDate localdate) {
+        if (localdate == null) {
             return null;
         }
         Date date = Date.valueOf(localdate);
         return date;
     }
-
-
 
 }
