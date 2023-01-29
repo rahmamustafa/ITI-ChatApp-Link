@@ -60,6 +60,7 @@ public class LoginController implements Initializable{
 
     @FXML
     void onSignUp() {
+
         StageManager.getInstance().loadView("register");
 
     }
