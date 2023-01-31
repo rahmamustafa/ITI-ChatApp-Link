@@ -1,12 +1,13 @@
 package gov.iti.link.presentation.controllers;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.UserDTO;
+import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.UserService;
-import gov.iti.link.business.services.UserServiceImp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,11 +44,23 @@ public class LoginController implements Initializable{
     @FXML
     private TextField txtPhone;
 
+    private ServiceManager serviceManager ;
+    private UserService userService;
+
+    public LoginController(){
+        serviceManager = ServiceManager.getInstance();
+        userService = serviceManager.getUserService();
+    }
+
     @FXML
     void onLogin(ActionEvent event) {
         UserDTO user = new UserDTO();
-        UserService userService = new UserServiceImp();
-        user = userService.findByPhone(txtPhone.getText());
+
+        try {
+            user =  userService.findByPhone(txtPhone.getText());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         if( user!= null && user.getPassword().equals(txtPassword.getText())){
             System.out.println("loggged");
            //StageManager.getInstance().loadView("home");

@@ -2,14 +2,15 @@ package gov.iti.link.presentation.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.UserDTO;
+import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.UserService;
-import gov.iti.link.business.services.UserServiceImp;
 import gov.iti.link.presentation.Validations.RegisterValidation;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -73,15 +74,30 @@ public class RegisterController implements Initializable {
     private String[] gender = { "Female", "Male" };
     boolean userValid = true;
 
+
+    private ServiceManager serviceManager ;
+    private UserService userService;
+
+    public RegisterController(){
+        serviceManager = ServiceManager.getInstance();
+        userService = serviceManager.getUserService();
+    }
+
+
     @FXML
     private void onRegister() {
         String check = validUser();
         if (userValid) {
             UserDTO user = new UserDTO();
             setUserData(user);
-            UserService userService = new UserServiceImp();
+            // UserService userService = new UserServiceImp();
             System.out.println(userPictureUrl);
-            userService.save(user);
+            try {
+                userService.save(user);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
             System.out.println("register");
 
             /*
@@ -165,13 +181,15 @@ public class RegisterController implements Initializable {
             errMsg += "please Enter valid phone only numbers between 6 and 10\n ";
             lblErrPhone.setVisible(true);
             userValid = false;
-        } else if (!RegisterValidation.uniquePhone(txtPhone.getText())) {
-            System.out.println("please Enter valid phone ");
-            errMsg += "this number is exist \n ";
-            lblErrPhone.setText("this number exists");
-            lblErrPhone.setVisible(true);
-            userValid = false;
-        } else
+        }
+        //  else if (!RegisterValidation.uniquePhone(txtPhone.getText())) {
+        //     System.out.println("please Enter valid phone ");
+        //     errMsg += "this number is exist \n ";
+        //     lblErrPhone.setText("this number exists");
+        //     lblErrPhone.setVisible(true);
+        //     userValid = false;
+        // } 
+        else
             lblErrPhone.setVisible(false);
 
         if (!RegisterValidation.validBio(txtBio.getText())) {

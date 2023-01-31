@@ -3,8 +3,9 @@ package gov.iti.link.presentation.Validations;
 import java.sql.Date;
 import java.util.regex.*;
 
+import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.UserService;
-import gov.iti.link.business.services.UserServiceImp;
+
 
 public class RegisterValidation {
     private static String regex;
@@ -12,6 +13,14 @@ public class RegisterValidation {
     private static Pattern Pattern;
 
     public static Matcher matcher;
+
+    private ServiceManager serviceManager ;
+    private UserService userService;
+
+    public RegisterValidation(){
+        serviceManager = ServiceManager.getInstance();
+        userService = serviceManager.getUserService();
+    }
 
     public static boolean validName(String name) {
         if (name == null || name.isBlank()){
@@ -81,15 +90,15 @@ public class RegisterValidation {
        
         return true;
     }
-    public static boolean uniquePhone(String phone) {
-        UserService userService = new UserServiceImp();
-        if(userService.findByPhone(phone)!=null){
-            return false;
-        }
-        if (phone == null) {
-            return false;
-        }
-        return true;
-    }
+    // public  boolean uniquePhone(String phone) {
+    
+    //     if(userService.findByPhone(phone)!=null){
+    //         return false;
+    //     }
+    //     if (phone == null) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
 }

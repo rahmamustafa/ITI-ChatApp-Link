@@ -38,7 +38,7 @@
 
     <modules>
         <module>client</module>
-        <module>admin</module>
+        <module>server</module>
     </modules>
 
 </project>
