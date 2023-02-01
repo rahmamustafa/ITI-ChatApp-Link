@@ -6,15 +6,16 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="869.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="869.0" stylesheets="@../css/chat.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <ScrollPane fx:id="scrolPaneLeft" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ScrollPane fx:id="scrolPaneLeft" prefHeight="569.0" prefWidth="217.0" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="hboxLeft" prefHeight="553.0" prefWidth="203.0">
+            <VBox fx:id="vboxLeft" prefHeight="566.0" prefWidth="213.0" style="-fx-background-color: green;" styleClass="VBox">
                <children>
                   <HBox fx:id="hboxActiveContacts" prefHeight="42.0" prefWidth="203.0">
                      <children>
@@ -22,7 +23,7 @@
                         <Label fx:id="lblContactsCounter" alignment="CENTER" text="0" textAlignment="CENTER" />
                      </children>
                   </HBox>
-                  <HBox fx:id="hboxFriendsList" prefHeight="61.0" prefWidth="203.0" style="-fx-background-color: yellow;">
+                  <HBox fx:id="hboxFriendsList" prefHeight="37.0" prefWidth="203.0" style="-fx-background-color: yellow;" styleClass="HBox">
                      <children>
                         <Avatar fx:id="friendImage">
                            <image>
@@ -40,15 +41,35 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="scrolPaneCenter" prefHeight="518.0" prefWidth="669.0">
+            <ScrollPane fx:id="scrolPaneCenter" prefHeight="518.0" prefWidth="657.0">
                <content>
-                  <VBox fx:id="vboxChat" prefHeight="515.0" prefWidth="664.0" style="-fx-background-color: green;" />
+                  <VBox fx:id="vboxChat" prefHeight="514.0" prefWidth="648.0">
+                     <children>
+                        <ImageView fx:id="imgChatBG" fitHeight="500.0" fitWidth="644.0" pickOnBounds="true" preserveRatio="true" />
+                     </children></VBox>
                </content>
             </ScrollPane>
             <HBox fx:id="hbox_Text_Button" prefHeight="49.0" prefWidth="669.0">
                <children>
-                  <TextField fx:id="txtMessage" prefHeight="51.0" prefWidth="567.0" promptText="Enter your message here" style="-fx-background-color: red;" />
-                  <Button fx:id="btnSend" mnemonicParsing="false" prefHeight="63.0" prefWidth="100.0" text="Send" />
+                  <TextField fx:id="txtMessage" prefHeight="51.0" prefWidth="567.0" promptText="Enter your message here" />
+                  <Button fx:id="btnSend" mnemonicParsing="false" prefHeight="63.0" prefWidth="100.0">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/send.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/sendfile.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
          </children>
