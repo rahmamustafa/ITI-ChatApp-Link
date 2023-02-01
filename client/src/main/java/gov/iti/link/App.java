@@ -11,7 +11,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         StageManager stageManager = StageManager.getInstance();
         stageManager.initStage(stage);
-        stageManager.switchToLogin();
+        stageManager.switchToHome();
         stage.show();
     }
 
