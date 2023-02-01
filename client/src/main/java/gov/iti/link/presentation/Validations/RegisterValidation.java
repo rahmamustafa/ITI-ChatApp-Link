@@ -36,7 +36,7 @@ public class RegisterValidation {
         if (phone == null|| phone.isBlank()) {
             return false;
         }
-        regex = "^\\d{6,10}";
+        regex = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$";
         Pattern = Pattern.compile(regex);
         matcher = Pattern.matcher(phone);
         return matcher.matches();

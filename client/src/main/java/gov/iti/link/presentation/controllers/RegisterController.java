@@ -178,7 +178,7 @@ public class RegisterController implements Initializable {
 
         if (!RegisterValidation.validPhone(txtPhone.getText())) {
             System.out.println("please Enter valid phone ");
-            errMsg += "please Enter valid phone only numbers between 6 and 10\n ";
+            errMsg += "please Enter valid phone number\n ";
             lblErrPhone.setVisible(true);
             userValid = false;
         }

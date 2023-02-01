@@ -8,6 +8,7 @@ import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.UserService;
+import gov.iti.link.presentation.Validations.RegisterValidation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-public class LoginController implements Initializable{
+public class LoginController implements Initializable {
 
     @FXML
     private Button btnLogin;
@@ -44,10 +45,10 @@ public class LoginController implements Initializable{
     @FXML
     private TextField txtPhone;
 
-    private ServiceManager serviceManager ;
+    private ServiceManager serviceManager;
     private UserService userService;
 
-    public LoginController(){
+    public LoginController() {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
     }
@@ -55,17 +56,23 @@ public class LoginController implements Initializable{
     @FXML
     void onLogin(ActionEvent event) {
         UserDTO user = new UserDTO();
+        if (RegisterValidation.validPassword(txtPassword.getText())
+                && RegisterValidation.validPhone(txtPhone.getText())) {
 
-        try {
-            user =  userService.findByPhone(txtPhone.getText());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        if( user!= null && user.getPassword().equals(txtPassword.getText())){
-            System.out.println("loggged");
-           //StageManager.getInstance().loadView("home");
-        }
-        else{
+            try {
+                user = userService.findByPhone(txtPhone.getText());
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            if (user != null && user.getPassword().equals(txtPassword.getText())) {
+                System.out.println("loggged");
+                lblErr.setVisible(false);
+                // StageManager.getInstance().loadView("home");
+            } else {
+                lblErr.setVisible(true);
+            }
+        } else {
             lblErr.setVisible(true);
         }
 
@@ -78,11 +85,10 @@ public class LoginController implements Initializable{
 
     }
 
-
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }
