@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane id="root" prefHeight="553.0" prefWidth="414.0" stylesheets="@../css/register.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.infoControler">
+   <children>
+      <Label fx:id="lblImageUrl" layoutX="33.0" layoutY="61.0" prefHeight="30.0" prefWidth="54.0" text="Name:" />
+      <Label fx:id="lblImageUrl1" layoutX="33.0" layoutY="126.0" prefHeight="30.0" prefWidth="54.0" text="Phone:" />
+      <Label fx:id="lblImageUrl2" layoutX="33.0" layoutY="196.0" prefHeight="30.0" prefWidth="54.0" text="Email:" />
+      <Label fx:id="lblImageUrl3" layoutX="33.0" layoutY="262.0" prefHeight="30.0" prefWidth="54.0" text="Bio:" />
+      <Label fx:id="lblImageUrl4" layoutX="33.0" layoutY="320.0" prefHeight="30.0" prefWidth="54.0" text="Gender:" />
+      <Label fx:id="lblImageUrl5" layoutX="33.0" layoutY="388.0" prefHeight="30.0" prefWidth="96.0" text="Date of barith" />
+      <Label fx:id="lbname" layoutX="168.0" layoutY="68.0" prefHeight="17.0" prefWidth="185.0" />
+      <Label fx:id="lblphone" layoutX="168.0" layoutY="133.0" prefHeight="17.0" prefWidth="185.0" />
+      <Label fx:id="lblemail" layoutX="140.0" layoutY="188.0" prefHeight="17.0" prefWidth="185.0" />
+      <Label fx:id="lblbio" layoutX="140.0" layoutY="254.0" prefHeight="17.0" prefWidth="185.0" />
+      <Label fx:id="lblgender" layoutX="154.0" layoutY="327.0" prefHeight="17.0" prefWidth="185.0" />
+      <Label fx:id="lblbarith" layoutX="154.0" layoutY="394.0" prefHeight="17.0" prefWidth="185.0" />
+      <Separator layoutX="81.0" layoutY="90.0" prefHeight="0.0" prefWidth="292.0" />
+      <Separator layoutX="81.0" layoutY="153.0" prefHeight="6.0" prefWidth="292.0" />
+      <Separator layoutX="74.0" layoutY="223.0" prefHeight="6.0" prefWidth="292.0" />
+      <Separator layoutX="81.0" layoutY="281.0" prefHeight="6.0" prefWidth="292.0" />
+      <Separator layoutX="81.0" layoutY="344.0" prefHeight="6.0" prefWidth="292.0" />
+      <Separator layoutX="87.0" layoutY="415.0" prefHeight="6.0" prefWidth="292.0" />
+   </children>
+</Pane>

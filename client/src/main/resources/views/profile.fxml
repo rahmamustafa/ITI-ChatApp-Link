@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/profile.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.prfController">
+   <left>
+      <Pane id="leftPane" fx:id="leftPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/profile.css" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="138.0" prefWidth="158.0" spacing="15.0">
+               <children>
+                  <ImageView fx:id="prfImage" fitHeight="115.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/per.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="usrname" alignment="CENTER" lineSpacing="15.0" text="UserName" textAlignment="CENTER" />
+               </children>
+            </VBox>
+            <VBox layoutX="1.0" layoutY="200.0" prefHeight="197.0" prefWidth="199.0">
+               <children>
+                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#prfclkaction" prefHeight="47.0" prefWidth="100.0" stylesheets="@../css/profile.css">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/R.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="prf" prefHeight="44.0" prefWidth="159.0" stylesheets="@../css/profile.css" text="Profile">
+                           <font>
+                              <Font name="Arial" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#updclkaction" prefHeight="47.0" prefWidth="100.0" stylesheets="@../css/profile.css">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/5538614.png" />
+                           </image>
+                        </ImageView>
+                        <Label id="selected" fx:id="upd" prefHeight="44.0" prefWidth="159.0" stylesheets="@../css/profile.css" text="Updating">
+                           <font>
+                              <Font name="Arial" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#chgpassclkaction" prefHeight="47.0" prefWidth="100.0" stylesheets="@../css/profile.css">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pass.png" />
+                           </image>
+                        </ImageView>
+                        <Label id="selected" fx:id="cpss" prefHeight="44.0" prefWidth="159.0" stylesheets="@../css/profile.css" text="Change password">
+                           <font>
+                              <Font name="Arial" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="402.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="paneContent" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
