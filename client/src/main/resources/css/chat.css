@@ -1,0 +1,51 @@
+.button{
+    -fx-background-radius : 10px;
+    -fx-background-color : transparent;
+
+}
+
+.button:hover{
+    -fx-background-color :  #ffff;
+}
+
+.HBox{
+    -fx-background-radius : 10px;
+    -fx-background-color : gray;
+    -fx-alignment : CENTER_LEFT;
+}
+
+.VBox{
+    -fx-background-radius : 10px;
+    -fx-background-color : gray;
+}
+
+.Label{
+    -fx-padding:  30;
+}
+
+#lblContactsCounter{
+    -fx-alignment : center;
+}
+
+#txtMessage{
+    -fx-background-color : rgb(200, 200, 200);
+    -fx-background-radius : 10px;
+}
+
+#vboxChat {
+    -fx-background-radius : 10px;
+    -fx-background-color : rgb(159, 46, 46);
+    
+
+}
+
+#vboxleft{
+
+    -fx-background-radius : 15px;
+    -fx-background-color : rgb(70, 32, 32);
+}
+
+#hboxActiveContacts{
+    -fx-background-radius : 0px;
+    -fx-background-color : rgb(99, 47, 158);
+}
