@@ -179,16 +179,17 @@ public class RegisterController implements Initializable {
         if (!RegisterValidation.validPhone(txtPhone.getText())) {
             System.out.println("please Enter valid phone ");
             errMsg += "please Enter valid phone number\n ";
+            lblErrPhone.setText("please Enter valid phone number");
             lblErrPhone.setVisible(true);
             userValid = false;
         }
-        //  else if (!RegisterValidation.uniquePhone(txtPhone.getText())) {
-        //     System.out.println("please Enter valid phone ");
-        //     errMsg += "this number is exist \n ";
-        //     lblErrPhone.setText("this number exists");
-        //     lblErrPhone.setVisible(true);
-        //     userValid = false;
-        // } 
+         else if (!uniquePhone(txtPhone.getText())) {
+            System.out.println("please Enter valid phone ");
+            errMsg += "this number is exist \n ";
+            lblErrPhone.setText("this number exists");
+            lblErrPhone.setVisible(true);
+            userValid = false;
+        } 
         else
             lblErrPhone.setVisible(false);
 
@@ -243,6 +244,22 @@ public class RegisterController implements Initializable {
         }
         Date date = Date.valueOf(localdate);
         return date;
+    }
+
+    public boolean uniquePhone(String phone) {
+    
+        try {
+            if(userService.findByPhone(phone)!=null){
+                return false;
+            }
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        if (phone == null) {
+            return false;
+        }
+        return true;
     }
 
 }

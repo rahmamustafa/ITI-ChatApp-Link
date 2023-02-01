@@ -1,5 +1,6 @@
 package gov.iti.link.presentation.Validations;
 
+import java.rmi.RemoteException;
 import java.sql.Date;
 import java.util.regex.*;
 
@@ -15,7 +16,7 @@ public class RegisterValidation {
     public static Matcher matcher;
 
     private ServiceManager serviceManager ;
-    private UserService userService;
+    private static UserService userService;
 
     public RegisterValidation(){
         serviceManager = ServiceManager.getInstance();
@@ -90,15 +91,6 @@ public class RegisterValidation {
        
         return true;
     }
-    // public  boolean uniquePhone(String phone) {
     
-    //     if(userService.findByPhone(phone)!=null){
-    //         return false;
-    //     }
-    //     if (phone == null) {
-    //         return false;
-    //     }
-    //     return true;
-    // }
 
 }
