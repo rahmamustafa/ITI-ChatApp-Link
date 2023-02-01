@@ -46,6 +46,11 @@ public class StageManager {
         primaryStage.setTitle(sceneName);
         loadView(sceneName);
     }
+    public void switchToProfile() {
+        String sceneName = "profile";
+        primaryStage.setTitle(sceneName);
+        loadView(sceneName);
+    }
 
     public void switchToHome() {
         String sceneName = "home";
