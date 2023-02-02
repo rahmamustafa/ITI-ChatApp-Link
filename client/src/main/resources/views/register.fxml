@@ -70,7 +70,7 @@
             <TextField fx:id="txtEmail" layoutX="41.0" layoutY="145.0" prefHeight="34.0" prefWidth="275.0" promptText="Email" />
             <Label fx:id="lblErrName" layoutX="81.0" layoutY="67.0" prefHeight="17.0" text="Alphapets between 2 and 30 characters" textFill="RED" visible="false" />
             <Label fx:id="lblErrEmail" layoutX="87.0" layoutY="181.0" prefHeight="17.0" text="Enter email like 'user@domain.com'" textFill="RED" visible="false" />
-            <Label fx:id="lblErrPhone" alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="124.0" minWidth="-Infinity" prefHeight="17.0" prefWidth="189.0" text=" only numbers between 6 and 10" textFill="RED" visible="false" />
+            <Label fx:id="lblErrPhone" alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="124.0" minWidth="-Infinity" prefHeight="17.0" prefWidth="189.0" text="please enter valid phone number" textFill="RED" visible="false" />
             <Label fx:id="lblErrDate" layoutX="208.0" layoutY="402.0" prefHeight="17.0" prefWidth="83.0" text="enter your date" textFill="RED" visible="false" />
             <Label fx:id="lblErrGender" layoutX="52.0" layoutY="404.0" prefHeight="17.0" prefWidth="83.0" text="enter gender" textFill="RED" visible="false" />
             <Label fx:id="lblErrPass" layoutX="89.0" layoutY="236.0" prefHeight="17.0" text=" only numbers between 6 and 10" textFill="RED" visible="false" />

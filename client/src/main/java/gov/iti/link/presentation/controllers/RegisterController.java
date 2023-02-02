@@ -94,6 +94,7 @@ public class RegisterController implements Initializable {
             System.out.println(userPictureUrl);
             try {
                 userService.save(user);
+                StageManager.getInstance().switchToHome();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -179,7 +180,6 @@ public class RegisterController implements Initializable {
         if (!RegisterValidation.validPhone(txtPhone.getText())) {
             System.out.println("please Enter valid phone ");
             errMsg += "please Enter valid phone number\n ";
-            lblErrPhone.setText("please Enter valid phone number");
             lblErrPhone.setVisible(true);
             userValid = false;
         }

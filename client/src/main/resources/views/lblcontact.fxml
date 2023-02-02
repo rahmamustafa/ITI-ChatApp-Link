@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+
+<StackPane alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 30;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
+   <children>
+      <Label fx:id="lblText" alignment="CENTER" style="-fx-background-radius: 15;" text="Label">
+         <graphic>
+            <Circle fx:id="circlePic" fill="DODGERBLUE" radius="36.0" stroke="BLACK" strokeType="INSIDE" />
+         </graphic>
+      </Label>
+   </children>
+</StackPane>

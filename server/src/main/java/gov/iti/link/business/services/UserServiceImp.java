@@ -3,6 +3,7 @@ package gov.iti.link.business.services;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Optional;
+import java.util.Vector;
 
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.mappers.UserMapper;
@@ -12,7 +13,7 @@ import gov.iti.link.persistence.entities.UserEntity;
 
 public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
-    protected UserServiceImp() throws RemoteException {
+    public UserServiceImp() throws RemoteException {
         super();
     }
 
@@ -33,6 +34,16 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
             return userMapper.entityToDTO(userEntity.get());      
         else
             return null; 
+    }
+
+    @Override
+    public Vector<UserDTO> getAllUsers() throws RemoteException {
+        Vector<UserEntity> allUserEntities = this.userDAO.getAllUsers();
+        Vector<UserDTO> allUserDTOs = new Vector<>();
+        for(UserEntity userEntity : allUserEntities){
+            allUserDTOs.add(userMapper.entityToDTO(userEntity));
+        }
+        return allUserDTOs;
     }
 
 }

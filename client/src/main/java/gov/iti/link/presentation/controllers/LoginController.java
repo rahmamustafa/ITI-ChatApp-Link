@@ -47,6 +47,7 @@ public class LoginController implements Initializable {
 
     private ServiceManager serviceManager;
     private UserService userService;
+    static UserDTO user;
 
     public LoginController() {
         serviceManager = ServiceManager.getInstance();
@@ -55,7 +56,7 @@ public class LoginController implements Initializable {
 
     @FXML
     void onLogin(ActionEvent event) {
-        UserDTO user = new UserDTO();
+        user = new UserDTO();
         if (RegisterValidation.validPassword(txtPassword.getText())
                 && RegisterValidation.validPhone(txtPhone.getText())) {
 
@@ -68,6 +69,7 @@ public class LoginController implements Initializable {
             if (user != null && user.getPassword().equals(txtPassword.getText())) {
                 System.out.println("loggged");
                 lblErr.setVisible(false);
+                StageManager.getInstance().switchToHome();
                 // StageManager.getInstance().loadView("home");
             } else {
                 lblErr.setVisible(true);
