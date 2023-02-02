@@ -24,46 +24,46 @@
                   <Label fx:id="usrname" alignment="CENTER" lineSpacing="15.0" text="UserName" textAlignment="CENTER" />
                </children>
             </VBox>
-            <VBox layoutX="1.0" layoutY="200.0" prefHeight="197.0" prefWidth="199.0">
+            <VBox layoutX="1.0" layoutY="200.0" prefHeight="197.0" prefWidth="199.0" stylesheets="@../css/profile.css">
                <children>
-                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#prfclkaction" prefHeight="47.0" prefWidth="100.0" stylesheets="@../css/profile.css">
+                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#prfclkaction" prefHeight="47.0" prefWidth="100.0" styleClass="hh" stylesheets="@../css/profile.css">
                      <children>
-                        <ImageView fitHeight="35.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="24.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/R.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="prf" prefHeight="44.0" prefWidth="159.0" stylesheets="@../css/profile.css" text="Profile">
+                        <Label fx:id="prf" prefHeight="47.0" prefWidth="163.0" styleClass="hh" stylesheets="@../css/profile.css" text="View Profile" textFill="WHITE">
                            <font>
-                              <Font name="Arial" size="14.0" />
+                              <Font name="Arial Bold" size="10.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
                   <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#updclkaction" prefHeight="47.0" prefWidth="100.0" stylesheets="@../css/profile.css">
                      <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="26.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/5538614.png" />
+                              <Image url="@../images/edit.png" />
                            </image>
                         </ImageView>
-                        <Label id="selected" fx:id="upd" prefHeight="44.0" prefWidth="159.0" stylesheets="@../css/profile.css" text="Updating">
+                        <Label id="selected" fx:id="upd" prefHeight="30.0" prefWidth="160.0" styleClass="hh" stylesheets="@../css/profile.css" text="Edit Profile" textFill="WHITE">
                            <font>
-                              <Font name="Arial" size="14.0" />
+                              <Font name="Arial Bold" size="10.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
                   <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#chgpassclkaction" prefHeight="47.0" prefWidth="100.0" stylesheets="@../css/profile.css">
                      <children>
-                        <ImageView fitHeight="35.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/pass.png" />
                            </image>
                         </ImageView>
-                        <Label id="selected" fx:id="cpss" prefHeight="44.0" prefWidth="159.0" stylesheets="@../css/profile.css" text="Change password">
+                        <Label id="selected" fx:id="cpss" prefHeight="30.0" prefWidth="159.0" styleClass="hh" text="Change password" textFill="WHITE">
                            <font>
-                              <Font name="Arial" size="14.0" />
+                              <Font name="Arial Bold" size="10.0" />
                            </font>
                         </Label>
                      </children>

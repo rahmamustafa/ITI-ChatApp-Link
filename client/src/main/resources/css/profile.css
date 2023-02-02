@@ -11,6 +11,18 @@
     -fx-background-radius : 6;
 }
 
+.hh{
+
+    -fx-background-color : #a587e3;
+    -fx-padding : 10;
+    -fx-background-radius : 10;
+}
+
+#usrname{
+    -fx-background-color : white;
+    -fx-background-radius : 10;
+    -fx-padding : 10 ;
+}
 
 #btnUpdate {
     -fx-background-color : #D5CBEB;
