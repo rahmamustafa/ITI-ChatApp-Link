@@ -9,4 +9,6 @@ public interface UserDao {
     public UserEntity save(UserEntity user);
     public Optional<UserEntity> findByPhone(String phone);
     public Vector<UserEntity> getAllUsers();
+    boolean updateUser(UserEntity user);
+
 }

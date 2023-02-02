@@ -12,7 +12,7 @@
 }
 
 
-#btnLogin {
+#btnUpdate {
     -fx-background-color : #D5CBEB;
     -fx-background-radius : 6;
     -fx-text-fill : #371897;
@@ -20,7 +20,7 @@
     -fx-border-radius : 5 ;    
 }
 
-#btnLogin:hover{
+#btnUpdate:hover{
     -fx-background-color : #4a3098;
     -fx-text-fill : white;
 }
@@ -41,6 +41,6 @@
     -fx-background-color :  #6F4CBB
 }
 
-#btnLogin:pressed{
+#btnUpdate:pressed{
     -fx-background-color :  #6F4CBB
 }

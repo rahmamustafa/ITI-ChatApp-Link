@@ -41,11 +41,18 @@ public class prfController implements Initializable{
     @FXML
     private Label usrname;
 
+    updController updateController ;
+
+
 
     @FXML
     private void updclkaction(){
         try {
-            Parent prof=FXMLLoader.load(getClass().getResource("/views/prfUpdat.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/prfUpdat.fxml"));
+            
+            Parent prof=loader.load();
+            updateController = loader.getController();
+            
             paneContent.getChildren().clear();
             paneContent.getChildren().addAll(prof);
     
@@ -79,6 +86,11 @@ public class prfController implements Initializable{
             e.printStackTrace();
         }
     }
+
+    
+
+
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
      try {

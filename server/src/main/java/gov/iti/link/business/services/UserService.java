@@ -9,4 +9,6 @@ public interface UserService extends Remote{
     UserDTO save(UserDTO user) throws RemoteException;
     UserDTO findByPhone(String phone) throws RemoteException;
     Vector<UserDTO> getAllUsers() throws RemoteException;
+    boolean updateUser(UserDTO user) throws RemoteException;
+
 }
