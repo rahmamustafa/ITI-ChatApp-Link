@@ -4,14 +4,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gov.iti.link.business.DTOs.UserDTO;
+import gov.iti.link.business.services.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 public class ProfileController implements Initializable{
    
@@ -41,7 +48,12 @@ public class ProfileController implements Initializable{
     @FXML
     private Label usrname;
 
+    @FXML
+    private Circle circleImage;
+
+
     UpdateController updateController ;
+    UserDTO user;
 
 
 
@@ -52,15 +64,26 @@ public class ProfileController implements Initializable{
             
             Parent prof=loader.load();
             updateController = loader.getController();
+            usrname.textProperty().bind(updateController.gTextField().textProperty());
             
             paneContent.getChildren().clear();
             paneContent.getChildren().addAll(prof);
-    
+           
         } catch (IOException e) {
             
             e.printStackTrace();
         }
     }
+
+    
+
+    void setUserNewImage(String image){
+        Image img = new Image(image,false);
+        circleImage.setFill(new ImagePattern(img));
+        circleImage.setEffect(new DropShadow(+25d,0d,+2d,Color.TRANSPARENT));
+        
+    }
+
     @FXML
     private void prfclkaction(){
         try {
@@ -94,9 +117,19 @@ public class ProfileController implements Initializable{
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
      try {
+        circleImage.setStroke(Color.TRANSPARENT);
         Parent prof=FXMLLoader.load(getClass().getResource("/views/prfinfo.fxml"));
         paneContent.getChildren().clear();
         paneContent.getChildren().addAll(prof);
+        user = StateManager.getInstance().getUser();
+        if(user.getPicture().isEmpty()){
+            Image img = new Image(user.getPicture(),false);
+        }
+        Image img = new Image(getClass().getResource("/images/avatar.jpg").toString(),false);
+        circleImage.setFill(new ImagePattern(img));
+        circleImage.setEffect(new DropShadow(+25d,0d,+2d,Color.TRANSPARENT));
+        usrname.setText(user.getName());
+       
 
     } catch (IOException e) {
         

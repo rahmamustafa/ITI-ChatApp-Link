@@ -197,23 +197,32 @@ public class UserDaoImp implements UserDao {
 
     
     
-    public boolean updateUser(UserEntity user) {
-        boolean result = false;
+    public int updateUser(UserEntity user) {
+        int result = -1;
         final String SQL = "update users set " +
-                "phoneNumber=? ,userName=? , email=?, picture=?, userPassword=?,gender=?,country=?,dateOfBirth=?,bio=?)" +
+                "phoneNumber=? ,userName=?, email=?, bio=?, userPassword=?,gender=?,country=?,dateOfBirth=? " +
                 " where phoneNumber=? ";
+
                 try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)){
                     preparedStatement.setString(1, user.getPhone());
                     preparedStatement.setString(2, user.getName());
+                    System.out.println(user.getName());
                     preparedStatement.setString(3, user.getEmail());
-                    preparedStatement.setString(4, user.getPicture());
+                    preparedStatement.setString(4, user.getBio());
                     preparedStatement.setString(5, user.getPassword());
                     preparedStatement.setString(6, user.getGender());
                     preparedStatement.setString(7, user.getCountry());
                     preparedStatement.setDate(8, user.getDate());
-                    preparedStatement.setString(9, user.getBio());
-                    preparedStatement.setString(10, user.getPhone());
-                    result = preparedStatement.execute();
+                    
+                    //preparedStatement.setString(9, user.getPicture());
+                    preparedStatement.setString(9, user.getPhone());
+                    // preparedStatement.setString(1, user.getName());
+                    // preparedStatement.setString(2, user.getPhone());
+                    // System.out.println(user.getPhone());
+                    // System.out.println(user.getName());
+                     
+                    result = preparedStatement.executeUpdate();
+                    System.out.println(result);
                 }
                 catch (SQLException e) {
                     e.printStackTrace();
