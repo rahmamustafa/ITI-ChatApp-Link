@@ -14,5 +14,6 @@ public interface UserService extends Remote{
     int sendInvite(String fromPhone,String toPhone) throws RemoteException;
     int addContact(String userPhone,String friendPhone) throws RemoteException;
     Vector<ContactDto> getAllContacts(String userPhone) throws RemoteException;
-
+    boolean updateUser(UserDTO user) throws RemoteException;
+    
 }

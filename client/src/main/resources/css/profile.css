@@ -11,8 +11,20 @@
     -fx-background-radius : 6;
 }
 
+.hh{
 
-#btnLogin {
+    -fx-background-color : #a587e3;
+    -fx-padding : 10;
+    -fx-background-radius : 10;
+}
+
+#usrname{
+    -fx-background-color : white;
+    -fx-background-radius : 10;
+    -fx-padding : 10 ;
+}
+
+#btnUpdate {
     -fx-background-color : #D5CBEB;
     -fx-background-radius : 6;
     -fx-text-fill : #371897;
@@ -20,7 +32,7 @@
     -fx-border-radius : 5 ;    
 }
 
-#btnLogin:hover{
+#btnUpdate:hover{
     -fx-background-color : #4a3098;
     -fx-text-fill : white;
 }
@@ -41,6 +53,6 @@
     -fx-background-color :  #6F4CBB
 }
 
-#btnLogin:pressed{
+#btnUpdate:pressed{
     -fx-background-color :  #6F4CBB
 }

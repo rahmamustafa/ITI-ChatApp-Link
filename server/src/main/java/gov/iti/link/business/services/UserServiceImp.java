@@ -89,4 +89,13 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         return contactDto;
     }
 
+    @Override
+    public boolean updateUser(UserDTO user) throws RemoteException {
+        UserEntity userEntity = userMapper.dtoToEntity(user);
+        this.userDAO.updateUser(userEntity);
+        return false;
+    }
+
+    
+
 }
