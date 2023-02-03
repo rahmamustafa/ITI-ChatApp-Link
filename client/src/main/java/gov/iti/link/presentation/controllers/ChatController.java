@@ -21,6 +21,7 @@ import javax.sql.rowset.serial.SerialBlob;
 
 import com.mysql.cj.jdbc.Blob;
 
+import gov.iti.link.business.DTOs.ContactDto;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StateManager;
@@ -135,9 +136,9 @@ public class ChatController implements Initializable {
         // Blob imageBlob = new Blob(byte_string);
         // InputStream binaryStream = imageBlob.getBinaryStream(0, imageBlob.length());
         // img.setImage(new Image(binaryStream));
-            Vector<UserDTO> allUsers = userService.getAllUsers();
-            for (UserDTO userDTO : allUsers) {
-                addCardinListView(userDTO.getPicture(), userDTO.getName());
+            Vector<ContactDto> allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
+            for (ContactDto contactDto : allContacts) {
+                addCardinListView(contactDto.getImageUrl(), contactDto.getName());
             }
 
         } catch (RemoteException e) {

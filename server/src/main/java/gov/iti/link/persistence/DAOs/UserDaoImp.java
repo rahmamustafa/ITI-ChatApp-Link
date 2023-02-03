@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.Vector;
 
 import gov.iti.link.persistence.ConnectionManager;
+import gov.iti.link.persistence.entities.ContactEntity;
 import gov.iti.link.persistence.entities.UserEntity;
 
 public class UserDaoImp implements UserDao {
@@ -152,5 +153,46 @@ public class UserDaoImp implements UserDao {
         return result;
 
     }
+
+    @Override
+    public int addContact(String userPhone, String friendPhone) {
+        int result = -1;
+        final String SQL = "insert into contacts " +
+                "(userPhone, friendPhone)" +
+                " values (?,?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setString(1, userPhone);
+            preparedStatement.setString(2, friendPhone);
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public Vector<ContactEntity> getAllContacts(String phone) {
+        Vector<ContactEntity> allContacts = new Vector<>();
+        final String SQL = "select * from Contacts where userPhone=?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setString(1, phone);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Integer id = resultSet.getInt(1);
+                String userPhone = resultSet.getString(2);
+                String friendPhone = resultSet.getString(3);
+                ContactEntity contactEntity = new ContactEntity(userPhone, friendPhone);
+                allContacts.add(contactEntity);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allContacts;
+    }
+
+    
+    
 
 }
