@@ -10,11 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
 
 import gov.iti.link.persistence.ConnectionManager;
+import gov.iti.link.persistence.entities.InvitationEntity;
 import gov.iti.link.persistence.entities.UserEntity;
 
 public class UserDaoImp implements UserDao {
@@ -136,7 +139,7 @@ public class UserDaoImp implements UserDao {
     @Override
     public int saveInvitation(String fromPhone, String toPhone) {
 
-        int result = -1 ;
+        int result = -1;
         final String SQL = "insert into invitations " +
                 "(fromPhone, toPhone)" +
                 " values (?,?)";
@@ -151,6 +154,29 @@ public class UserDaoImp implements UserDao {
 
         return result;
 
+    }
+
+    @Override
+    public List<InvitationEntity> getUserInvitations(String userPhone) {
+        List<InvitationEntity> invitations = new ArrayList<InvitationEntity>();
+        final String SQL = "select * from invitations where toPhone=? ";
+        
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setString(1, userPhone);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt(1);
+                    String fromPhone = resultSet.getString(2);
+                    String toPhone = resultSet.getString(3);
+                    Date date = resultSet.getDate(4);
+
+                    invitations.add(new InvitationEntity(id, fromPhone, toPhone, date));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return invitations;
     }
 
 }

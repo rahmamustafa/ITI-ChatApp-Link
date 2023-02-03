@@ -1,8 +1,10 @@
 package gov.iti.link.persistence.DAOs;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
 
+import gov.iti.link.persistence.entities.InvitationEntity;
 import gov.iti.link.persistence.entities.UserEntity;
 
 public interface UserDao {
@@ -10,5 +12,7 @@ public interface UserDao {
     public Optional<UserEntity> findByPhone(String phone);
     public Vector<UserEntity> getAllUsers();
     public int saveInvitation(String fromPhone, String toPhone);
+    public List<InvitationEntity> getUserInvitations(String userPhone);
+
     // public ContactEntity addContact(String fromPhone,String toPhone);
 }

@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -21,6 +22,7 @@ import javax.sql.rowset.serial.SerialBlob;
 
 import com.mysql.cj.jdbc.Blob;
 
+import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StateManager;
@@ -92,6 +94,14 @@ public class ChatController implements Initializable {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
         stateManager = StateManager.getInstance();
+        List<InvitationDTO> invitations;
+        try {
+            invitations = userService.getInvitations(stateManager.getUser().getPhone());
+            stateManager.getUser().setInvitations(invitations) ;
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     @FXML
