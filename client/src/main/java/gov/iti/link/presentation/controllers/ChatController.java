@@ -25,6 +25,7 @@ import com.mysql.cj.jdbc.Blob;
 import gov.iti.link.business.DTOs.ContactDto;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
+import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserService;
 import javafx.collections.FXCollections;
@@ -48,13 +49,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.control.Label;
+
 import javafx.scene.text.Text;
 
 public class ChatController implements Initializable {
 
-    @FXML
-    private Button ADD_NEW_BTN;
-
+   
     @FXML
     private AnchorPane MAIN_FRM;
 
@@ -83,11 +86,18 @@ public class ChatController implements Initializable {
     private TextArea txtMessage;
 
     @FXML
-    private ImageView imgView;
+    private ImageView img;
+
+    @FXML
+    private Label lblUserName;
+
+    @FXML
+    Circle circleUserImage;
 
     private ServiceManager serviceManager;
     private UserService userService;
     private StateManager stateManager;
+    private StageManager stageManager;
 
     ObservableList<Parent> friendsList = FXCollections.observableArrayList();
     //ObservableList<UserDTO> users = FXCollections.observableArrayList();
@@ -96,6 +106,7 @@ public class ChatController implements Initializable {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
         stateManager = StateManager.getInstance();
+        stageManager = StageManager.getInstance();
     }
 
     @FXML
@@ -103,7 +114,16 @@ public class ChatController implements Initializable {
     }
 
     @FXML
-    void showNewDialog(ActionEvent event) {
+    void onProfile() {
+        stageManager.switchToProfile();
+    }
+    @FXML
+    void onLogOut() {
+        stageManager.switchToLogin();
+    }
+
+    @FXML
+    void showNewDialog() {
         System.out.println("Add contact");
       
         try {
@@ -120,49 +140,22 @@ public class ChatController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        lblUserName.setText(stateManager.getUser().getName());
+        //circleUserImage.setFill(new ImagePattern(new Image(stateManager.getUser().getPicture())));
         try {
-            // byte byte_string[] = LoginController.user.getPicture().getBytes();
-            // Path path = Paths.get("...");
-            // byte[] bytes = Files.readAllBytes(path);
-            // byte[] img =
-            // Base64.getDecoder().decode(LoginController.user.getPicture().getBytes());
-            // InputStream in = Base64.getDecoder().wrap(Files.newInputStream(path));
-
-            // Image image = new Image(img);
-
-            // BASE64Decoder base64Decoder = new BASE64Decoder();
-            // System.out.println(LoginController.user.getPicture().getBytes());
-            // ByteArrayInputStream inputStream = new
-            // ByteArrayInputStream(Base64.getDecoder().decode(
-            // LoginController.user.getPicture().getBytes()));
-            // Image img = new Image(inputStream);
-
-        //BASE64Decoder base64Decoder = new BASE64Decoder();
-        // System.out.println(LoginController.user.getPicture().getBytes());
-        // ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode( LoginController.user.getPicture().getBytes()));
-        // Image img = new Image(inputStream);
-    
-        // imgView.setImage(img);
-        // Blob imageBlob = new Blob(byte_string);
-        // InputStream binaryStream = imageBlob.getBinaryStream(0, imageBlob.length());
-        // img.setImage(new Image(binaryStream));
+        
             Vector<ContactDto> allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
             for (ContactDto contactDto : allContacts) {
                 addCardinListView(contactDto.getImageUrl(), contactDto.getName(),contactDto.getPhoneNumber(),true);
-            // imgView.setImage(img);
-            // Blob imageBlob = new Blob(byte_string);
-            // InputStream binaryStream = imageBlob.getBinaryStream(0, imageBlob.length());
-            // img.setImage(new Image(binaryStream));
-           
             }
+           
+            
 
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // catch (SQLException e) {
-        // throw new RuntimeException(e);
-        // }
+
         catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -196,5 +189,6 @@ public class ChatController implements Initializable {
         
     lstFriend.refresh();
     }
+
 
 }
