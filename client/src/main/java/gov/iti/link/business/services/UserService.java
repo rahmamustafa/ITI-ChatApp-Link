@@ -2,9 +2,11 @@ package gov.iti.link.business.services;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Vector;
 
 import gov.iti.link.business.DTOs.ContactDto;
+import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 
 public interface UserService extends Remote{
@@ -16,4 +18,6 @@ public interface UserService extends Remote{
     Vector<ContactDto> getAllContacts(String userPhone) throws RemoteException;
     boolean updateUser(UserDTO user) throws RemoteException;
     
+    List<InvitationDTO> getInvitations(String userPhone) throws RemoteException;
+
 }
