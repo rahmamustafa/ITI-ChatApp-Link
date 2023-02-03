@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gov.iti.link.business.services.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -48,7 +49,7 @@ public class ProfileController implements Initializable{
     @FXML
     private void updclkaction(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/prfUpdat.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/UpdateProfile.fxml"));
             
             Parent prof=loader.load();
             updateController = loader.getController();
@@ -64,7 +65,7 @@ public class ProfileController implements Initializable{
     @FXML
     private void prfclkaction(){
         try {
-            Parent prof=FXMLLoader.load(getClass().getResource("/views/prfinfo.fxml"));
+            Parent prof=FXMLLoader.load(getClass().getResource("/views/ProfileInfo.fxml"));
             paneContent.getChildren().clear();
             paneContent.getChildren().add(prof);
     
@@ -77,7 +78,7 @@ public class ProfileController implements Initializable{
     @FXML
     private void chgpassclkaction(){
         try {
-            Parent prof=FXMLLoader.load(getClass().getResource("/views/chgpass.fxml"));
+            Parent prof=FXMLLoader.load(getClass().getResource("/views/ChangePassword.fxml"));
             paneContent.getChildren().clear();
             paneContent.getChildren().addAll(prof);
     
@@ -94,9 +95,10 @@ public class ProfileController implements Initializable{
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
      try {
-        Parent prof=FXMLLoader.load(getClass().getResource("/views/prfinfo.fxml"));
+        Parent prof=FXMLLoader.load(getClass().getResource("/views/ProfileInfo.fxml"));
         paneContent.getChildren().clear();
         paneContent.getChildren().addAll(prof);
+        usrname.setText(StateManager.getInstance().getUser().getName());
 
     } catch (IOException e) {
         
