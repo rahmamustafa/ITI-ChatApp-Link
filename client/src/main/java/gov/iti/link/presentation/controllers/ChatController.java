@@ -23,6 +23,7 @@ import com.mysql.cj.jdbc.Blob;
 
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
+import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +33,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -40,6 +44,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class ChatController implements Initializable {
@@ -79,12 +84,14 @@ public class ChatController implements Initializable {
 
     private ServiceManager serviceManager;
     private UserService userService;
+    private StateManager stateManager;
 
     ObservableList<Parent> friendsList = FXCollections.observableArrayList();
 
     public ChatController() {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
+        stateManager = StateManager.getInstance();
     }
 
     @FXML
@@ -93,7 +100,18 @@ public class ChatController implements Initializable {
 
     @FXML
     void showNewDialog(ActionEvent event) {
-
+        System.out.println("Add contact");
+      
+        try {
+            
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/add-contact.fxml"));
+            DialogPane addDialogPane = fxmlLoader.load();
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(addDialogPane);
+            dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

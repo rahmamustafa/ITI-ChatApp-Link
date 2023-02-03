@@ -9,4 +9,6 @@ public interface UserDao {
     public UserEntity save(UserEntity user);
     public Optional<UserEntity> findByPhone(String phone);
     public Vector<UserEntity> getAllUsers();
+    public int saveInvitation(String fromPhone, String toPhone);
+    // public ContactEntity addContact(String fromPhone,String toPhone);
 }

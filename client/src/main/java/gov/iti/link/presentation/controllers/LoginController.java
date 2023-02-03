@@ -8,6 +8,7 @@ import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.UserService;
+import gov.iti.link.business.services.StateManager;
 import gov.iti.link.presentation.Validations.RegisterValidation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,11 +48,13 @@ public class LoginController implements Initializable {
 
     private ServiceManager serviceManager;
     private UserService userService;
+    private StateManager stateManager;
     static UserDTO user;
 
     public LoginController() {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
+        stateManager = StateManager.getInstance();
     }
 
     @FXML
@@ -69,6 +72,7 @@ public class LoginController implements Initializable {
             if (user != null && user.getPassword().equals(txtPassword.getText())) {
                 System.out.println("loggged");
                 lblErr.setVisible(false);
+                stateManager.setUser(user);
                 StageManager.getInstance().switchToHome();
                 // StageManager.getInstance().loadView("home");
             } else {

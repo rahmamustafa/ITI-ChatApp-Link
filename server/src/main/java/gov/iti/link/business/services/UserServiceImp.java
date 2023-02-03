@@ -45,5 +45,10 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         }
         return allUserDTOs;
     }
+  
+    @Override
+    public int sendInvite(String fromPhone,String toPhone) throws RemoteException {
+        return this.userDAO.saveInvitation(fromPhone,toPhone);
+    }
 
 }

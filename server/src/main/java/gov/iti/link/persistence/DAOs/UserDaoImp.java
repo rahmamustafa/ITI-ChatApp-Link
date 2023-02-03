@@ -45,7 +45,7 @@ public class UserDaoImp implements UserDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } 
+        }
 
         return user;
     }
@@ -73,7 +73,7 @@ public class UserDaoImp implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } 
+        }
         return Optional.empty();
     }
 
@@ -90,15 +90,15 @@ public class UserDaoImp implements UserDao {
         return text;
     }
 
-    
     private String convertFromBlobtoString2(Blob blob) {
         byte[] bdata;
         String text = new String();
-        
+
         try {
-            //bdata = blob.getBytes(1, (int) blob.length());
-            text = Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length()));;
-            //text = new String(bdata);
+            // bdata = blob.getBytes(1, (int) blob.length());
+            text = Base64.getEncoder().encodeToString(blob.getBytes(1, (int) blob.length()));
+            ;
+            // text = new String(bdata);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -131,6 +131,26 @@ public class UserDaoImp implements UserDao {
             e.printStackTrace();
         }
         return allUsers;
+    }
+
+    @Override
+    public int saveInvitation(String fromPhone, String toPhone) {
+
+        int result = -1 ;
+        final String SQL = "insert into invitations " +
+                "(fromPhone, toPhone)" +
+                " values (?,?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setString(1, fromPhone);
+            preparedStatement.setString(2, toPhone);
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+
     }
 
 }
