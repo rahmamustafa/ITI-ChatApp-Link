@@ -7,11 +7,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane prefHeight="553.0" prefWidth="414.0" style="-fx-background-color: white;" stylesheets="@../css/profile.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.updController">
+<Pane prefHeight="553.0" prefWidth="414.0" style="-fx-background-color: white;" stylesheets="@../css/profile.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.UpdateController">
    <children>
       <Label fx:id="lblImageUrl" layoutX="166.0" layoutY="431.0" prefHeight="30.0" prefWidth="170.0" />
       <TextField fx:id="txtDisplayName" layoutX="62.0" layoutY="67.0" prefHeight="34.0" prefWidth="275.0" promptText="Name" />
-      <Button fx:id="btnUpdate" layoutX="62.0" layoutY="444.0" mnemonicParsing="false" onAction="#OnUpdate" prefHeight="34.0" prefWidth="292.0" stylesheets="@../styling/fullpackstyling.css" text="Update" />
+      <Button fx:id="btnUpdate" layoutX="62.0" layoutY="444.0" mnemonicParsing="false" onAction="#OnUpdate" prefHeight="34.0" prefWidth="292.0"  text="Update" />
       <DatePicker fx:id="dateOfBirth" layoutX="250.0" layoutY="299.0" prefHeight="25.0" prefWidth="105.0" />
       <TextField fx:id="txtBio" layoutX="62.0" layoutY="219.0" prefHeight="34.0" prefWidth="275.0" promptText="Add your bio" />
       <ComboBox fx:id="genderComboBox" layoutX="62.0" layoutY="299.0" prefHeight="25.0" prefWidth="124.0" promptText="Gender" visibleRowCount="2" />

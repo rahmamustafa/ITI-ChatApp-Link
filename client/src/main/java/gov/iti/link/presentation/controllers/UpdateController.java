@@ -15,7 +15,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class updController {
+public class UpdateController {
 
     @FXML
     private Button BtnChooseProfile;
@@ -70,7 +70,7 @@ public class updController {
 
     
 
-    public updController() {
+    public UpdateController() {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
     }

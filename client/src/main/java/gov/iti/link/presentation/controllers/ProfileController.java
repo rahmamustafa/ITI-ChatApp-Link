@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class prfController implements Initializable{
+public class ProfileController implements Initializable{
    
 
     @FXML
@@ -41,7 +41,7 @@ public class prfController implements Initializable{
     @FXML
     private Label usrname;
 
-    updController updateController ;
+    UpdateController updateController ;
 
 
 

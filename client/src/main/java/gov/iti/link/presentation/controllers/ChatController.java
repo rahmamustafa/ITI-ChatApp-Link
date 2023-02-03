@@ -25,6 +25,7 @@ import com.mysql.cj.jdbc.Blob;
 import gov.iti.link.business.DTOs.ContactDto;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
+import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserService;
 import javafx.collections.FXCollections;
@@ -101,6 +102,13 @@ public class ChatController implements Initializable {
     @FXML
     void sendMessage(ActionEvent event) {
     }
+
+    @FXML
+    void goToProfile(ActionEvent event){
+        StageManager.getInstance().switchToProfile();
+    }
+
+    
 
     @FXML
     void showNewDialog(ActionEvent event) {

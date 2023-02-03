@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane id="root" prefHeight="553.0" prefWidth="414.0" stylesheets="@../css/register.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.infoControler">
+<Pane id="root" prefHeight="553.0" prefWidth="414.0" stylesheets="@../css/register.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.ViewProfileController">
    <children>
       <Label fx:id="lblImageUrl" layoutX="33.0" layoutY="61.0" prefHeight="30.0" prefWidth="54.0" text="Name:" />
       <Label fx:id="lblImageUrl1" layoutX="33.0" layoutY="126.0" prefHeight="30.0" prefWidth="54.0" text="Phone:" />

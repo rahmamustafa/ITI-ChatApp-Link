@@ -17,8 +17,8 @@
 
 <AnchorPane fx:id="MAIN_FRM" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="350.0" opacity="0.98" prefHeight="562.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.ChatController">
    <children>
-      <TextField fx:id="SEARCH_TXT" layoutX="68.0" layoutY="10.0" prefHeight="30.0" prefWidth="226.0" promptText="Search..." AnchorPane.leftAnchor="68.0" AnchorPane.topAnchor="10.0" />
-      <Button fx:id="ADD_NEW_BTN" layoutX="6.0" layoutY="5.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#showNewDialog" prefHeight="40.0" prefWidth="40.0" />
+      <TextField fx:id="SEARCH_TXT" layoutX="228.0" layoutY="10.0" prefHeight="30.0" prefWidth="66.0" promptText="Search..." AnchorPane.leftAnchor="228.0" AnchorPane.topAnchor="10.0" />
+      <Button fx:id="ADD_NEW_BTN" layoutX="6.0" layoutY="5.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#showNewDialog" prefHeight="40.0" prefWidth="40.0" text="add" />
       <ScrollPane fx:id="SCROLL_BAR_CONTACTS" fitToHeight="true" fitToWidth="true" layoutY="49.0" pannable="true" prefHeight="512.0" prefWidth="292.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0">
          <content>
             <ListView fx:id="lstFriend" prefHeight="510.0" prefWidth="399.0" />
@@ -65,5 +65,6 @@
             </ImageView>
          </graphic>
       </Button>
+      <Button fx:id="btnProfile" layoutX="67.0" layoutY="13.0" mnemonicParsing="false" onAction="#goToProfile" text="profile" />
    </children>
 </AnchorPane>

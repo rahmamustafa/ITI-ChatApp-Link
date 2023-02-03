@@ -94,7 +94,7 @@ public class RegisterController implements Initializable {
             System.out.println(userPictureUrl);
             try {
                 userService.save(user);
-                StageManager.getInstance().switchToHome();
+                StageManager.getInstance().switchToLogin();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
