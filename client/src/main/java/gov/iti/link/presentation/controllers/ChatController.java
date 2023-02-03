@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -47,6 +48,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class ChatController implements Initializable {
 
@@ -88,6 +90,7 @@ public class ChatController implements Initializable {
     private StateManager stateManager;
 
     ObservableList<Parent> friendsList = FXCollections.observableArrayList();
+    //ObservableList<UserDTO> users = FXCollections.observableArrayList();
 
     public ChatController() {
         serviceManager = ServiceManager.getInstance();
@@ -118,14 +121,21 @@ public class ChatController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
-        //byte byte_string[] = LoginController.user.getPicture().getBytes();
-        //Path path = Paths.get("...");
-        //byte[] bytes = Files.readAllBytes(path);
-        //byte[] img = Base64.getDecoder().decode(LoginController.user.getPicture().getBytes());
-        //InputStream in = Base64.getDecoder().wrap(Files.newInputStream(path));
+            // byte byte_string[] = LoginController.user.getPicture().getBytes();
+            // Path path = Paths.get("...");
+            // byte[] bytes = Files.readAllBytes(path);
+            // byte[] img =
+            // Base64.getDecoder().decode(LoginController.user.getPicture().getBytes());
+            // InputStream in = Base64.getDecoder().wrap(Files.newInputStream(path));
 
+            // Image image = new Image(img);
 
-        //Image image = new Image(img);
+            // BASE64Decoder base64Decoder = new BASE64Decoder();
+            // System.out.println(LoginController.user.getPicture().getBytes());
+            // ByteArrayInputStream inputStream = new
+            // ByteArrayInputStream(Base64.getDecoder().decode(
+            // LoginController.user.getPicture().getBytes()));
+            // Image img = new Image(inputStream);
 
         //BASE64Decoder base64Decoder = new BASE64Decoder();
         // System.out.println(LoginController.user.getPicture().getBytes());
@@ -138,24 +148,29 @@ public class ChatController implements Initializable {
         // img.setImage(new Image(binaryStream));
             Vector<ContactDto> allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
             for (ContactDto contactDto : allContacts) {
-                addCardinListView(contactDto.getImageUrl(), contactDto.getName());
+                addCardinListView(contactDto.getImageUrl(), contactDto.getName(),contactDto.getPhoneNumber(),true);
+            // imgView.setImage(img);
+            // Blob imageBlob = new Blob(byte_string);
+            // InputStream binaryStream = imageBlob.getBinaryStream(0, imageBlob.length());
+            // img.setImage(new Image(binaryStream));
+           
             }
 
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-         }
-         //catch (SQLException e) {
-        //     throw new RuntimeException(e);
+        }
+        // catch (SQLException e) {
+        // throw new RuntimeException(e);
         // }
- catch (IOException e) {
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
 
-    void addCardinListView(String imageUrl, String name) {
+    void addCardinListView(String imageUrl, String name, String phone, Boolean isActive) {
         String pageName = "lblcontact";
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(String.format("/views/%s.fxml", pageName)));
         Parent label;
@@ -164,6 +179,8 @@ public class ChatController implements Initializable {
             LabelContactController labelContactController = fxmlLoader.getController();
             labelContactController.setName(name);
             labelContactController.setImage(imageUrl);
+            labelContactController.setPhone(phone);
+            labelContactController.setStatus(isActive);
             friendsList.add(label);
             lstFriend.setItems(friendsList);
         } catch (IOException e) {
@@ -171,6 +188,13 @@ public class ChatController implements Initializable {
             e.printStackTrace();
         }
 
+    }
+
+
+    void changeOnFriendState() {
+        
+        
+    lstFriend.refresh();
     }
 
 }
