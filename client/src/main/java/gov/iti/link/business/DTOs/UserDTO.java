@@ -5,13 +5,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.conf.StringProperty;
-
-import javafx.beans.property.SimpleStringProperty;
-
 public class UserDTO implements Serializable {
     private String phone;
-    private final SimpleStringProperty phonProperty = new SimpleStringProperty();
     private String name;
     private String email;
     private String picture;
@@ -29,17 +24,6 @@ public class UserDTO implements Serializable {
     public String getPhone() {
         return phone;
     }
-
-    public String getPhoneNumber(){
-        return phonProperty.get();
-    }
-    public void setPhoneNumber(String phone){
-        this.phonProperty.set(phone);
-    }
-    public SimpleStringProperty getPhoneProperty(){
-        return phonProperty;
-    }
-
 
     public String getName() {
         return name;

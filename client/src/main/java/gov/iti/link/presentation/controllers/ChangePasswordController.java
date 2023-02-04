@@ -62,9 +62,9 @@ public class ChangePasswordController implements Initializable {
     @FXML
     void OnChange(ActionEvent event) {
         //user.setPassword(txtPassword.getText());
-        SetUserPasswords(user);
         
-        if (validatePassword()) {
+        
+        if (SetUserPasswords(user) && validatePassword()) {
 
             try {
                 if (userService.updateUser(user) != -1) {
@@ -82,11 +82,15 @@ public class ChangePasswordController implements Initializable {
 
     }
 
-    void SetUserPasswords(UserDTO user) {
+    boolean SetUserPasswords(UserDTO user) {
         if (txtNewPassword.getText().equals(txtConfirmPassword.getText()))
+        {
             user.setPassword(txtNewPassword.getText());
+            return true;
+        }
         else
             lblErrConfirmPass.setVisible(true);
+        return false;
     }
 
     boolean validatePassword() {

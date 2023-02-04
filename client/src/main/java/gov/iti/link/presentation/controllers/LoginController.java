@@ -95,9 +95,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         btnLogin.disableProperty().bind(txtPhone.textProperty().isEmpty().or(txtPassword.textProperty().isEmpty()));
-        ModelManager modelManager = ModelManager.getInstance();
-        UserDTO userDTO = modelManager.getUserInstance();
-        txtPhone.textProperty().bindBidirectional(userDTO.getPhoneProperty());
+        
 
     }
 
