@@ -68,7 +68,7 @@ public class ProfileController implements Initializable{
     @FXML
     private void updclkaction(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/prfUpdat.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/UpdateProfile.fxml"));
             
             Parent prof=loader.load();
             updateController = loader.getController();
@@ -95,7 +95,7 @@ public class ProfileController implements Initializable{
     @FXML
     private void prfclkaction(){
         try {
-            Parent prof=FXMLLoader.load(getClass().getResource("/views/prfinfo.fxml"));
+            Parent prof=FXMLLoader.load(getClass().getResource("/views/ProfileInfo.fxml"));
             paneContent.getChildren().clear();
             paneContent.getChildren().add(prof);
     
@@ -108,7 +108,7 @@ public class ProfileController implements Initializable{
     @FXML
     private void chgpassclkaction(){
         try {
-            Parent prof=FXMLLoader.load(getClass().getResource("/views/chgpass.fxml"));
+            Parent prof=FXMLLoader.load(getClass().getResource("/views/ChangePassword.fxml"));
             paneContent.getChildren().clear();
             paneContent.getChildren().addAll(prof);
     
@@ -126,10 +126,7 @@ public class ProfileController implements Initializable{
     public void initialize(URL arg0, ResourceBundle arg1) {
      try {
 
-        
-
-        circleImage.setStroke(Color.TRANSPARENT);
-        Parent prof=FXMLLoader.load(getClass().getResource("/views/prfinfo.fxml"));
+        Parent prof=FXMLLoader.load(getClass().getResource("/views/ProfileInfo.fxml"));
         paneContent.getChildren().clear();
         paneContent.getChildren().addAll(prof);
         user = StateManager.getInstance().getUser();
@@ -142,8 +139,8 @@ public class ProfileController implements Initializable{
         usrname.setText(user.getName());
        
 
+
     } catch (IOException e) {
-        
         e.printStackTrace();
     }
         
