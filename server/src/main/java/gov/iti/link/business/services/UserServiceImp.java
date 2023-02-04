@@ -17,13 +17,13 @@ import gov.iti.link.persistence.entities.ContactEntity;
 import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.mappers.InvitationMapper;
-import gov.iti.link.business.mappers.UserMapper;
-import gov.iti.link.persistence.DAOs.UserDao;
-import gov.iti.link.persistence.DAOs.UserDaoImp;
+
 import gov.iti.link.persistence.entities.InvitationEntity;
 import gov.iti.link.persistence.entities.UserEntity;
 
 public class UserServiceImp extends UnicastRemoteObject implements UserService {
+
+    Vector<ClientServices> allClients = new Vector<>();;
 
     public UserServiceImp() throws RemoteException {
         super();
@@ -32,7 +32,6 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     private final UserDao userDAO = new UserDaoImp();
     private final UserMapper userMapper = new UserMapper();
     private final ContactMapper contactMapper = new ContactMapper();
-
 
     @Override
     public UserDTO save(UserDTO user) {
@@ -77,13 +76,11 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         return invitations;
     }
 
-   
-
     @Override
     public Vector<ContactDto> getAllContacts(String userPhone) throws RemoteException {
         Vector<ContactEntity> allContactEntities = this.userDAO.getAllContacts(userPhone);
         Vector<ContactDto> allContactsContactDtos = new Vector<>();
-        for(ContactEntity contactEntity : allContactEntities){
+        for (ContactEntity contactEntity : allContactEntities) {
             allContactsContactDtos.add(mapFromUsertoContact(contactEntity));
         }
         return allContactsContactDtos;
@@ -91,19 +88,18 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     @Override
     public int addContact(String userPhone, String friendPhone) {
-        return this.userDAO.addContact(userPhone,friendPhone);
+        return this.userDAO.addContact(userPhone, friendPhone);
     }
 
-
-    private ContactDto mapFromUsertoContact(ContactEntity contactEntity){
+    private ContactDto mapFromUsertoContact(ContactEntity contactEntity) {
         ContactDto contactDto = contactMapper.entityToDTO(contactEntity);
         UserDTO userDTO;
         try {
             userDTO = findByPhone(contactDto.getPhoneNumber());
-        
+
             contactDto.setName(userDTO.getName());
-        contactDto.setImageUrl(userDTO.getPicture());
-    } catch (RemoteException e) {
+            contactDto.setImageUrl(userDTO.getPicture());
+        } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -117,6 +113,24 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         return false;
     }
 
-    
+    @Override
+    public void userLoggedIn(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
+        System.out.println("user" + userDTO.getPhone());
+        allClients.add(clientServices);
+        for (ClientServices client : allClients)
+            if (!client.equals(clientServices))
+                client.notifyContactStatus(userDTO, true);
+
+    }
+
+    @Override
+    public void userLoggedOut(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
+        System.out.println("user" + userDTO.getPhone());
+        allClients.remove(clientServices);
+        for (ClientServices client : allClients)
+            if (!client.equals(clientServices))
+                client.notifyContactStatus(userDTO, false);
+
+    }
 
 }
