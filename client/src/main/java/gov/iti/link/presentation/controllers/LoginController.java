@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.ModelManager;
 import gov.iti.link.business.DTOs.UserDTO;
+import gov.iti.link.business.services.ClientServices;
+import gov.iti.link.business.services.ClientServicesImp;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.UserService;
@@ -56,6 +58,8 @@ public class LoginController implements Initializable {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
         stateManager = StateManager.getInstance();
+        
+
     }
 
     @FXML
@@ -63,7 +67,6 @@ public class LoginController implements Initializable {
         user = new UserDTO();
         if (RegisterValidation.validPassword(txtPassword.getText())
                 && RegisterValidation.validPhone(txtPhone.getText())) {
-
             try {
                 user = userService.findByPhone(txtPhone.getText());
             } catch (RemoteException e) {

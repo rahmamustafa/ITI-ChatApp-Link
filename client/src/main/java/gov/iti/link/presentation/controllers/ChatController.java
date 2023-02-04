@@ -26,10 +26,13 @@ import com.mysql.cj.jdbc.Blob;
 import gov.iti.link.business.DTOs.ContactDto;
 import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
+import gov.iti.link.business.services.ClientServices;
+import gov.iti.link.business.services.ClientServicesImp;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserService;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,7 +62,6 @@ import javafx.scene.text.Text;
 
 public class ChatController implements Initializable {
 
-   
     @FXML
     private AnchorPane MAIN_FRM;
 
@@ -101,8 +103,11 @@ public class ChatController implements Initializable {
     private StateManager stateManager;
     private StageManager stageManager;
 
+    Vector<ContactDto> allContacts;
+
     ObservableList<Parent> friendsList = FXCollections.observableArrayList();
-    //ObservableList<UserDTO> users = FXCollections.observableArrayList();
+    // ObservableList<UserDTO> users = FXCollections.observableArrayList();
+    ClientServices clientServices;
 
     public ChatController() {
         serviceManager = ServiceManager.getInstance();
@@ -111,33 +116,43 @@ public class ChatController implements Initializable {
         List<InvitationDTO> invitations;
         try {
             invitations = userService.getInvitations(stateManager.getUser().getPhone());
-            stateManager.getUser().setInvitations(invitations) ;
+            stateManager.getUser().setInvitations(invitations);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-    
+
         stageManager = StageManager.getInstance();
     }
 
     @FXML
     void sendMessage(ActionEvent event) {
+        //changeOnFriendState("01010101010",true);
+        allContacts.get(2).setName("null");
     }
 
     @FXML
     void onProfile() {
         stageManager.switchToProfile();
     }
+
     @FXML
     void onLogOut() {
+        try {
+            userService.userLoggedOut(clientServices,stateManager.getUser());
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         stageManager.switchToLogin();
+
     }
 
     @FXML
     void showNewDialog() {
         System.out.println("Add contact");
-      
+
         try {
-            
+
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/add-contact.fxml"));
             DialogPane addDialogPane = fxmlLoader.load();
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -150,27 +165,32 @@ public class ChatController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+       
         lblUserName.setText(stateManager.getUser().getName());
-        //circleUserImage.setFill(new ImagePattern(new Image(stateManager.getUser().getPicture())));
         try {
-        
-            Vector<ContactDto> allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
-            for (ContactDto contactDto : allContacts) {
-                addCardinListView(contactDto.getImageUrl(), contactDto.getName(),contactDto.getPhoneNumber(),true);
-            }
-           
-            
+            clientServices = new ClientServicesImp(this); 
+            userService.userLoggedIn(clientServices,stateManager.getUser());
 
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        catch (IOException e) {
+        try {
+            allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
+            createDatainListView(allContacts);
+        } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
+    }
+
+    private void createDatainListView(Vector<ContactDto> allContacts) {
+        friendsList.clear();
+        for (ContactDto contactDto : allContacts) {
+            addCardinListView(contactDto.getImageUrl(), contactDto.getName(),contactDto.getPhoneNumber(),contactDto.isActive());
+        }
     }
 
     void addCardinListView(String imageUrl, String name, String phone, Boolean isActive) {
@@ -184,6 +204,7 @@ public class ChatController implements Initializable {
             labelContactController.setImage(imageUrl);
             labelContactController.setPhone(phone);
             labelContactController.setStatus(isActive);
+
             friendsList.add(label);
             lstFriend.setItems(friendsList);
         } catch (IOException e) {
@@ -193,12 +214,13 @@ public class ChatController implements Initializable {
 
     }
 
+    public void changeOnFriendState(String phoneNumber, boolean status) {
+        for (ContactDto contactDto : allContacts) {
+            if (contactDto.getPhoneNumber().equals(phoneNumber))
+                contactDto.setActive(status);
+        }
+        createDatainListView(allContacts);
 
-    void changeOnFriendState() {
-        
-        
-    lstFriend.refresh();
     }
-
 
 }

@@ -25,8 +25,11 @@ public interface UserService extends Remote {
     int updateUser(UserDTO user) throws RemoteException;
 
 
-    // ContactDTO addContact(String fromPhone, String toPhone)
     List<InvitationDTO> getInvitations(String userPhone) throws RemoteException;
+
+    void userLoggedIn(ClientServices clientServices,UserDTO userDTO) throws RemoteException;
+    
+    void userLoggedOut(ClientServices clientServices,UserDTO userDTO) throws RemoteException;
 
   
 }
