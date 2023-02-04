@@ -1,0 +1,33 @@
+.root{
+    -fx-background-color:white;
+}
+
+
+
+
+#btnChangePassword {
+    -fx-background-color : #D5CBEB;
+    -fx-background-radius : 6;
+    -fx-text-fill : #371897;
+    -fx-border-color : #6F4CBB;
+    -fx-border-radius : 5 ;    
+}
+
+#btnChangePassword:hover{
+    -fx-background-color : #4a3098;
+    -fx-text-fill : white;
+}
+
+#txtOldPassword , #txtNewPassword  ,#txtConfirmPassword {
+    -fx-background-radius : 5;
+    -fx-border-color : #6F4CBB;
+    -fx-border-radius : 5;
+    
+
+}
+
+
+
+#btnChangePassword:pressed{
+    -fx-background-color :  #6F4CBB
+}

@@ -15,7 +15,7 @@ public interface UserDao {
     public int saveInvitation(String fromPhone, String toPhone);
     public int addContact(String userPhone,String friendPhone);
     public Vector<ContactEntity> getAllContacts(String userPhone);
-    boolean updateUser(UserEntity user);
+    int updateUser(UserEntity user);
 
     public List<InvitationEntity> getUserInvitations(String userPhone);
 

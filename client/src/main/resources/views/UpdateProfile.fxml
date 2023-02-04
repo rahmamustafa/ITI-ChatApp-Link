@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
@@ -11,18 +12,14 @@
    <children>
       <Label fx:id="lblImageUrl" layoutX="166.0" layoutY="431.0" prefHeight="30.0" prefWidth="170.0" />
       <TextField fx:id="txtDisplayName" layoutX="62.0" layoutY="67.0" prefHeight="34.0" prefWidth="275.0" promptText="Name" />
-      <Button fx:id="btnUpdate" layoutX="62.0" layoutY="444.0" mnemonicParsing="false" onAction="#OnUpdate" prefHeight="34.0" prefWidth="292.0"  text="Update" />
-      <DatePicker fx:id="dateOfBirth" layoutX="250.0" layoutY="299.0" prefHeight="25.0" prefWidth="105.0" />
-      <TextField fx:id="txtBio" layoutX="62.0" layoutY="219.0" prefHeight="34.0" prefWidth="275.0" promptText="Add your bio" />
-      <ComboBox fx:id="genderComboBox" layoutX="62.0" layoutY="299.0" prefHeight="25.0" prefWidth="124.0" promptText="Gender" visibleRowCount="2" />
-      <Button fx:id="BtnChooseProfile" layoutX="62.0" layoutY="370.0" mnemonicParsing="false" onAction="#onChooseProfile" prefHeight="25.0" prefWidth="105.0" text="Choose profile image" />
+      <Button fx:id="btnUpdate" layoutX="62.0" layoutY="444.0" mnemonicParsing="false" onAction="#OnUpdate" prefHeight="34.0" prefWidth="292.0" text="Update" />
+      <DatePicker fx:id="dateOfBirth" layoutX="62.0" layoutY="322.0" prefHeight="25.0" prefWidth="124.0" />
+      <TextField fx:id="txtBio" layoutX="62.0" layoutY="207.0" prefHeight="34.0" prefWidth="275.0" promptText="Add your bio" />
+      <ComboBox fx:id="genderComboBox" layoutX="62.0" layoutY="277.0" prefHeight="25.0" prefWidth="124.0" promptText="Gender" visibleRowCount="2" />
+      <Button fx:id="BtnChooseProfile" layoutX="72.0" layoutY="370.0" mnemonicParsing="false" onAction="#onChooseProfile" prefHeight="25.0" prefWidth="105.0" text="Choose profile image" />
       <TextField fx:id="txtEmail" layoutX="62.0" layoutY="141.0" prefHeight="34.0" prefWidth="275.0" promptText="Email" />
-      <Label fx:id="lblErrName" layoutX="81.0" layoutY="67.0" prefHeight="17.0" text="Alphapets between 2 and 30 characters" textFill="RED" visible="false" />
-      <Label fx:id="lblErrEmail" layoutX="87.0" layoutY="181.0" prefHeight="17.0" text="Enter email like 'user@domain.com'" textFill="RED" visible="false" />
-      <Label fx:id="lblErrPhone" alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="124.0" minWidth="-Infinity" prefHeight="17.0" prefWidth="189.0" text=" only numbers between 6 and 10" textFill="RED" visible="false" />
-      <Label fx:id="lblErrDate" layoutX="208.0" layoutY="402.0" prefHeight="17.0" prefWidth="83.0" text="enter your date" textFill="RED" visible="false" />
-      <Label fx:id="lblErrGender" layoutX="52.0" layoutY="404.0" prefHeight="17.0" prefWidth="83.0" text="enter gender" textFill="RED" visible="false" />
-      <Label fx:id="lblErrPass" layoutX="89.0" layoutY="236.0" prefHeight="17.0" text=" only numbers between 6 and 10" textFill="RED" visible="false" />
-      <Label fx:id="lblErrBio" layoutX="132.0" layoutY="353.0" text="Enter bio" textFill="RED" visible="false" />
+      <Label fx:id="lblErrName" layoutX="103.0" layoutY="101.0" text="Alphapets between 2 and 30 characters *" textFill="RED" visible="false" />
+      <Label fx:id="lblErrEmail" layoutX="113.0" layoutY="181.0" text="Enter email like 'user@domain.com' *" textFill="RED" visible="false" />
+      <Separator layoutX="58.0" layoutY="422.0" prefHeight="3.0" prefWidth="302.0" />
    </children>
 </Pane>

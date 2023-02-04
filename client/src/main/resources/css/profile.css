@@ -18,6 +18,13 @@
     -fx-background-radius : 10;
 }
 
+.hh:hover{
+	
+	-fx-pref-height : 35;
+	-fx-pref-width : 160;
+	
+}
+
 #usrname{
     -fx-background-color : white;
     -fx-background-radius : 10;
@@ -30,6 +37,19 @@
     -fx-text-fill : #371897;
     -fx-border-color : #6F4CBB;
     -fx-border-radius : 5 ;    
+}
+
+#hboxArrow {
+	-fx-padding : 5;
+}
+
+#hboxArrow :hover {
+	-fx-background-color : #a587e3;
+}
+
+
+#btnBack{
+	-fx-background-color :  transparent;
 }
 
 #btnUpdate:hover{

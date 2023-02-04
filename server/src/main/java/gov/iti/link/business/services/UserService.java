@@ -22,7 +22,7 @@ public interface UserService extends Remote {
     int addContact(String userPhone, String friendPhone) throws RemoteException;
 
     Vector<ContactDto> getAllContacts(String userPhone) throws RemoteException;
-    boolean updateUser(UserDTO user) throws RemoteException;
+    int updateUser(UserDTO user) throws RemoteException;
 
 
     // ContactDTO addContact(String fromPhone, String toPhone)
