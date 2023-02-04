@@ -27,6 +27,8 @@ public interface UserService extends Remote {
 
     // ContactDTO addContact(String fromPhone, String toPhone)
     List<InvitationDTO> getInvitations(String userPhone) throws RemoteException;
+    void acceptInvite(InvitationDTO invite) throws RemoteException;
+    void rejectInvite(InvitationDTO invite) throws RemoteException;
 
   
 }

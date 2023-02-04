@@ -257,4 +257,20 @@ public class UserDaoImp implements UserDao {
         return invitations;
     }
 
+    @Override
+    public int deleteInvite(int invitationID) {
+        int result = -1;
+        final String SQL = "delete from invitations " +
+                "where id= ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setInt(1, invitationID);
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 }

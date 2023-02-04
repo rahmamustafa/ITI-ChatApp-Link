@@ -18,6 +18,7 @@ public interface UserDao {
     int updateUser(UserEntity user);
 
     public List<InvitationEntity> getUserInvitations(String userPhone);
+    public int deleteInvite(int invitationID);
 
     // public ContactEntity addContact(String fromPhone,String toPhone);
 }

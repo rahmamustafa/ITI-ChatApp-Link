@@ -117,6 +117,22 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         return 1;
     }
 
+    @Override
+    public void acceptInvite(InvitationDTO invite) throws RemoteException {
+        this.userDAO.addContact(invite.getFromPhone(), invite.getToPhone());
+        this.userDAO.addContact( invite.getToPhone(),invite.getFromPhone());
+        this.userDAO.deleteInvite(invite.getId());
+    }
+
+    @Override
+    public void rejectInvite(InvitationDTO invite) throws RemoteException {
+        this.userDAO.deleteInvite(invite.getId());
+        
+    }
+
+
+    
+
     
 
 }

@@ -133,6 +133,21 @@ public class ChatController implements Initializable {
     }
 
     @FXML
+    void onInvitesClick(){
+        System.out.println("Show invites");
+      
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/invites-list.fxml"));
+            DialogPane dialogPane = fxmlLoader.load();
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     void showNewDialog() {
         System.out.println("Add contact");
       
@@ -193,7 +208,7 @@ public class ChatController implements Initializable {
 
     }
 
-
+    
     void changeOnFriendState() {
         
         

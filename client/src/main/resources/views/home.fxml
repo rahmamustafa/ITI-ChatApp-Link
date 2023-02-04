@@ -45,6 +45,19 @@
                <VBox.margin>
                   <Insets left="7.0" />
                </VBox.margin></Text>
+            <ImageView fx:id="imgVInvites" fitHeight="39.0" fitWidth="40.0" onMouseClicked="#onInvitesClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons/invite.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="invites" wrappingWidth="39.491424560546875">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
             <ImageView fx:id="imgVProfile1" fitHeight="39.0" fitWidth="40.0" onMouseClicked="#onLogOut" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/logout.png" />
