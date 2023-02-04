@@ -5,15 +5,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.UserDTO;
+import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.StateManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,23 +27,25 @@ public class ProfileController implements Initializable{
    
 
     @FXML
-    VBox RightContent;
+    private Button btnBack;
+
     @FXML
-    Pane paneContent;
+    private Circle circleImage;
 
     @FXML
     private Label cpss;
 
     @FXML
+    private HBox hboxArrow;
+
+    @FXML
     private Pane leftPane;
 
-
+    @FXML
+    private Pane paneContent;
 
     @FXML
     private Label prf;
-
-    @FXML
-    private ImageView prfImage;
 
     @FXML
     private Label upd;
@@ -48,13 +53,16 @@ public class ProfileController implements Initializable{
     @FXML
     private Label usrname;
 
-    @FXML
-    private Circle circleImage;
-
 
     UpdateController updateController ;
     UserDTO user;
 
+
+
+    @FXML
+    void BackHome() {
+          StageManager.getInstance().switchToHome();
+    }
 
 
     @FXML

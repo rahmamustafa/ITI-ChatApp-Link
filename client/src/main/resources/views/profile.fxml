@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,10 +16,26 @@
    <left>
       <Pane id="leftPane" fx:id="leftPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/profile.css" BorderPane.alignment="CENTER">
          <children>
+            <VBox prefHeight="43.0" prefWidth="199.0">
+               <children>
+                  <HBox fx:id="hboxArrow" alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="btnBack" alignment="CENTER" mnemonicParsing="false" onAction="#BackHome" prefHeight="22.0" prefWidth="30.0">
+                           <graphic>
+                              <ImageView fitHeight="26.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/back.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
             <VBox alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="138.0" prefWidth="158.0" spacing="15.0">
                <children>
-                  <Circle fx:id="circleImage" fill="DODGERBLUE" radius="55.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Label fx:id="usrname" alignment="CENTER" lineSpacing="15.0" text="UserName" textAlignment="CENTER" />
+                  <Circle fx:id="circleImage" fill="DODGERBLUE" radius="49.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </VBox>
             <VBox layoutX="1.0" layoutY="200.0" prefHeight="197.0" prefWidth="199.0" stylesheets="@../css/profile.css">
@@ -30,7 +47,7 @@
                               <Image url="@../images/R.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="prf" prefHeight="47.0" prefWidth="163.0" styleClass="hh" stylesheets="@../css/profile.css" text="View Profile" textFill="WHITE">
+                        <Label fx:id="prf" prefHeight="31.0" prefWidth="155.0" styleClass="hh" stylesheets="@../css/profile.css" text="View Profile" textFill="WHITE">
                            <font>
                               <Font name="Arial Bold" size="10.0" />
                            </font>
@@ -44,21 +61,21 @@
                               <Image url="@../images/edit.png" />
                            </image>
                         </ImageView>
-                        <Label id="selected" fx:id="upd" prefHeight="30.0" prefWidth="160.0" styleClass="hh" stylesheets="@../css/profile.css" text="Edit Profile" textFill="WHITE">
+                        <Label id="selected" fx:id="upd" prefHeight="32.0" prefWidth="153.0" styleClass="hh" stylesheets="@../css/profile.css" text="Edit Profile" textFill="WHITE">
                            <font>
                               <Font name="Arial Bold" size="10.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#chgpassclkaction" prefHeight="47.0" prefWidth="100.0" stylesheets="@../css/profile.css">
+                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#chgpassclkaction" prefHeight="47.0" prefWidth="199.0" stylesheets="@../css/profile.css">
                      <children>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/pass.png" />
                            </image>
                         </ImageView>
-                        <Label id="selected" fx:id="cpss" prefHeight="30.0" prefWidth="159.0" styleClass="hh" text="Change password" textFill="WHITE">
+                        <Label id="selected" fx:id="cpss" prefHeight="31.0" prefWidth="152.0" styleClass="hh" text="Change password" textFill="WHITE">
                            <font>
                               <Font name="Arial Bold" size="10.0" />
                            </font>
@@ -67,6 +84,7 @@
                   </HBox>
                </children>
             </VBox>
+            <Label fx:id="usrname" alignment="CENTER" layoutX="55.0" layoutY="152.0" lineSpacing="15.0" text="UserName" textAlignment="CENTER" />
          </children>
       </Pane>
    </left>

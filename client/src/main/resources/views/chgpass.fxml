@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="467.0" prefWidth="423.0" stylesheets="@../css/changepass.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.ChangePasswordController">
+<AnchorPane prefHeight="467.0" prefWidth="423.0" styleClass="Password" stylesheets="@../css/changepass.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.ChangePasswordController">
    <children>
       <Label fx:id="lblImageUrl" layoutX="118.0" layoutY="285.0" prefHeight="20.0" prefWidth="177.0" />
       <Button fx:id="btnChangePassword" layoutX="66.0" layoutY="356.0" mnemonicParsing="false" onAction="#OnChange" prefHeight="34.0" prefWidth="292.0" text="Change" />
