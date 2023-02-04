@@ -125,6 +125,9 @@ public class ProfileController implements Initializable{
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
      try {
+
+        
+
         circleImage.setStroke(Color.TRANSPARENT);
         Parent prof=FXMLLoader.load(getClass().getResource("/views/prfinfo.fxml"));
         paneContent.getChildren().clear();

@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import gov.iti.link.business.DTOs.ModelManager;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
@@ -140,6 +141,9 @@ public class RegisterController implements Initializable {
         genderComboBox.getItems().addAll(gender);
         Image image = new Image(getClass().getResourceAsStream("/images/LinkIn.jpeg"));
         circlePic.setFill(new ImagePattern(image));
+        ModelManager modelManager = ModelManager.getInstance();
+        UserDTO userDTO = modelManager.getUserInstance();
+        txtPhone.textProperty().bindBidirectional(userDTO.getPhoneProperty());
     }
 
     public String validUser() {

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
+import gov.iti.link.business.DTOs.ModelManager;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
@@ -94,7 +95,10 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         btnLogin.disableProperty().bind(txtPhone.textProperty().isEmpty().or(txtPassword.textProperty().isEmpty()));
-        
+        ModelManager modelManager = ModelManager.getInstance();
+        UserDTO userDTO = modelManager.getUserInstance();
+        txtPhone.textProperty().bindBidirectional(userDTO.getPhoneProperty());
+
     }
 
 }
