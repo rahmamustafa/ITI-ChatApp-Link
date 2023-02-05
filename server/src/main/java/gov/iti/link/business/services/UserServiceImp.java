@@ -23,7 +23,9 @@ import gov.iti.link.persistence.entities.UserEntity;
 
 public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
-    Vector<ClientServices> allClients = new Vector<>();;
+    Vector<ClientServices> allClients = new Vector<>();
+    Vector<UserDTO> allOnlineUser = new Vector<>();
+
 
     public UserServiceImp() throws RemoteException {
         super();
@@ -117,9 +119,14 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     public void userLoggedIn(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
         System.out.println("user" + userDTO.getPhone());
         allClients.add(clientServices);
+        allOnlineUser.add(userDTO);
         for (ClientServices client : allClients)
             if (!client.equals(clientServices))
                 client.notifyContactStatus(userDTO, true);
+            else{
+                for(UserDTO onlineUserDTO:allOnlineUser )
+                client.notifyContactStatus(onlineUserDTO, true);
+            }
 
     }
 
@@ -127,9 +134,12 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     public void userLoggedOut(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
         System.out.println("user" + userDTO.getPhone());
         allClients.remove(clientServices);
+        allOnlineUser.remove(userDTO);
         for (ClientServices client : allClients)
             if (!client.equals(clientServices))
                 client.notifyContactStatus(userDTO, false);
+                
+            
 
     }
     public void acceptInvite(InvitationDTO invite) throws RemoteException {
