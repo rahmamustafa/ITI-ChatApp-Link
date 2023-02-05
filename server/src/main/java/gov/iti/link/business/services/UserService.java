@@ -32,5 +32,7 @@ public interface UserService extends Remote {
     void userLoggedIn(ClientServices clientServices,UserDTO userDTO) throws RemoteException;
     void userLoggedOut(ClientServices clientServices,UserDTO userDTO) throws RemoteException;
 
+    void sendMessage(String fromPhone,String message,Vector<String>toPhone) throws RemoteException;
+
   
 }

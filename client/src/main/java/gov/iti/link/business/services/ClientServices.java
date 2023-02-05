@@ -8,4 +8,6 @@ import gov.iti.link.business.DTOs.UserDTO;
 public interface ClientServices extends Remote {
 
     void notifyContactStatus(UserDTO contactDto, boolean isActive ) throws RemoteException;
+    void tellMessage(String message,String fromPhone)throws RemoteException;
+
 }

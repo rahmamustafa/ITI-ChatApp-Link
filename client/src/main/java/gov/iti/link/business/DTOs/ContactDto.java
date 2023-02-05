@@ -12,6 +12,7 @@ public class ContactDto implements Serializable{
     
     public ContactDto() {
     }
+    
     public ContactDto(String phoneNumber, String imageUrl, boolean isActive, String name) {
         this.phoneNumber = phoneNumber;
         this.imageUrl = imageUrl;

@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "java (buildArtifact)",
+			"targetPath": "${workspaceFolder}/${workspaceFolderBasename}.jar",
+			"elements": [
+				"${compileOutput:admin}",
+				"${dependencies:admin}",
+				"${compileOutput:client}",
+				"${dependencies:client}"
+			],
+			"problemMatcher": [],
+			"label": "java (buildArtifact): ITI-ChatApp-Link"
+		}
+	]
+}

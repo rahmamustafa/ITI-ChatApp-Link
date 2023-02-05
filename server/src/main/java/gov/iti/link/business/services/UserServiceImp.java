@@ -154,6 +154,17 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         
     }
 
+    @Override
+    public void sendMessage(String fromPhone, String message, Vector<String> toPhone) throws RemoteException {
+        for(UserDTO user:allOnlineUser ){
+            if(toPhone.contains(user.getPhone())){
+                int index = allOnlineUser.indexOf(user);
+                allClients.get(index).tellMessage(message,fromPhone);
+            }
+        }
+        
+    }
+
 
     
 

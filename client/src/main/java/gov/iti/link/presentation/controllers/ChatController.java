@@ -15,9 +15,13 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Vector;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -50,6 +54,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -66,7 +71,7 @@ public class ChatController implements Initializable {
     private AnchorPane MAIN_FRM;
 
     @FXML
-    private ScrollPane SCROLL_BAR;
+    private ScrollPane scrollPaneChat;
 
     @FXML
     private ScrollPane SCROLL_BAR_CONTACTS;
@@ -94,7 +99,8 @@ public class ChatController implements Initializable {
 
     @FXML
     private Label lblUserName;
-
+    @FXML
+    private Label lblContactChat;
     @FXML
     Circle circleUserImage;
 
@@ -104,6 +110,11 @@ public class ChatController implements Initializable {
     private StageManager stageManager;
 
     Vector<ContactDto> allContacts;
+
+    Vector<String> toPhones = new Vector<>();
+
+    Map<String, VBox> chatVBoxs = new HashMap<>();
+    String contactPhone;
 
     ObservableList<Parent> friendsList = FXCollections.observableArrayList();
     // ObservableList<UserDTO> users = FXCollections.observableArrayList();
@@ -126,8 +137,43 @@ public class ChatController implements Initializable {
 
     @FXML
     void sendMessage(ActionEvent event) {
-        //changeOnFriendState("01010101010",true);
-        allContacts.get(2).setName("null");
+        toPhones.clear();
+        toPhones.add(contactPhone);
+        try {
+            String message = txtMessage.getText();
+            userService.sendMessage(stateManager.getUser().getPhone(), message, toPhones);
+            chatVBoxs.get(contactPhone).getChildren().add(new Label(message));
+            txtMessage.setText("");
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void onClickFriend(MouseEvent event) {
+        System.out.println("clicked");
+        btnSend.setDisable(false);
+
+        try {
+            contactPhone = lstFriend.getSelectionModel().getSelectedItem().getId();
+            lblContactChat.setText(allContacts.stream()
+                    .filter((contact) -> contact.getPhoneNumber().equals(contactPhone))
+                    .map(cont -> cont.getName()).collect(Collectors.toList()).get(0));
+
+            handleChatView(contactPhone);
+        } catch (RuntimeException e) {
+
+        }
+    }
+
+    private void handleChatView(String contactPhone) {
+        if (chatVBoxs.get(contactPhone) == null) {
+            chatVBoxs.put(contactPhone, new VBox());
+        }
+        VBox chat = chatVBoxs.get(contactPhone);
+        scrollPaneChat.setContent(chat);
+
     }
 
     @FXML
@@ -138,7 +184,7 @@ public class ChatController implements Initializable {
     @FXML
     void onLogOut() {
         try {
-            userService.userLoggedOut(clientServices,stateManager.getUser());
+            userService.userLoggedOut(clientServices, stateManager.getUser());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -148,9 +194,8 @@ public class ChatController implements Initializable {
     }
 
     @FXML
-    void onInvitesClick(){
+    void onInvitesClick() {
         System.out.println("Show invites");
-      
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/invites-list.fxml"));
             DialogPane dialogPane = fxmlLoader.load();
@@ -180,11 +225,12 @@ public class ChatController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-       
+        btnSend.setDisable(true);
+        lstFriend.setItems(friendsList);
         lblUserName.setText(stateManager.getUser().getName());
         try {
-            clientServices = new ClientServicesImp(this); 
-            userService.userLoggedIn(clientServices,stateManager.getUser());
+            clientServices = new ClientServicesImp(this);
+            userService.userLoggedIn(clientServices, stateManager.getUser());
 
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
@@ -204,24 +250,23 @@ public class ChatController implements Initializable {
     private void createDatainListView(Vector<ContactDto> allContacts) {
         friendsList.clear();
         for (ContactDto contactDto : allContacts) {
-            addCardinListView(contactDto.getImageUrl(), contactDto.getName(),contactDto.getPhoneNumber(),contactDto.isActive());
+            addCardinListView(contactDto);
         }
     }
 
-    void addCardinListView(String imageUrl, String name, String phone, Boolean isActive) {
+    void addCardinListView(ContactDto contactDto) {
         String pageName = "lblcontact";
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(String.format("/views/%s.fxml", pageName)));
         Parent label;
         try {
             label = fxmlLoader.load();
+            label.setId(contactDto.getPhoneNumber());
             LabelContactController labelContactController = fxmlLoader.getController();
-            labelContactController.setName(name);
-            labelContactController.setImage(imageUrl);
-            labelContactController.setPhone(phone);
-            labelContactController.setStatus(isActive);
-
+            labelContactController.setName(contactDto.getName());
+            labelContactController.setImage(contactDto.getImageUrl());
+            labelContactController.setPhone(contactDto.getPhoneNumber());
+            labelContactController.setStatus(contactDto.isActive());
             friendsList.add(label);
-            lstFriend.setItems(friendsList);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -229,13 +274,24 @@ public class ChatController implements Initializable {
 
     }
 
-    public void changeOnFriendState(String phoneNumber, boolean status) {
-        for (ContactDto contactDto : allContacts) {
-            if (contactDto.getPhoneNumber().equals(phoneNumber))
-                contactDto.setActive(status);
-        }
-        createDatainListView(allContacts);
+    public void changeOnFriendState(ContactDto contactDto) {
+        for (Parent label : friendsList) {
+            if (label.getId().equals(contactDto.getPhoneNumber())) {
+                friendsList.remove(label);
+                addCardinListView(contactDto);
 
+            }
+        }
+        // for (ContactDto contactDto : allContacts) {
+        // if (contactDto.getPhoneNumber().equals(phoneNumber))
+        // contactDto.setActive(status);
+        // }
+        // createDatainListView(allContacts);
+
+    }
+
+    public void recieveMessage(String message, UserDTO findByPhone) {
+        //chatVBoxs.get(contactPhone).getChildren().add(new Label(message));
     }
 
 }
