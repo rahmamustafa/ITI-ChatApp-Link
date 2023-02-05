@@ -1,0 +1,16 @@
+.btn-accept{
+    -fx-background-color:#371897;
+    -fx-text-fill:#ffffff;
+    -fx-font-weight:bold;
+}
+
+.btn-reject{
+    -fx-background-color:none;
+    -fx-text-fill:#371897;
+    -fx-font-weight:bold;
+}
+
+.label-phone{
+    -fx-text-fill:#371897;
+    -fx-font-weight:bold;
+}
