@@ -229,11 +229,13 @@ public class ChatController implements Initializable {
 
     }
 
+    public void changeOnFriendState(String phoneNumber, boolean status) {
+        for (ContactDto contactDto : allContacts) {
+            if (contactDto.getPhoneNumber().equals(phoneNumber))
+                contactDto.setActive(status);
+        }
+        createDatainListView(allContacts);
 
-    void changeOnFriendState() {
-        
-        
-    lstFriend.refresh();
     }
 
 }
