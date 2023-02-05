@@ -52,4 +52,11 @@ public class InvitationDTO implements Serializable {
 
     }
 
+    @Override
+    public String toString() {
+        return "InvitationDTO [id=" + id + ", fromPhone=" + fromPhone + ", toPhone=" + toPhone + ", date=" + date + "]";
+    }
+
+    
+
 }

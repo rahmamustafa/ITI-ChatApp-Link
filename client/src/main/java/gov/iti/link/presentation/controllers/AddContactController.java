@@ -2,6 +2,7 @@ package gov.iti.link.presentation.controllers;
 
 import java.rmi.RemoteException;
 
+import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StateManager;
@@ -33,8 +34,8 @@ public class AddContactController {
        
         if (RegisterValidation.validPhone(phoneNumber)) {
             try {
-                int result = userService.sendInvite(userDTO.getPhone(), phoneNumber) ;
-                System.out.println("result= " + result);
+                InvitationDTO invitationDTO  = userService.sendInvite(userDTO.getPhone(), phoneNumber) ;
+                System.out.println("result= " + invitationDTO);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

@@ -138,8 +138,10 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public int saveInvitation(String fromPhone, String toPhone) {
+    public InvitationEntity saveInvitation(String fromPhone, String toPhone) {
 
+        InvitationEntity invitation = null ; 
+        ResultSet resultSet;
         int result = -1;
         final String SQL = "insert into invitations " +
                 "(fromPhone, toPhone)" +
@@ -149,11 +151,25 @@ public class UserDaoImp implements UserDao {
             preparedStatement.setString(1, fromPhone);
             preparedStatement.setString(2, toPhone);
             result = preparedStatement.executeUpdate();
+            System.out.println("result >>" + result);
+            if(result != -1){
+         
+                resultSet = preparedStatement.executeQuery("select * from invitations where "+
+                " fromPhone= " + fromPhone + " and toPhone= " + toPhone 
+                );
+                resultSet.next();
+                int id = resultSet.getInt(1);
+                String from = resultSet.getString(2);
+                String to = resultSet.getString(3);
+                Date date = resultSet.getDate(4);
+                invitation = new InvitationEntity(id,from,to,date);
+                System.out.println("From User Dao InvEntity>" + invitation);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return result;
+        return invitation;
 
     }
 

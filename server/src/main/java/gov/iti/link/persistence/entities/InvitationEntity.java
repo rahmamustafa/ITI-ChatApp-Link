@@ -52,4 +52,12 @@ public class InvitationEntity {
         this.date = date;
     }
 
+    @Override
+    public String toString() {
+        return "InvitationEntity [id=" + id + ", fromPhone=" + fromPhone + ", toPhone=" + toPhone + ", date=" + date
+                + "]";
+    }
+
+    
+
 }

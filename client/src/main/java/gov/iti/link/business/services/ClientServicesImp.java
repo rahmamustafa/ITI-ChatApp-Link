@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import gov.iti.link.business.DTOs.ContactDto;
+import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.presentation.controllers.ChatController;
 import javafx.application.Platform;
@@ -24,5 +25,23 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
         Platform.runLater(()->chatController.changeOnFriendState(contactDto.getPhone(),isActive));
         
     }
+
+
+
+    @Override
+    public void notifyInvitation(InvitationDTO invitationDTO) {
+        System.out.println( invitationDTO.getToPhone() + " recieved an invite from " + invitationDTO.getFromPhone());
+        
+    }
+
+
+
+    @Override
+    public UserDTO getUserDTO() throws RemoteException {
+        return StateManager.getInstance().getUser();
+        
+    }
+
+    
     
 }

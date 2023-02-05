@@ -2,6 +2,7 @@ package gov.iti.link.business.services;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,6 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     Vector<ClientServices> allClients = new Vector<>();
     Vector<UserDTO> allOnlineUser = new Vector<>();
-
 
     public UserServiceImp() throws RemoteException {
         super();
@@ -62,8 +62,21 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     }
 
     @Override
-    public int sendInvite(String fromPhone, String toPhone) throws RemoteException {
-        return this.userDAO.saveInvitation(fromPhone, toPhone);
+    public InvitationDTO sendInvite(String fromPhone, String toPhone) throws RemoteException {
+        InvitationEntity invitationEntity = this.userDAO.saveInvitation(fromPhone, toPhone);
+        if(invitationEntity == null) return null ;
+        InvitationDTO invitationDTO = InvitationMapper.entityToDTO(invitationEntity);
+         
+        for (ClientServices client : allClients) {
+            if (client.getUserDTO().getPhone().equals(toPhone)) {
+                System.out.println(fromPhone +  " is sending a msg to " + toPhone +" :" +client.getUserDTO().getName());
+                client.notifyInvitation(invitationDTO);
+            }
+            
+        }
+
+        return invitationDTO;
+        
     }
 
     @Override
@@ -123,9 +136,9 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients)
             if (!client.equals(clientServices))
                 client.notifyContactStatus(userDTO, true);
-            else{
-                for(UserDTO onlineUserDTO:allOnlineUser )
-                client.notifyContactStatus(onlineUserDTO, true);
+            else {
+                for (UserDTO onlineUserDTO : allOnlineUser)
+                    client.notifyContactStatus(onlineUserDTO, true);
             }
 
     }
@@ -138,25 +151,19 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients)
             if (!client.equals(clientServices))
                 client.notifyContactStatus(userDTO, false);
-                
-            
 
     }
+
     public void acceptInvite(InvitationDTO invite) throws RemoteException {
         this.userDAO.addContact(invite.getFromPhone(), invite.getToPhone());
-        this.userDAO.addContact( invite.getToPhone(),invite.getFromPhone());
+        this.userDAO.addContact(invite.getToPhone(), invite.getFromPhone());
         this.userDAO.deleteInvite(invite.getId());
     }
 
     @Override
     public void rejectInvite(InvitationDTO invite) throws RemoteException {
         this.userDAO.deleteInvite(invite.getId());
-        
+
     }
-
-
-    
-
-    
 
 }
