@@ -1,0 +1,39 @@
+.label{
+    -fx-text-fill: #000000;
+    -fx-font-size:16px;
+    -fx-font-weight:bold;
+}
+
+.right-message{
+    -fx-background-color: #632f9e;
+    -fx-text-fill: #000000;
+    -fx-padding: 10 20;
+    -fx-background-radius:  15 0 15 15 ;
+    -fx-wrap-text:true;
+    -fx-text-fill: #ffffff;
+
+
+
+}
+.left-message{
+    -fx-background-color: #a67dd4;
+    -fx-text-fill: #000000;
+    -fx-padding: 10 20;
+    -fx-background-radius:  0 15 15 15;
+    -fx-wrap-text:true;
+    -fx-text-fill: #ffffff;
+
+
+
+}
+
+.vbox{
+    -fx-padding: 5 5 5 55;
+
+}
+.vbox{
+    -fx-background-color:#f4f4f4;
+}
+.text-field{
+    -fx-background-radius:50;
+}

@@ -17,6 +17,31 @@
 
 <AnchorPane fx:id="MAIN_FRM" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="350.0" opacity="0.98" prefHeight="700.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.ChatController">
    <children>
+      <HBox fx:id="TITLE_FINAL_CONTAINER" alignment="CENTER_LEFT" layoutX="314.0" layoutY="64.0" prefHeight="46.0" prefWidth="582.0" style="-fx-background-color: #ebe7f5;" AnchorPane.leftAnchor="314.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <HBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </HBox.margin>
+               <children>
+                  <Label fx:id="lblContactChat" prefHeight="42.0" text="Name">
+                     <graphic>
+                        <Circle fx:id="circleUserImage1" fill="DODGERBLUE" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lblStatus" alignment="CENTER" style="-fx-background-radius: 15;" text="online">
+                     <graphic>
+                        <Circle fx:id="circlePicStatus" fill="#1fff3d" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+                     </graphic>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+
+         </children>
+      </HBox>
 
       <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="64.0" prefHeight="636.0" prefWidth="74.0" style="-fx-background-color: #ebe7f5; -fx-background-radius: 30;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="64.0">
          <children>
@@ -99,9 +124,9 @@
             </Label>
          </children>
       </HBox>
-      <ScrollPane fx:id="scrollPaneChat" fitToHeight="true" fitToWidth="true" layoutX="314.0" layoutY="132.0" prefHeight="474.0" prefWidth="582.0" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="314.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="132.0">
+      <ScrollPane fx:id="scrollPaneChat" fitToHeight="true" fitToWidth="true" layoutX="314.0" layoutY="132.0" prefWidth="582.0" AnchorPane.bottomAnchor="94.0" AnchorPane.leftAnchor="314.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="132.0">
          <content>
-            <VBox fx:id="messageContainer" prefHeight="200.0" prefWidth="582.0" />
+            <VBox fx:id="messageContainer" prefHeight="466.0" prefWidth="582.0" />
          </content>
       </ScrollPane>
       <TextArea fx:id="txtMessage" layoutX="332.0" layoutY="617.0" prefHeight="58.0" prefWidth="470.0" promptText="Type a message..." style="-fx-background-radius: 30; -fx-border-radius: 50;" AnchorPane.bottomAnchor="24.600000000000023" AnchorPane.leftAnchor="332.0" AnchorPane.rightAnchor="94.0" />
@@ -114,30 +139,5 @@
             </ImageView>
          </graphic>
       </Button>
-      <HBox fx:id="TITLE_FINAL_CONTAINER" alignment="CENTER_LEFT" layoutX="314.0" layoutY="68.0" prefHeight="52.0" prefWidth="582.0" style="-fx-background-color: #ebe7f5;" AnchorPane.leftAnchor="314.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <HBox.margin>
-                  <Insets left="10.0" top="10.0" />
-               </HBox.margin>
-               <children>
-                  <Label fx:id="lblContactChat" prefHeight="42.0" text="Name">
-                     <graphic>
-                        <Circle fx:id="circleUserImage1" fill="DODGERBLUE" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-                     </graphic>
-                  </Label>
-                  <Label fx:id="lblStatus" alignment="CENTER" style="-fx-background-radius: 15;" text="online">
-                     <graphic>
-                        <Circle fx:id="circlePicStatus" fill="#1fff3d" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
-                     </graphic>
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-
-         </children>
-      </HBox>
    </children>
 </AnchorPane>

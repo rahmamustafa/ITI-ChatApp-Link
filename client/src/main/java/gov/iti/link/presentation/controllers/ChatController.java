@@ -13,8 +13,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -56,6 +60,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -114,10 +119,11 @@ public class ChatController implements Initializable {
     Vector<String> toPhones = new Vector<>();
 
     Map<String, VBox> chatVBoxs = new HashMap<>();
-    String contactPhone;
+    String clickedContact;
 
     ObservableList<Parent> friendsList = FXCollections.observableArrayList();
-    // ObservableList<UserDTO> users = FXCollections.observableArrayList();
+    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
+
     ClientServices clientServices;
 
     public ChatController() {
@@ -138,17 +144,36 @@ public class ChatController implements Initializable {
     @FXML
     void sendMessage(ActionEvent event) {
         toPhones.clear();
-        toPhones.add(contactPhone);
+        toPhones.add(clickedContact);
         try {
-            String message = txtMessage.getText();
+            String message = txtMessage.getText().trim();
             userService.sendMessage(stateManager.getUser().getPhone(), message, toPhones);
-            chatVBoxs.get(contactPhone).getChildren().add(new Label(message));
+            chatVBoxs.get(clickedContact).getChildren().add(senderMessage(stateManager.getUser(),message,"rightMessage"));
             txtMessage.setText("");
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
+
+    private Node senderMessage(UserDTO userDTO,String message,String type) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
+        VBox node=loader.load();
+        if(type.equals("rightMessage"))
+            node.setAlignment(Pos.TOP_RIGHT);
+        else
+        node.setAlignment(Pos.TOP_LEFT);
+        MessageController messageController = loader.getController();
+        messageController.setImage(userDTO.getPicture());
+        messageController.setMessage(message);
+        messageController.setName(userDTO.getName());
+        messageController.setTime(simpleDateFormat.format(new Date()));
+        return node;
+    }
+    
 
     @FXML
     void onClickFriend(MouseEvent event) {
@@ -156,22 +181,22 @@ public class ChatController implements Initializable {
         btnSend.setDisable(false);
 
         try {
-            contactPhone = lstFriend.getSelectionModel().getSelectedItem().getId();
+            clickedContact = lstFriend.getSelectionModel().getSelectedItem().getId();
             lblContactChat.setText(allContacts.stream()
-                    .filter((contact) -> contact.getPhoneNumber().equals(contactPhone))
+                    .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                     .map(cont -> cont.getName()).collect(Collectors.toList()).get(0));
 
-            handleChatView(contactPhone);
+            handleChatView(clickedContact);
         } catch (RuntimeException e) {
 
         }
     }
 
-    private void handleChatView(String contactPhone) {
-        if (chatVBoxs.get(contactPhone) == null) {
-            chatVBoxs.put(contactPhone, new VBox());
+    private void handleChatView(String clickedContact) {
+        if (chatVBoxs.get(clickedContact) == null) {
+            chatVBoxs.put(clickedContact, new VBox());
         }
-        VBox chat = chatVBoxs.get(contactPhone);
+        VBox chat = chatVBoxs.get(clickedContact);
         scrollPaneChat.setContent(chat);
 
     }
@@ -244,6 +269,9 @@ public class ChatController implements Initializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        for(ContactDto contactDto:allContacts){
+            chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
+        }
 
     }
 
@@ -290,8 +318,13 @@ public class ChatController implements Initializable {
 
     }
 
-    public void recieveMessage(String message, UserDTO findByPhone) {
-        //chatVBoxs.get(contactPhone).getChildren().add(new Label(message));
+    public void recieveMessage(String message, UserDTO user) {
+        try {
+            chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user,message,"leftMessage"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }
