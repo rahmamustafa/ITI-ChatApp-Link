@@ -69,13 +69,15 @@ public class LoginController implements Initializable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            if (user != null && user.getPassword().equals(txtPassword.getText())) {
+            if (user != null && user.getPassword().equals(serviceManager.hashingPassword(txtPassword.getText().toString()))) {
                 System.out.println("loggged");
                 lblErr.setVisible(false);
                 stateManager.setUser(user);
                 StageManager.getInstance().switchToHome();
                 // StageManager.getInstance().loadView("home");
             } else {
+                System.out.println(user.getPassword());
+                System.out.println(serviceManager.hashingPassword(txtPassword.getText().toString()));
                 lblErr.setVisible(true);
             }
         } else {

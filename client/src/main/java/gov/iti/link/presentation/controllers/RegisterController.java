@@ -93,6 +93,7 @@ public class RegisterController implements Initializable {
             // UserService userService = new UserServiceImp();
             System.out.println(userPictureUrl);
             try {
+                user.setPassword(serviceManager.hashingPassword(user.getPassword().toString()));
                 userService.save(user);
                 StageManager.getInstance().switchToLogin();
             } catch (RemoteException e) {
