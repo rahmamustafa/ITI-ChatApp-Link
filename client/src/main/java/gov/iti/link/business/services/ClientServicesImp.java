@@ -31,7 +31,7 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
     @Override
     public void notifyInvitation(InvitationDTO invitationDTO) {
         System.out.println( invitationDTO.getToPhone() + " recieved an invite from " + invitationDTO.getFromPhone());
-        
+        StateManager.getInstance().getUser().getInvitations().add(invitationDTO);
     }
 
 

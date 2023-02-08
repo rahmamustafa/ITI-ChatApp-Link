@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.services.ServiceManager;
+import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserService;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,6 +63,7 @@ public class InviteController implements Initializable {
         // inviteListController.deleteInvite(this);
 
         parentInvites.remove(parent);
+        StateManager.getInstance().getUser().getInvitations().remove(invite);
     }
 
 
