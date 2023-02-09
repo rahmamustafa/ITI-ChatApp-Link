@@ -80,8 +80,8 @@ public class LoginController implements Initializable {
                 StageManager.getInstance().switchToHome();
                 // StageManager.getInstance().loadView("home");
             } else {
-                System.out.println(user.getPassword());
-                System.out.println(serviceManager.hashingPassword(txtPassword.getText().toString()));
+                // System.out.println(user.getPassword());
+                // System.out.println(serviceManager.hashingPassword(txtPassword.getText().toString()));
                 lblErr.setVisible(true);
             }
         } else {
