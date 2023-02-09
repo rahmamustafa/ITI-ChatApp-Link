@@ -85,7 +85,7 @@ public class ChangePasswordController implements Initializable {
     boolean SetUserPasswords(UserDTO user) {
         if (txtNewPassword.getText().equals(txtConfirmPassword.getText()))
         {
-            user.setPassword(txtNewPassword.getText());
+            user.setPassword(serviceManager.hashingPassword(txtNewPassword.getText()));
             return true;
         }
         else
