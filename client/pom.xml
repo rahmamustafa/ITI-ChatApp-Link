@@ -9,7 +9,13 @@
     <groupId>gov.iti.link</groupId>
     <artifactId>client</artifactId>
     <version>1.0.0</version>
-
+<dependencies>
+    <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.11</version>
+    </dependency>
+</dependencies>
     <build>
         <plugins>
             <plugin>

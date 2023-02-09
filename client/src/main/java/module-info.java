@@ -9,5 +9,6 @@ module gov.iti.link{
     opens gov.iti.link.presentation.controllers to javafx.fxml;
     exports gov.iti.link.business.services to java.rmi;
 
+    requires org.apache.commons.codec;
     exports gov.iti.link;
 }
