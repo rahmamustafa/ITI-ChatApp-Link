@@ -32,6 +32,9 @@ import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserService;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -97,6 +100,9 @@ public class ChatController implements Initializable {
 
     @FXML
     Circle circleUserImage;
+
+    @FXML
+    private Label lblInvitesNotifications;
 
     private ServiceManager serviceManager;
     private UserService userService;
@@ -181,6 +187,7 @@ public class ChatController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
        
+        lblInvitesNotifications.setText(String.valueOf(stateManager.getUser().getInvitations().size()));
         lblUserName.setText(stateManager.getUser().getName());
         try {
             clientServices = new ClientServicesImp(this); 
@@ -223,7 +230,6 @@ public class ChatController implements Initializable {
             friendsList.add(label);
             lstFriend.setItems(friendsList);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
