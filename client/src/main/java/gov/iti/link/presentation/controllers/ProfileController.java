@@ -66,7 +66,7 @@ public class ProfileController implements Initializable{
 
 
     @FXML
-    private void updclkaction(){
+    private void OnUpdateProfile(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/UpdateProfile.fxml"));
             
@@ -93,7 +93,7 @@ public class ProfileController implements Initializable{
     }
 
     @FXML
-    private void prfclkaction(){
+    private void OnViewProfileInfo(){
         try {
             Parent prof=FXMLLoader.load(getClass().getResource("/views/ProfileInfo.fxml"));
             paneContent.getChildren().clear();
@@ -106,7 +106,7 @@ public class ProfileController implements Initializable{
             
     }
     @FXML
-    private void chgpassclkaction(){
+    private void OnChangePassword(){
         try {
             Parent prof=FXMLLoader.load(getClass().getResource("/views/ChangePassword.fxml"));
             paneContent.getChildren().clear();
