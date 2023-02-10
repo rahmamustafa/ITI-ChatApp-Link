@@ -62,4 +62,12 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
 
     }
 
+    @Override
+    public void notifyNewContact(String newContactPhone) throws RemoteException {
+        Platform.runLater(() ->chatController.addNewContact(newContactPhone));
+        System.out.println("new Contact added");
+
+        
+    }
+
 }

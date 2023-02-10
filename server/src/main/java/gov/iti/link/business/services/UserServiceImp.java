@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
@@ -133,8 +134,11 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     @Override
     public void userLoggedIn(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
         System.out.println("user" + userDTO.getPhone());
-        allClients.add(clientServices);
-        allOnlineUser.add(userDTO);
+        synchronized(this){
+            allClients.add(clientServices);
+            allOnlineUser.add(userDTO);
+        }
+      
         for (ClientServices client : allClients)
             if (!client.equals(clientServices))
                 client.notifyContactStatus(userDTO, true);
@@ -148,8 +152,10 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     @Override
     public void userLoggedOut(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
         System.out.println("user" + userDTO.getPhone());
-        allClients.remove(clientServices);
-        allOnlineUser.remove(userDTO);
+        synchronized(this){
+            allClients.remove(clientServices);
+            allOnlineUser.remove(userDTO);
+        }
         for (ClientServices client : allClients)
             if (!client.equals(clientServices))
                 client.notifyContactStatus(userDTO, false);
@@ -160,6 +166,19 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         this.userDAO.addContact(invite.getFromPhone(), invite.getToPhone());
         this.userDAO.addContact(invite.getToPhone(), invite.getFromPhone());
         this.userDAO.deleteInvite(invite.getId());
+        for(UserDTO user:allOnlineUser){
+            if(user.getPhone().equals(invite.getFromPhone())){
+                int index = allOnlineUser.indexOf(user);
+                allClients.get(index).notifyNewContact(invite.getToPhone());
+                System.out.println(invite.getToPhone()+" you accept invitation from " + invite.getFromPhone());
+            }
+            else if(user.getPhone().equals(invite.getToPhone())){
+                int index = allOnlineUser.indexOf(user);
+                allClients.get(index).notifyNewContact(invite.getFromPhone());
+                System.out.println(invite.getToPhone()+" accepted your invitation");
+
+            }
+        }
     }
 
     @Override

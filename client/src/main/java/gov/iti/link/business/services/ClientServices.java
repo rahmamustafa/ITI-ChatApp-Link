@@ -12,4 +12,5 @@ public interface ClientServices extends Remote {
     void tellMessage(String message,String fromPhone)throws RemoteException;
     void notifyInvitation(InvitationDTO invitationDTO) throws RemoteException;
     UserDTO getUserDTO() throws RemoteException;
+    void notifyNewContact(String newContactPhone ) throws RemoteException;
 }

@@ -319,7 +319,7 @@ public class ChatController implements Initializable {
 
     }
 
-    void addNewContact(String phoneNumber){
+    public void addNewContact(String phoneNumber){
         try {
             addCardinListView(new ContactDto(userService.findByPhone(phoneNumber)));
         } catch (RemoteException e) {
@@ -336,12 +336,7 @@ public class ChatController implements Initializable {
 
             }
         }
-        // for (ContactDto contactDto : allContacts) {
-        // if (contactDto.getPhoneNumber().equals(phoneNumber))
-        // contactDto.setActive(status);
-        // }
-        // createDatainListView(allContacts);
-
+   
     }
 
     public void recieveMessage(String message, UserDTO user) {
