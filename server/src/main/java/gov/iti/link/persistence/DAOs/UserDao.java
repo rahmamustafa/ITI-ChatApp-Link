@@ -12,7 +12,7 @@ public interface UserDao {
     public UserEntity save(UserEntity user);
     public Optional<UserEntity> findByPhone(String phone);
     public Vector<UserEntity> getAllUsers();
-    public int saveInvitation(String fromPhone, String toPhone);
+    public InvitationEntity saveInvitation(String fromPhone, String toPhone);
     public int addContact(String userPhone,String friendPhone);
     public Vector<ContactEntity> getAllContacts(String userPhone);
     int updateUser(UserEntity user);

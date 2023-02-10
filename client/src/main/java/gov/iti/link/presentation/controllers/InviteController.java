@@ -5,8 +5,11 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.InvitationDTO;
+import gov.iti.link.business.services.InvitationsState;
 import gov.iti.link.business.services.ServiceManager;
+import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserService;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,6 +65,9 @@ public class InviteController implements Initializable {
         // inviteListController.deleteInvite(this);
 
         parentInvites.remove(parent);
+        StateManager.getInstance().getUser().getInvitations().remove(invite);
+        Platform.runLater(()-> InvitationsState.delete(invite));
+       
     }
 
 

@@ -1,0 +1,9 @@
+.notifaction-label{
+    -fx-text-fill:#ffffff;
+    -fx-background-color:#ff7900;
+    -fx-background-radius:30px;
+    -fx-pref-width:1.5em;
+    -fx-pref-height:1.5em;
+    -fx-font-weight:bold;
+    -fx-font-size:1.2em;
+}

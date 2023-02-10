@@ -34,10 +34,14 @@ import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ClientServices;
 import gov.iti.link.business.services.ClientServicesImp;
+import gov.iti.link.business.services.InvitationsState;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserService;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -109,12 +113,17 @@ public class ChatController implements Initializable {
     @FXML
     Circle circleUserImage;
 
+    @FXML
+    private Label lblInvitesNotifications;
+
     private ServiceManager serviceManager;
     private UserService userService;
     private StateManager stateManager;
     private StageManager stageManager;
 
     Vector<ContactDto> allContacts;
+    IntegerBinding noOfInvitations;
+    BooleanBinding hasInvitations; 
 
     Vector<String> toPhones = new Vector<>();
 
@@ -133,6 +142,11 @@ public class ChatController implements Initializable {
         List<InvitationDTO> invitations;
         try {
             invitations = userService.getInvitations(stateManager.getUser().getPhone());
+            System.out.println("user invitations: " + invitations);
+            InvitationsState.setInvitations(invitations);
+            System.out.println("user obs invitations: " + InvitationsState.getInvitations());
+            noOfInvitations = Bindings.size(InvitationsState.getInvitations());
+            hasInvitations = noOfInvitations.greaterThan(0);
             stateManager.getUser().setInvitations(invitations);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -252,6 +266,10 @@ public class ChatController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         btnSend.setDisable(true);
         lstFriend.setItems(friendsList);
+       
+        // lblInvitesNotifications.setText(String.valueOf(stateManager.getUser().getInvitations().size()));
+        lblInvitesNotifications.visibleProperty().bind(hasInvitations);
+        lblInvitesNotifications.textProperty().bind(noOfInvitations.asString());
         lblUserName.setText(stateManager.getUser().getName());
         try {
             clientServices = new ClientServicesImp(this);
@@ -296,7 +314,6 @@ public class ChatController implements Initializable {
             labelContactController.setStatus(contactDto.isActive());
             friendsList.add(label);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
