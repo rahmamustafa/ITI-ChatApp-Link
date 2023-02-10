@@ -319,6 +319,15 @@ public class ChatController implements Initializable {
 
     }
 
+    void addNewContact(String phoneNumber){
+        try {
+            addCardinListView(new ContactDto(userService.findByPhone(phoneNumber)));
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     public void changeOnFriendState(ContactDto contactDto) {
         for (Parent label : friendsList) {
             if (label.getId().equals(contactDto.getPhoneNumber())) {
