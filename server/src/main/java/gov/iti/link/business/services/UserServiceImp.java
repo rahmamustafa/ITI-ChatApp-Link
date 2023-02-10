@@ -116,7 +116,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
             userDTO = findByPhone(contactDto.getPhoneNumber());
 
             contactDto.setName(userDTO.getName());
-            contactDto.setImageUrl(userDTO.getPicture());
+            contactDto.setImage(userDTO.getPicture());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

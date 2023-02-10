@@ -123,7 +123,7 @@ public class ChatController implements Initializable {
 
     Vector<ContactDto> allContacts;
     IntegerBinding noOfInvitations;
-    BooleanBinding hasInvitations; 
+    BooleanBinding hasInvitations;
 
     Vector<String> toPhones = new Vector<>();
 
@@ -162,7 +162,8 @@ public class ChatController implements Initializable {
         try {
             String message = txtMessage.getText().trim();
             userService.sendMessage(stateManager.getUser().getPhone(), message, toPhones);
-            chatVBoxs.get(clickedContact).getChildren().add(senderMessage(stateManager.getUser(),message,"rightMessage"));
+            chatVBoxs.get(clickedContact).getChildren()
+                    .add(senderMessage(stateManager.getUser(), message, "rightMessage"));
             txtMessage.setText("");
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
@@ -173,13 +174,13 @@ public class ChatController implements Initializable {
         }
     }
 
-    private Node senderMessage(UserDTO userDTO,String message,String type) throws IOException {
+    private Node senderMessage(UserDTO userDTO, String message, String type) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
-        VBox node=loader.load();
-        if(type.equals("rightMessage"))
+        VBox node = loader.load();
+        if (type.equals("rightMessage"))
             node.setAlignment(Pos.TOP_RIGHT);
         else
-        node.setAlignment(Pos.TOP_LEFT);
+            node.setAlignment(Pos.TOP_LEFT);
         MessageController messageController = loader.getController();
         messageController.setImage(userDTO.getPicture());
         messageController.setMessage(message);
@@ -266,7 +267,16 @@ public class ChatController implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
         btnSend.setDisable(true);
         lstFriend.setItems(friendsList);
-       
+        byte[] imgb = stateManager.getUser().getPicture();
+        InputStream imgStream = new ByteArrayInputStream(imgb);
+        Image img = new Image(imgStream);
+        circleUserImage.setFill(new ImagePattern(img));
+
+        // System.out.println();
+        // String imgStr = stateManager.getUser().getPicture();
+        // InputStream stream = new ByteArrayInputStream(imgStr.getBytes(StandardCharsets.UTF_8));
+        // Image img = new Image(stream);
+        // System.out.println(img);
         // lblInvitesNotifications.setText(String.valueOf(stateManager.getUser().getInvitations().size()));
         lblInvitesNotifications.visibleProperty().bind(hasInvitations);
         lblInvitesNotifications.textProperty().bind(noOfInvitations.asString());
@@ -287,7 +297,7 @@ public class ChatController implements Initializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        for(ContactDto contactDto:allContacts){
+        for (ContactDto contactDto : allContacts) {
             chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
         }
 
@@ -309,7 +319,7 @@ public class ChatController implements Initializable {
             label.setId(contactDto.getPhoneNumber());
             LabelContactController labelContactController = fxmlLoader.getController();
             labelContactController.setName(contactDto.getName());
-            labelContactController.setImage(contactDto.getImageUrl());
+            labelContactController.setImage(contactDto.getImage());
             labelContactController.setPhone(contactDto.getPhoneNumber());
             labelContactController.setStatus(contactDto.isActive());
             friendsList.add(label);
@@ -319,7 +329,7 @@ public class ChatController implements Initializable {
 
     }
 
-    public void addNewContact(String phoneNumber){
+    public void addNewContact(String phoneNumber) {
         try {
             addCardinListView(new ContactDto(userService.findByPhone(phoneNumber)));
         } catch (RemoteException e) {
@@ -336,12 +346,12 @@ public class ChatController implements Initializable {
 
             }
         }
-   
+
     }
 
     public void recieveMessage(String message, UserDTO user) {
         try {
-            chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user,message,"leftMessage"));
+            chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user, message, "leftMessage"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

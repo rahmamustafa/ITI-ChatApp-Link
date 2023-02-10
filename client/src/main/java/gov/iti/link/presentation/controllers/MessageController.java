@@ -1,7 +1,12 @@
 package gov.iti.link.presentation.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 public class MessageController {
@@ -37,8 +42,13 @@ public class MessageController {
     public void setTime(String lblTime) {
         this.lblTime.setText(lblTime);
     }
-    public void setImage(String imageUrl) {
+    public void setImage(byte[] image) {
        ///
+       InputStream imgStream = new ByteArrayInputStream(image);
+       Image img = new Image(imgStream);
+       // Image img = new Image(image,false);
+       circleImage.setFill(new ImagePattern(img));
+
     }
     
 

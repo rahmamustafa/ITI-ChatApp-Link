@@ -1,5 +1,8 @@
 package gov.iti.link.presentation.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -30,8 +33,8 @@ public class LabelContactController {
 
     }
     
-    public LabelContactController(String imageUrl, String lblText,boolean isActive) {
-       setImage(imageUrl);
+    public LabelContactController(byte[] image, String lblText,boolean isActive) {
+       setImage(image);
        setName(lblText);
     }
 
@@ -69,10 +72,12 @@ public class LabelContactController {
         
     }
   
-    public void setImage(String imageUrl){
+    public void setImage(byte[] image){
+        InputStream imgStream = new ByteArrayInputStream(image);
+        Image img = new Image(imgStream);
         // Image image = new Image(imageUrl);
-        // circlePic.setFill(new ImagePattern(image));
-        System.out.println("ads");
+        circlePic.setFill(new ImagePattern(img));
+        // System.out.println("ads");
     }
 
 

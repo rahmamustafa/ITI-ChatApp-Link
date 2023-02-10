@@ -1,6 +1,8 @@
 package gov.iti.link.presentation.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -85,8 +87,10 @@ public class ProfileController implements Initializable{
 
     
 
-    void setUserNewImage(String image){
-        Image img = new Image(image,false);
+    void setUserNewImage(byte[] image){
+        InputStream imgStream = new ByteArrayInputStream(image);
+        Image img = new Image(imgStream);
+        // Image img = new Image(image,false);
         circleImage.setFill(new ImagePattern(img));
         circleImage.setEffect(new DropShadow(+25d,0d,+2d,Color.TRANSPARENT));
         
@@ -130,9 +134,9 @@ public class ProfileController implements Initializable{
         paneContent.getChildren().clear();
         paneContent.getChildren().addAll(prof);
         user = StateManager.getInstance().getUser();
-        if(user.getPicture().isEmpty()){
-            Image img = new Image(user.getPicture(),false);
-        }
+        // if(user.getPicture().isEmpty()){
+        //     Image img = new Image(user.getPicture(),false);
+        // }
         Image img = new Image(getClass().getResource("/images/avatar.jpg").toString(),false);
         circleImage.setFill(new ImagePattern(img));
         circleImage.setEffect(new DropShadow(+25d,0d,+2d,Color.TRANSPARENT));
