@@ -4,7 +4,6 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
-import gov.iti.link.business.DTOs.ModelManager;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ClientServices;
 import gov.iti.link.business.services.ClientServicesImp;

@@ -25,12 +25,20 @@
     -fx-text-fill : white;
 }
 
-#txtEmail , #txtDisplayName , #txtPassword , #txtConfirmPassword ,#txtBio , #txtPhone {
+.fields {
     -fx-background-radius : 5;
     -fx-border-color : #6F4CBB;
     -fx-border-radius : 5;
     
 
+}
+.combox-box{
+    
+    -fx-cell-size: 1.66667em;
+    -fx-background-color: white;
+    -fx-border-color : #6F4CBB;
+    -fx-background-radius :10;
+    
 }
 
 #btnRegister:hover{

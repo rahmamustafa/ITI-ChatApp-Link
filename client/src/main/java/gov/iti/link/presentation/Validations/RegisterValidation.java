@@ -91,6 +91,13 @@ public class RegisterValidation {
        
         return true;
     }
+    public static boolean validCountry(Object country) {
+        if (country == null) {
+            return false;
+        }
+       
+        return true;
+    }
     
 
 }

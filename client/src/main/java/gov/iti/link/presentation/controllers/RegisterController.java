@@ -5,6 +5,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.UserDTO;
@@ -12,6 +13,9 @@ import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.UserService;
 import gov.iti.link.presentation.Validations.RegisterValidation;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -37,6 +41,8 @@ public class RegisterController implements Initializable {
     private DatePicker dateOfBirth;
     @FXML
     private ComboBox genderComboBox;
+    @FXML
+    private ComboBox countryComboBox;
     @FXML
     private TextField txtBio;
     @FXML
@@ -134,11 +140,28 @@ public class RegisterController implements Initializable {
         }
     }
 
+    private void addCountriesComboBox(){
+        ObservableList<String> cities = FXCollections.observableArrayList();
+        String[] locals = Locale.getISOCountries();
+        for (String country : locals) {
+            Locale locale = new Locale("", country);
+            String [] city = {locale.getDisplayCountry()};
+            for (int i = 0; i < city.length; i++) {
+                cities.add(locale.getDisplayCountry());
+            }
+            cities.add(locale.getDisplayCountry());
+            
+        }
+        countryComboBox.setItems(cities);
+    }
+
+
     // TODO chose pic and popup design and country
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         genderComboBox.getItems().addAll(gender);
+        addCountriesComboBox();
         Image image = new Image(getClass().getResourceAsStream("/images/LinkIn.jpeg"));
         circlePic.setFill(new ImagePattern(image));
     }
@@ -223,6 +246,12 @@ public class RegisterController implements Initializable {
             errMsg += "please choose profile \n";
             userValid = false;
         }
+        if(!RegisterValidation.validCountry(countryComboBox.getValue())){
+            System.out.println("Country is empty");
+            countryComboBox.setPromptText("Enter your country");
+            userValid = false;
+        }
+        
 
         return errMsg;
     }
@@ -231,7 +260,7 @@ public class RegisterController implements Initializable {
         user.setPhone(txtPhone.getText());
         user.setName(txtDisplayName.getText());
         user.setBio(txtBio.getText());
-        user.setCountry(txtBio.getText());
+        user.setCountry((String)countryComboBox.getValue());
         user.setDate(convertLocalDatetoSqlDate(dateOfBirth.getValue()));
         user.setEmail(txtEmail.getText());
         user.setGender((String) genderComboBox.getValue());

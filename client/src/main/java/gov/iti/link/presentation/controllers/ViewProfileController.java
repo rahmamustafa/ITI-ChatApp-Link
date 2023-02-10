@@ -44,6 +44,10 @@ public class ViewProfileController implements Initializable {
 
     @FXML
     private Label UserPhone;
+
+    @FXML
+    private Label UserCountry;
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         
@@ -52,6 +56,7 @@ public class ViewProfileController implements Initializable {
         UserEmail.setText(StateManager.getInstance().getUser().getEmail());
         UserGender.setText(StateManager.getInstance().getUser().getGender());
         UserBio.setText(StateManager.getInstance().getUser().getBio());
+        UserCountry.setText(StateManager.getInstance().getUser().getCountry());
         UserDateOfBirth.setText(StateManager.getInstance().getUser().getDate().toString());
     }
     
