@@ -23,7 +23,6 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
     public void notifyContactStatus(UserDTO contactDto, boolean isActive) throws RemoteException {
         System.out.println(contactDto.getPhone());
         Platform.runLater(()->chatController.changeOnFriendState(contactDto.getPhone(),isActive));
-        
     }
 
 
@@ -32,6 +31,8 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
     public void notifyInvitation(InvitationDTO invitationDTO) {
         System.out.println( invitationDTO.getToPhone() + " recieved an invite from " + invitationDTO.getFromPhone());
         StateManager.getInstance().getUser().getInvitations().add(invitationDTO);
+        Platform.runLater(()-> InvitationsState.addInvitation(invitationDTO) );
+       
     }
 
 

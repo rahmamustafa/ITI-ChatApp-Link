@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.InvitationDTO;
+import gov.iti.link.business.services.InvitationsState;
 import gov.iti.link.business.services.StateManager;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -23,14 +24,15 @@ public class InviteListController implements Initializable {
     private VBox vboxInviteList;
 
     ObservableList<Node> invites; 
+    ObservableList<InvitationDTO> invitations;
     
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         Bindings.bindContentBidirectional(invites, vboxInviteList.getChildren());
         System.out.println("invitation-list");
-        List<InvitationDTO> invitations =  StateManager.getInstance().getUser().getInvitations();
-        
+        // List<InvitationDTO> invitations =  StateManager.getInstance().getUser().getInvitations();
+        invitations = InvitationsState.getInvitations();
         for(InvitationDTO invite:invitations){
                
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/invite.fxml"));

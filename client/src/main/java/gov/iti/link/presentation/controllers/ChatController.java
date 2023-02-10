@@ -28,6 +28,7 @@ import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ClientServices;
 import gov.iti.link.business.services.ClientServicesImp;
+import gov.iti.link.business.services.InvitationsState;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.StateManager;
@@ -110,6 +111,8 @@ public class ChatController implements Initializable {
     private StageManager stageManager;
 
     Vector<ContactDto> allContacts;
+    IntegerBinding noOfInvitations;
+    BooleanBinding hasInvitations; 
 
     ObservableList<Parent> friendsList = FXCollections.observableArrayList();
     // ObservableList<UserDTO> users = FXCollections.observableArrayList();
@@ -122,6 +125,11 @@ public class ChatController implements Initializable {
         List<InvitationDTO> invitations;
         try {
             invitations = userService.getInvitations(stateManager.getUser().getPhone());
+            System.out.println("user invitations: " + invitations);
+            InvitationsState.setInvitations(invitations);
+            System.out.println("user obs invitations: " + InvitationsState.getInvitations());
+            noOfInvitations = Bindings.size(InvitationsState.getInvitations());
+            hasInvitations = noOfInvitations.greaterThan(0);
             stateManager.getUser().setInvitations(invitations);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -187,7 +195,9 @@ public class ChatController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
        
-        lblInvitesNotifications.setText(String.valueOf(stateManager.getUser().getInvitations().size()));
+        // lblInvitesNotifications.setText(String.valueOf(stateManager.getUser().getInvitations().size()));
+        lblInvitesNotifications.visibleProperty().bind(hasInvitations);
+        lblInvitesNotifications.textProperty().bind(noOfInvitations.asString());
         lblUserName.setText(stateManager.getUser().getName());
         try {
             clientServices = new ClientServicesImp(this); 
