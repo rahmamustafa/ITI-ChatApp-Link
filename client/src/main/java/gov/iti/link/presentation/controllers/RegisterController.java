@@ -1,7 +1,10 @@
 package gov.iti.link.presentation.controllers;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -77,6 +80,7 @@ public class RegisterController implements Initializable {
     private Circle circlePic;
 
     private String userPictureUrl = null;
+    private byte[] userImg;
     private String[] gender = { "Female", "Male" };
     boolean userValid = true;
 
@@ -134,6 +138,12 @@ public class RegisterController implements Initializable {
         File file = fileChooser.showOpenDialog(StageManager.getInstance().getCurrentStage());
 
         if (file != null) {
+            try {
+                userImg = Files.readAllBytes(Paths.get(file.toURI()));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             userPictureUrl = file.toURI().toString();
             lblImageUrl.setText(userPictureUrl);
 
@@ -241,11 +251,11 @@ public class RegisterController implements Initializable {
         } else
             lblErrGender.setVisible(false);
 
-        if (userPictureUrl == null) {
-            System.out.println("please Enter profile ");
-            errMsg += "please choose profile \n";
-            userValid = false;
-        }
+        // if (userPictureUrl == null) {
+        //     System.out.println("please Enter profile ");
+        //     errMsg += "please choose profile \n";
+        //     userValid = false;
+        // }
         if(!RegisterValidation.validCountry(countryComboBox.getValue())){
             System.out.println("Country is empty");
             countryComboBox.setPromptText("Enter your country");
@@ -265,7 +275,7 @@ public class RegisterController implements Initializable {
         user.setEmail(txtEmail.getText());
         user.setGender((String) genderComboBox.getValue());
         user.setPassword(txtPassword.getText());
-        user.setPicture(userPictureUrl);
+        user.setPicture(userImg);
     }
 
     Date convertLocalDatetoSqlDate(LocalDate localdate) {
