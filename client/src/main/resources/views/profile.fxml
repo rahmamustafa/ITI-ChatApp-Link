@@ -41,7 +41,7 @@
             </VBox>
             <VBox layoutX="1.0" layoutY="200.0" prefHeight="197.0" prefWidth="199.0" stylesheets="@../css/profile.css">
                <children>
-                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#prfclkaction" prefHeight="47.0" prefWidth="100.0" styleClass="hh" stylesheets="@../css/profile.css">
+                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#OnViewProfileInfo" prefHeight="47.0" prefWidth="100.0" styleClass="hh" stylesheets="@../css/profile.css">
                      <children>
                         <ImageView fitHeight="24.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -61,7 +61,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#updclkaction" prefHeight="47.0" prefWidth="100.0" stylesheets="@../css/profile.css">
+                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#OnUpdateProfile" prefHeight="47.0" prefWidth="100.0" stylesheets="@../css/profile.css">
                      <children>
                         <ImageView fitHeight="26.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -81,7 +81,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#chgpassclkaction" prefHeight="47.0" prefWidth="199.0" stylesheets="@../css/profile.css">
+                  <HBox id="btnRegister" alignment="CENTER" onMouseClicked="#OnChangePassword" prefHeight="47.0" prefWidth="199.0" stylesheets="@../css/profile.css">
                      <children>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
