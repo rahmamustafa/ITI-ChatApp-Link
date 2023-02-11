@@ -92,6 +92,8 @@ public class FriendsListController  implements Initializable{
             label = fxmlLoader.load();
             label.setId(contactDto.getPhoneNumber());
             label.setText(contactDto.getName());
+            CheckBoxController checkBoxController = fxmlLoader.getController();
+            checkBoxController.setCircleImage(contactDto.getImage());
             friendsList.add(label);
             vbListContainer.getChildren().add(0,label);
         } catch (IOException e) {
