@@ -6,7 +6,7 @@ public class UserEntity {
     private String phone;
     private String name;
     private String email;
-    private String picture;
+    private byte[] picture;
     private String gender;
     private String country;
     private Date date;
@@ -33,7 +33,7 @@ public class UserEntity {
         this.email = email;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 
@@ -65,7 +65,7 @@ public class UserEntity {
         return email;
     }
 
-    public String getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
@@ -88,7 +88,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(String phone, String name, String email, String picture, String gender, String country, Date date,
+    public UserEntity(String phone, String name, String email, byte[] picture, String gender, String country, Date date,
             String bio, String password) {
         this.phone = phone;
         this.name = name;

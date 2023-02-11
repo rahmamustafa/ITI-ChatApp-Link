@@ -1,8 +1,10 @@
 package gov.iti.link.persistence.DAOs;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -39,11 +41,12 @@ public class UserDaoImp implements UserDao {
             preparedStatement.setString(1, user.getPhone());
             preparedStatement.setString(2, user.getName());
             preparedStatement.setString(3, user.getEmail());
-            try {
-                preparedStatement.setBlob(4, new FileInputStream(user.getPicture().substring(6)));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            preparedStatement.setBinaryStream(4, new ByteArrayInputStream(user.getPicture()),user.getPicture().length);
+            // try {
+            //     preparedStatement.setBlob(4, new FileInputStream(user.getPicture().substring(6)));
+            // } catch (FileNotFoundException e) {
+            //     e.printStackTrace();
+            // }
             preparedStatement.setString(5, user.getPassword());
             preparedStatement.setString(6, user.getGender());
             preparedStatement.setString(7, user.getCountry());
@@ -67,7 +70,7 @@ public class UserDaoImp implements UserDao {
                     Integer id = resultSet.getInt(1);
                     String userName = resultSet.getString(3);
                     String email = resultSet.getString(4);
-                    String picture = convertFromBlobtoString(resultSet.getBlob(5));
+                    byte[] picture = resultSet.getBytes(5);
                     String password = resultSet.getString(6);
                     String gender = resultSet.getString(7);
                     String country = resultSet.getString(8);
@@ -123,7 +126,8 @@ public class UserDaoImp implements UserDao {
                 String phoneNum = resultSet.getString(2);
                 String userName = resultSet.getString(3);
                 String email = resultSet.getString(4);
-                String picture = convertFromBlobtoString(resultSet.getBlob(5));
+                // String picture = convertFromBlobtoString(resultSet.getBlob(5));
+                byte[] picture = resultSet.getBinaryStream(5).readAllBytes();
                 String password = resultSet.getString(6);
                 String gender = resultSet.getString(7);
                 String country = resultSet.getString(8);
@@ -134,7 +138,7 @@ public class UserDaoImp implements UserDao {
                 allUsers.add(userEntity);
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
         return allUsers;

@@ -9,7 +9,7 @@ public class UserDTO implements Serializable {
     private String phone;
     private String name;
     private String email;
-    private String picture;
+    private byte[] picture;
     private String gender;
     private String country;
     private Date date;
@@ -33,7 +33,7 @@ public class UserDTO implements Serializable {
         return email;
     }
 
-    public String getPicture() {
+    public byte[]  getPicture() {
         return picture;
     }
 
@@ -78,7 +78,7 @@ public class UserDTO implements Serializable {
         this.email = email;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 
