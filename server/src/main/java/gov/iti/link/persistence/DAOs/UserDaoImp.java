@@ -293,8 +293,8 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public GroupDto createGroup(String groupName) {
-        GroupDto groupDto = new GroupDto();
+    public GroupEntity createGroup(String groupName) {
+        GroupEntity groupEntity = new GroupEntity();
         final String SQL = "insert into allgroups " +
                 "(groupName)" +
                 " values (?)";
@@ -302,15 +302,15 @@ public class UserDaoImp implements UserDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, groupName);
             if(preparedStatement.executeUpdate()>0){
-                groupDto.setGroupName(groupName);
+                groupEntity.setGroupName(groupName);
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 if(resultSet.next())
-                    groupDto.setGroupId(resultSet.getInt(1));
+                    groupEntity.setGroupId(resultSet.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return groupDto;
+        return groupEntity;
     }
 
     @Override
@@ -349,6 +349,27 @@ public class UserDaoImp implements UserDao {
         }
         return result;
         
+    }
+
+    @Override
+    public Vector<GroupEntity> getAllGroups(String mamberPhone) {
+        Vector<GroupEntity> allGroups = new Vector<>();
+        final String SQL = "select id,groupname from groupUsers,allgroups"+ 
+                            " where memberPhone= ? and allgroups.id=groupUsers.groupid";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setString(1, mamberPhone);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Integer id = resultSet.getInt(1);
+                String groupName = resultSet.getString(2);
+                GroupEntity groupEntity = new GroupEntity(id, groupName);
+                allGroups.add(groupEntity);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allGroups;
     }
 
 }

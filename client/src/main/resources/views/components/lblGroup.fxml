@@ -15,17 +15,17 @@
    <children>
       <VBox layoutY="5.0">
          <children>
-            <HBox>
+            <HBox prefWidth="246.0">
                <VBox.margin>
                   <Insets left="5.0" right="10.0" top="10.0" />
                </VBox.margin>
                <children>
-                  <Label fx:id="lblGroupName" alignment="CENTER" style="-fx-background-radius: 15;" text="Group Name">
+                  <Label fx:id="lblGroupName" alignment="CENTER" prefHeight="54.0" prefWidth="127.0" style="-fx-background-radius: 15;" text="Group Name">
                      <graphic>
                         <Circle fx:id="circlePic" fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" />
                      </graphic>
                      <HBox.margin>
-                        <Insets right="50.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                   <ImageView fx:id="imgAddMember" fitHeight="27.0" fitWidth="28.0" onMouseClicked="#onAddGroupMember" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">

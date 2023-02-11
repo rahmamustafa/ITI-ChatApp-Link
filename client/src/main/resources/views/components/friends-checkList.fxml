@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane prefWidth="338.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.FriendsListController">
+   <content>
+      <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="338.0">
+         <content>
+            <VBox fx:id="vbListContainer" prefWidth="316.0" spacing="3.0">
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+               <children>
+                  <Button fx:id="btnAddToGroup" mnemonicParsing="false" onAction="#onAddToGroup" text="Add to group">
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="CLOSE" />
+   </buttonTypes>
+   <header>
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="300.0" style="-fx-background-color: #6F4CBB;" text="Friends List" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </header>
+</DialogPane>

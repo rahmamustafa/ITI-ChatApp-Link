@@ -124,6 +124,7 @@ public class ChatController implements Initializable {
     private StageManager stageManager;
 
     Vector<ContactDto> allContacts;
+    Vector<GroupDto> allGroups;
     IntegerBinding noOfInvitations;
     BooleanBinding hasInvitations; 
 
@@ -195,13 +196,19 @@ public class ChatController implements Initializable {
     void onClickFriend(MouseEvent event) {
         System.out.println("clicked");
         btnSend.setDisable(false);
-
         try {
             clickedContact = lstFriend.getSelectionModel().getSelectedItem().getId();
-            lblContactChat.setText(allContacts.stream()
-                    .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
-                    .map(cont -> cont.getName()).collect(Collectors.toList()).get(0));
-
+            System.out.println(clickedContact);
+            if(clickedContact.startsWith("01")){
+                lblContactChat.setText(allContacts.stream()
+                        .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
+                        .map(cont -> cont.getName()).collect(Collectors.toList()).get(0));
+            }
+            else{
+                lblContactChat.setText(allGroups.stream()
+                    .filter((group) -> group.getGroupId()==Integer.valueOf(clickedContact))
+                    .map(grop -> grop.getGroupName()).collect(Collectors.toList()).get(0));
+            }
             handleChatView(clickedContact);
         } catch (RuntimeException e) {
 
@@ -284,21 +291,25 @@ public class ChatController implements Initializable {
 
         try {
             allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
-            createDatainListView(allContacts);
+            allGroups = userService.getAllGroups(stateManager.getUser().getPhone());
+            createDatainListView(allContacts,allGroups);
+            
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        for(ContactDto contactDto:allContacts){
-            chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
-        }
-
+       
     }
 
-    private void createDatainListView(Vector<ContactDto> allContacts) {
+    private void createDatainListView(Vector<ContactDto> allContacts,Vector<GroupDto> allGroups) {
         friendsList.clear();
         for (ContactDto contactDto : allContacts) {
             addCardinListView(contactDto);
+            chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
+        }
+        for (GroupDto groupDto : allGroups) {
+            addGroupinListView(groupDto);
+            chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
         }
     }
 
@@ -330,6 +341,7 @@ public class ChatController implements Initializable {
             label.setId(Integer.toString(groupDto.getGroupId()));
             LabelGroupController labelGroupController = fxmlLoader.getController();
             labelGroupController.setGroupName(groupDto.getGroupName());
+            labelGroupController.setGroupId(groupDto.getGroupId());
             //labelGroupController.setGroupSize(groupDto.getAllMembers().size());
             friendsList.add(label);
         } catch (IOException e) {
@@ -337,10 +349,17 @@ public class ChatController implements Initializable {
         }
 
     }
-
+    void addNewGroup(GroupDto groupDto) {
+        allGroups.add(groupDto);
+        addGroupinListView(groupDto);
+        chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
+    }
     public void addNewContact(String phoneNumber){
         try {
-            addCardinListView(new ContactDto(userService.findByPhone(phoneNumber)));
+            ContactDto newContact = new ContactDto(userService.findByPhone(phoneNumber));
+            allContacts.add(newContact);
+            addCardinListView(newContact);
+            chatVBoxs.put(newContact.getPhoneNumber(), new VBox());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -348,12 +367,10 @@ public class ChatController implements Initializable {
     }
 
     public void changeOnFriendState(ContactDto contactDto) {
-        for (Parent label : friendsList) {
-            if (label.getId().equals(contactDto.getPhoneNumber())) {
-                friendsList.remove(label);
+        for(int i=0;i<friendsList.size();i++)
+            if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
+                friendsList.remove(friendsList.get(i));
                 addCardinListView(contactDto);
-
-            }
         }
    
     }
@@ -377,12 +394,7 @@ public class ChatController implements Initializable {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(addDialogPane);
             dialog.showAndWait();
-            // Optional<ButtonType> result = dialog.showAndWait();
-            // if (result.isPresent() && result.get() != ButtonType.CANCEL) {
-            //     CreateGroupController createGroupController = fxmlLoader.getController();
-            //     createGroupController.setChatController(this);
-            // }
-           
+         
         } catch (IOException e) {
             e.printStackTrace();
         }

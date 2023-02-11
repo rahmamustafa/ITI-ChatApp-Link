@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.shape.Circle?>
+
+<CheckBox fx:id="chboxName" mnemonicParsing="false" prefHeight="47.0" prefWidth="232.0" text="CheckBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.CheckBoxController">
+   <graphic>
+      <Circle fx:id="circleImage" fill="DODGERBLUE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+   </graphic>
+</CheckBox>

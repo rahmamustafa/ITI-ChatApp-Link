@@ -13,10 +13,12 @@ import gov.iti.link.business.DTOs.ContactDto;
 import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.mappers.ContactMapper;
+import gov.iti.link.business.mappers.GroupMapper;
 import gov.iti.link.business.mappers.UserMapper;
 import gov.iti.link.persistence.DAOs.UserDao;
 import gov.iti.link.persistence.DAOs.UserDaoImp;
 import gov.iti.link.persistence.entities.ContactEntity;
+import gov.iti.link.persistence.entities.GroupEntity;
 import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.mappers.InvitationMapper;
@@ -36,6 +38,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     private final UserDao userDAO = new UserDaoImp();
     private final UserMapper userMapper = new UserMapper();
     private final ContactMapper contactMapper = new ContactMapper();
+    private final GroupMapper groupMapper = new GroupMapper();
 
     @Override
     public UserDTO save(UserDTO user) {
@@ -167,15 +170,13 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         this.userDAO.addContact(invite.getFromPhone(), invite.getToPhone());
         this.userDAO.addContact(invite.getToPhone(), invite.getFromPhone());
         this.userDAO.deleteInvite(invite.getId());
-        for(UserDTO user:allOnlineUser){
-            if(user.getPhone().equals(invite.getFromPhone())){
-                int index = allOnlineUser.indexOf(user);
-                allClients.get(index).notifyNewContact(invite.getToPhone());
+        for (ClientServices client : allClients) {
+            if (client.getUserDTO().getPhone().equals(invite.getFromPhone())){
+                    client.notifyNewContact(invite.getToPhone());
                 System.out.println(invite.getToPhone()+" you accept invitation from " + invite.getFromPhone());
             }
-            else if(user.getPhone().equals(invite.getToPhone())){
-                int index = allOnlineUser.indexOf(user);
-                allClients.get(index).notifyNewContact(invite.getFromPhone());
+            else if(client.getUserDTO().getPhone().equals(invite.getToPhone())){
+                 client.notifyNewContact(invite.getFromPhone());
                 System.out.println(invite.getToPhone()+" accepted your invitation");
 
             }
@@ -190,10 +191,9 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     @Override
     public void sendMessage(String fromPhone, String message, Vector<String> toPhone) throws RemoteException {
-        for (UserDTO user : allOnlineUser) {
-            if (toPhone.contains(user.getPhone())) {
-                int index = allOnlineUser.indexOf(user);
-                allClients.get(index).tellMessage(message, fromPhone);
+        for (ClientServices client : allClients) {
+            if (toPhone.contains(client.getUserDTO().getPhone())){
+                client.tellMessage(message, fromPhone);
             }
         }
 
@@ -201,7 +201,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     @Override
     public GroupDto createGroup(String groupName) throws RemoteException {
-       return this.userDAO.createGroup(groupName);     
+       return groupMapper.entityToDTO(this.userDAO.createGroup(groupName));     
             
     }
 
@@ -218,6 +218,17 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         return 0;   
 
         
+    }
+
+    @Override
+    public Vector<GroupDto> getAllGroups(String mamberPhone) throws RemoteException {
+        Vector<GroupEntity> allGroupsEntities = this.userDAO.getAllGroups(mamberPhone);
+        Vector<GroupDto> allGroupsDtos = new Vector<>();
+        for (GroupEntity groupEntity : allGroupsEntities) {
+            allGroupsDtos.add(groupMapper.entityToDTO(groupEntity));
+        }
+        //todo get all members and add in list
+        return allGroupsDtos;
     }
 
 }
