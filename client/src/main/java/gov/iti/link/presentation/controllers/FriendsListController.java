@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import gov.iti.link.business.DTOs.ContactDto;
 import gov.iti.link.business.DTOs.GroupDto;
+import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserService;
@@ -28,6 +29,7 @@ public class FriendsListController  implements Initializable{
 
     ObservableList<CheckBox> friendsList = FXCollections.observableArrayList();
     Vector<ContactDto> allContacts;
+    Vector<String> allGroupMembers;
     StateManager stateManager = StateManager.getInstance();
     UserService userService = ServiceManager.getInstance().getUserService();
 
@@ -47,12 +49,19 @@ public class FriendsListController  implements Initializable{
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
             allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
+            allGroupMembers = userService.getAllGroupMembers(groupDto.getGroupId());
+            
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        System.out.println(allGroupMembers.size());
+
         for (ContactDto contactDto : allContacts) {
-            addCardinListView(contactDto);
+            if(!allGroupMembers.contains(contactDto.getPhoneNumber())){
+                System.out.println(contactDto.getName());
+                addCardinListView(contactDto);
+            }
         }
         //lvFriendsList.setItems(friendsList);
         

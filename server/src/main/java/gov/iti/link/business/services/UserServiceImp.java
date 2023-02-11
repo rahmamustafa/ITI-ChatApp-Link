@@ -216,8 +216,6 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         groupDto.addMember(memberPhone);
         this.userDAO.addMemberToGroup(groupDto.getGroupId(),memberPhone);  
         return 0;   
-
-        
     }
 
     @Override
@@ -225,10 +223,22 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         Vector<GroupEntity> allGroupsEntities = this.userDAO.getAllGroups(mamberPhone);
         Vector<GroupDto> allGroupsDtos = new Vector<>();
         for (GroupEntity groupEntity : allGroupsEntities) {
-            allGroupsDtos.add(groupMapper.entityToDTO(groupEntity));
+            GroupDto groupDto = groupMapper.entityToDTO(groupEntity);
+            groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
+            allGroupsDtos.add(groupDto);
         }
         //todo get all members and add in list
         return allGroupsDtos;
+    }
+
+    @Override
+    public Vector<String> getAllGroupMembers(int id) throws RemoteException {
+        //Vector<String> allMembersPhone = this.userDAO.getAllGroupMembers(id);
+        // Vector<UserDTO> allGroupMembers = new Vector<>();
+        // for(String phone:allMembersPhone){
+        //     allGroupMembers.add(findByPhone(phone));
+        //}
+        return this.userDAO.getAllGroupMembers(id);
     }
 
 }

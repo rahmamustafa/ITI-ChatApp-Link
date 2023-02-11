@@ -36,6 +36,8 @@ public interface UserService extends Remote {
     //GroupDto getGroup(int id) throws RemoteException;
     int addMemberToGroup(GroupDto groupDto,String memberPhone) throws RemoteException;
     Vector<GroupDto> getAllGroups(String mamberPhone) throws RemoteException;
+    Vector<String> getAllGroupMembers(int id) throws RemoteException;
+
 
 
 

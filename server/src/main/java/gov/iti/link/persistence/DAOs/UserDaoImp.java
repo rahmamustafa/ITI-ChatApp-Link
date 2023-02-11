@@ -372,4 +372,21 @@ public class UserDaoImp implements UserDao {
         return allGroups;
     }
 
+    @Override
+    public Vector<String> getAllGroupMembers(int groupId) {
+        Vector<String> allMembers = new Vector<>();
+        final String SQL = "select memberPhone from groupusers where groupid=?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setInt(1, groupId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String memberPhone = resultSet.getString(1);
+                allMembers.add(memberPhone);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allMembers;
+    }
+
 }

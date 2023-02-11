@@ -9,11 +9,6 @@ public class GroupDto implements Serializable{
     Vector<String> allMembers  = new Vector<>();
 
 
-    @Override
-    public String toString() {
-        return "GroupDto [groupId=" + groupId + ", groupName=" + groupName + "]";
-    }
-
     public GroupDto() {
     }
 
@@ -51,6 +46,8 @@ public class GroupDto implements Serializable{
         this.allMembers.add(member);
     }
  
- 
-    
+    @Override
+    public String toString() {
+        return "GroupDto [groupId=" + groupId + ", groupName=" + groupName + "]";
+    }
 }
