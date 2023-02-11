@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.stream.Collector;
@@ -30,6 +31,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import com.mysql.cj.jdbc.Blob;
 
 import gov.iti.link.business.DTOs.ContactDto;
+import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.services.ClientServices;
@@ -319,6 +321,23 @@ public class ChatController implements Initializable {
 
     }
 
+    void addGroupinListView(GroupDto groupDto) {
+        String pageName = "lblGroup";
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", pageName)));
+        Parent label;
+        try {
+            label = fxmlLoader.load();
+            label.setId(Integer.toString(groupDto.getGroupId()));
+            LabelGroupController labelGroupController = fxmlLoader.getController();
+            labelGroupController.setGroupName(groupDto.getGroupName());
+            //labelGroupController.setGroupSize(groupDto.getAllMembers().size());
+            friendsList.add(label);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void addNewContact(String phoneNumber){
         try {
             addCardinListView(new ContactDto(userService.findByPhone(phoneNumber)));
@@ -344,6 +363,27 @@ public class ChatController implements Initializable {
             chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user,message,"leftMessage"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void onCreateGroup(MouseEvent mouseEvent){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/create-group.fxml"));
+            DialogPane addDialogPane = fxmlLoader.load();
+            CreateGroupController createGroupController = fxmlLoader.getController();
+            createGroupController.setChatController(this);
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(addDialogPane);
+            dialog.showAndWait();
+            // Optional<ButtonType> result = dialog.showAndWait();
+            // if (result.isPresent() && result.get() != ButtonType.CANCEL) {
+            //     CreateGroupController createGroupController = fxmlLoader.getController();
+            //     createGroupController.setChatController(this);
+            // }
+           
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

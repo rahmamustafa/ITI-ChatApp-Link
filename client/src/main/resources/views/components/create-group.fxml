@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<DialogPane prefHeight="135.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.CreateGroupController">
+   <buttonTypes>
+      <ButtonType fx:constant="CLOSE" />
+   </buttonTypes>
+   <content>
+      <AnchorPane prefHeight="0.0" prefWidth="360.0">
+         <children>
+            <TextField fx:id="tfGroupName" layoutX="27.0" layoutY="60.0" prefHeight="26.0" prefWidth="145.0" promptText="Enter Group Name" />
+            <Button fx:id="btnCreateGroup" layoutX="193.0" layoutY="60.0" mnemonicParsing="false" onAction="#onCreateGroup" prefHeight="26.0" prefWidth="144.0" text="Create Group" />
+         </children>
+      </AnchorPane>
+   </content>
+</DialogPane>

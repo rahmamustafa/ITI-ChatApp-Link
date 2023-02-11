@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Vector;
 
 import gov.iti.link.business.DTOs.ContactDto;
+import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.business.mappers.ContactMapper;
 import gov.iti.link.business.mappers.UserMapper;
@@ -196,6 +197,27 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
             }
         }
 
+    }
+
+    @Override
+    public GroupDto createGroup(String groupName) throws RemoteException {
+       return this.userDAO.createGroup(groupName);     
+            
+    }
+
+    // @Override
+    // public GroupDto getGroup(int id) throws RemoteException {
+    //     return this.userDAO.getGroup(id);
+        
+    // }
+
+    @Override
+    public int addMemberToGroup(GroupDto groupDto, String memberPhone) throws RemoteException {
+        groupDto.addMember(memberPhone);
+        this.userDAO.addMemberToGroup(groupDto.getGroupId(),memberPhone);  
+        return 0;   
+
+        
     }
 
 }

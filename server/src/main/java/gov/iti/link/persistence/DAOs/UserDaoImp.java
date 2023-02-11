@@ -16,8 +16,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
 
+import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.persistence.ConnectionManager;
 import gov.iti.link.persistence.entities.ContactEntity;
+import gov.iti.link.persistence.entities.GroupEntity;
+import gov.iti.link.persistence.entities.GroupUsersEntity;
 import gov.iti.link.persistence.entities.InvitationEntity;
 import gov.iti.link.persistence.entities.UserEntity;
 
@@ -287,6 +290,65 @@ public class UserDaoImp implements UserDao {
         }
 
         return result;
+    }
+
+    @Override
+    public GroupDto createGroup(String groupName) {
+        GroupDto groupDto = new GroupDto();
+        final String SQL = "insert into allgroups " +
+                "(groupName)" +
+                " values (?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, groupName);
+            if(preparedStatement.executeUpdate()>0){
+                groupDto.setGroupName(groupName);
+                ResultSet resultSet = preparedStatement.getGeneratedKeys();
+                if(resultSet.next())
+                    groupDto.setGroupId(resultSet.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return groupDto;
+    }
+
+    @Override
+    public GroupEntity getGroup(int groupId) {
+       GroupEntity groupEntity;
+        final String SQL = "select * from allgroups where id=? ";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setInt(1, groupId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt(1);
+                    String groupName = resultSet.getString(2);
+                    groupEntity = new GroupEntity(id,groupName);
+                    return groupEntity;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public int addMemberToGroup(int groupId , String memberPhone) {
+        int result = -1;
+        final String SQL = "insert into groupUsers " +
+                "(memberPhone,groupId)" +
+                " values (?,?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setString(1, memberPhone);
+            preparedStatement.setInt(2, groupId);
+            result = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+        
     }
 
 }

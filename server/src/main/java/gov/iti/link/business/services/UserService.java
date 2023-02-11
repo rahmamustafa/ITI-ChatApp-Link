@@ -1,6 +1,7 @@
 package gov.iti.link.business.services;
 
 import gov.iti.link.business.DTOs.ContactDto;
+import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.persistence.entities.ContactEntity;
@@ -33,6 +34,10 @@ public interface UserService extends Remote {
     void userLoggedOut(ClientServices clientServices,UserDTO userDTO) throws RemoteException;
 
     void sendMessage(String fromPhone,String message,Vector<String>toPhone) throws RemoteException;
+
+    GroupDto createGroup(String groupName) throws RemoteException;
+    //GroupDto getGroup(int id) throws RemoteException;
+    int addMemberToGroup(GroupDto groupDto,String memberPhone) throws RemoteException;
 
   
 }
