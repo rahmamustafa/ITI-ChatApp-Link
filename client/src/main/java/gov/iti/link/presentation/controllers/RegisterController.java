@@ -132,7 +132,7 @@ public class RegisterController implements Initializable {
         fileChooser.getExtensionFilters().add(filter);
 
         File file = fileChooser.showOpenDialog(StageManager.getInstance().getCurrentStage());
-
+        
         if (file != null) {
             userPictureUrl = file.toURI().toString();
             lblImageUrl.setText(userPictureUrl);

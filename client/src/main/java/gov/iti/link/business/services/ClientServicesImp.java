@@ -1,5 +1,11 @@
 package gov.iti.link.business.services;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
@@ -46,6 +52,25 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
             }
         });
 
+    }
+
+    
+
+    @Override
+    public void tellFile(String file, byte[] data ,String fromPhone) throws RemoteException {
+        System.out.println("we get " + file + " from " + fromPhone);
+
+         
+        Platform.runLater(() -> {
+            try {
+                chatController.recieveFile(file, data , userService.findByPhone(fromPhone));
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
+        
+        
     }
 
     @Override

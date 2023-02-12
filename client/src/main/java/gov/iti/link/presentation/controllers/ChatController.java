@@ -1,16 +1,23 @@
 package gov.iti.link.presentation.controllers;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -46,6 +53,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -73,6 +81,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
 
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
 public class ChatController implements Initializable {
 
@@ -93,6 +102,8 @@ public class ChatController implements Initializable {
 
     @FXML
     private Button btnSend;
+    @FXML
+    private Button btnFile;
 
     @FXML
     private ListView<Parent> lstFriend;
@@ -123,17 +134,19 @@ public class ChatController implements Initializable {
 
     Vector<ContactDto> allContacts;
     IntegerBinding noOfInvitations;
-    BooleanBinding hasInvitations; 
+    BooleanBinding hasInvitations;
 
     Vector<String> toPhones = new Vector<>();
 
     Map<String, VBox> chatVBoxs = new HashMap<>();
     String clickedContact;
-
+    FileController fileController;
     ObservableList<Parent> friendsList = FXCollections.observableArrayList();
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
-
+    
     ClientServices clientServices;
+
+    static boolean isClicked ;
 
     public ChatController() {
         serviceManager = ServiceManager.getInstance();
@@ -162,7 +175,8 @@ public class ChatController implements Initializable {
         try {
             String message = txtMessage.getText().trim();
             userService.sendMessage(stateManager.getUser().getPhone(), message, toPhones);
-            chatVBoxs.get(clickedContact).getChildren().add(senderMessage(stateManager.getUser(),message,"rightMessage"));
+            chatVBoxs.get(clickedContact).getChildren()
+                    .add(senderMessage(stateManager.getUser(), message, "rightMessage"));
             txtMessage.setText("");
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
@@ -173,13 +187,13 @@ public class ChatController implements Initializable {
         }
     }
 
-    private Node senderMessage(UserDTO userDTO,String message,String type) throws IOException {
+    private Node senderMessage(UserDTO userDTO, String message, String type) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
-        VBox node=loader.load();
-        if(type.equals("rightMessage"))
+        VBox node = loader.load();
+        if (type.equals("rightMessage"))
             node.setAlignment(Pos.TOP_RIGHT);
         else
-        node.setAlignment(Pos.TOP_LEFT);
+            node.setAlignment(Pos.TOP_LEFT);
         MessageController messageController = loader.getController();
         messageController.setImage(userDTO.getPicture());
         messageController.setMessage(message);
@@ -187,7 +201,53 @@ public class ChatController implements Initializable {
         messageController.setTime(simpleDateFormat.format(new Date()));
         return node;
     }
-    
+
+    @FXML
+    void sendFile(ActionEvent event) {
+        toPhones.clear();
+        toPhones.add(clickedContact);
+
+        FileChooser fileChooser = new FileChooser();
+        //FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("*.*");
+        //fileChooser.getExtensionFilters().add(filter);
+
+        File file = fileChooser.showOpenDialog(StageManager.getInstance().getCurrentStage());
+        if (file != null) {
+            txtMessage.setText(file.getName());
+        }
+        byte [] filebytes = new byte[(int) file.length()];
+        
+        try {
+            FileInputStream in = new FileInputStream(file);
+            filebytes = Files.readAllBytes(Paths.get(file.toURI()));
+            System.out.println( "Bytes len " + filebytes.length);
+            in.read(filebytes , 0 , filebytes.length);
+            System.out.println("Try to send file : " + file.getName());
+            userService.sendFile(stateManager.getUser().getPhone(), filebytes , file.getName() , (int) file.length() , toPhones);
+            chatVBoxs.get(clickedContact).getChildren()
+                    .add(senderFile(stateManager.getUser(), "rightMessageFile"));
+            in.close();
+        } catch ( IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private Node senderFile(UserDTO userDTO, String type) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
+        VBox node = loader.load();
+        if (type.equals("rightMessageFile"))
+            node.setAlignment(Pos.TOP_RIGHT);
+        else
+            node.setAlignment(Pos.TOP_LEFT);
+        
+        fileController = loader.getController();
+        fileController.setImage(userDTO.getPicture());
+        //isClicked = fileController.isCheck();
+        fileController.setName(userDTO.getName());
+        fileController.setTime(simpleDateFormat.format(new Date()));
+        return node;
+    }
 
     @FXML
     void onClickFriend(MouseEvent event) {
@@ -262,35 +322,58 @@ public class ChatController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        btnSend.setDisable(true);
-        lstFriend.setItems(friendsList);
+    public void recieveFile(String file , byte[] data, UserDTO user) {
+        
+        try {
+            chatVBoxs.get(user.getPhone()).getChildren().add(senderFile(user, "leftMessageFile"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        fileController.ShowConfirmation();
+
+        File filePath = new File(file);
+        if(fileController.isCheck()){
+        byte [] mydata = data;
+
        
-        // lblInvitesNotifications.setText(String.valueOf(stateManager.getUser().getInvitations().size()));
-        lblInvitesNotifications.visibleProperty().bind(hasInvitations);
-        lblInvitesNotifications.textProperty().bind(noOfInvitations.asString());
-        lblUserName.setText(stateManager.getUser().getName());
+        //mydata = new byte[(int) filePath.length()];
+        FileInputStream in ;
         try {
-            clientServices = new ClientServicesImp(this);
-            userService.userLoggedIn(clientServices, stateManager.getUser());
-
-        } catch (RemoteException e) {
+            
+            //mydata = Files.readAllBytes(Paths.get(file));
+            in = new FileInputStream(filePath);
+            try {
+                in.read(mydata, 0, mydata.length);
+            } catch (IOException e) {
+                
+                e.printStackTrace();
+                
+            }
+            try {
+                in.close();
+            } catch (IOException e) {
+            
+                e.printStackTrace();
+            }					
+        
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        System.out.println("Downloading");
+        try {
+            FileOutputStream out = new FileOutputStream(new File(file));
+            out.write(mydata);
+            out.flush();
+        } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        try {
-            allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
-            createDatainListView(allContacts);
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        for(ContactDto contactDto:allContacts){
-            chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
-        }
-
+    }
+    else{
+        if(filePath.delete())
+            System.out.println("Cannot download file");
+    }
     }
 
     private void createDatainListView(Vector<ContactDto> allContacts) {
@@ -319,7 +402,7 @@ public class ChatController implements Initializable {
 
     }
 
-    public void addNewContact(String phoneNumber){
+    public void addNewContact(String phoneNumber) {
         try {
             addCardinListView(new ContactDto(userService.findByPhone(phoneNumber)));
         } catch (RemoteException e) {
@@ -336,16 +419,48 @@ public class ChatController implements Initializable {
 
             }
         }
-   
+
     }
 
     public void recieveMessage(String message, UserDTO user) {
         try {
-            chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user,message,"leftMessage"));
+            chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user, message, "leftMessage"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        btnSend.setDisable(true);
+       
+        lstFriend.setItems(friendsList);
+
+        // lblInvitesNotifications.setText(String.valueOf(stateManager.getUser().getInvitations().size()));
+        lblInvitesNotifications.visibleProperty().bind(hasInvitations);
+        lblInvitesNotifications.textProperty().bind(noOfInvitations.asString());
+        lblUserName.setText(stateManager.getUser().getName());
+        try {
+            clientServices = new ClientServicesImp(this);
+            fileController = new FileController(this);
+            userService.userLoggedIn(clientServices, stateManager.getUser());
+
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        try {
+            allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
+            createDatainListView(allContacts);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        for (ContactDto contactDto : allContacts) {
+            chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
+        }
+
+    }
 }
