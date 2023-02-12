@@ -36,9 +36,9 @@
 }
 
  #lblLeft{
-    -fx-text-fill : black;
+    -fx-text-fill : #431FA0;
     -fx-font-size : 60 ;
-    -fx-font-family : "comic sans ms";
+    -fx-font-family : "Helvetica";
 }
 
 
@@ -57,4 +57,8 @@
 
 #btnRegister:pressed{
     -fx-background-color :  #6F4CBB
+}
+
+.remember-me{
+    -fx-text-fill : #431FA0;
 }

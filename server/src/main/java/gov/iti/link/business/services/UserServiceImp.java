@@ -26,7 +26,7 @@ import gov.iti.link.business.mappers.InvitationMapper;
 import gov.iti.link.persistence.entities.InvitationEntity;
 import gov.iti.link.persistence.entities.UserEntity;
 
-public class UserServiceImp extends UnicastRemoteObject implements UserService {
+public class UserServiceImp extends UnicastRemoteObject implements UserService {        
 
     Vector<ClientServices> allClients = new Vector<>();
     Vector<UserDTO> allOnlineUser = new Vector<>();
