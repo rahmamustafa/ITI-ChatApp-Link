@@ -382,8 +382,7 @@ public class ChatController implements Initializable {
 
     }
 
-
-    void addNewGroup(GroupDto groupDto) {
+    public void addNewGroup(GroupDto groupDto) {
         allGroups.add(groupDto);
         addGroupinListView(groupDto);
         chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
