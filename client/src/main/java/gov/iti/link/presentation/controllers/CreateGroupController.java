@@ -41,7 +41,6 @@ public class CreateGroupController {
         GroupDto groupDto = userService.createGroup(groupName);
         System.out.println(groupDto);
         System.out.println("group created");
-        chatController.addNewGroup(groupDto);
         userService.addMemberToGroup(groupDto,StateManager.getInstance().getUser().getPhone());
     } catch (RemoteException e) {
         // TODO Auto-generated catch block

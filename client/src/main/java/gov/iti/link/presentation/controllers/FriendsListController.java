@@ -40,31 +40,17 @@ public class FriendsListController  implements Initializable{
     @FXML
     private Button btnAddToGroup;
 
-    private GroupDto groupDto = new GroupDto();
+    private GroupDto groupDto;
 
     public FriendsListController() {
 
     }
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        try {
-            allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
-            allGroupMembers = userService.getAllGroupMembers(groupDto.getGroupId());
-            
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println(allGroupMembers.size());
-
-        for (ContactDto contactDto : allContacts) {
-            if(!allGroupMembers.contains(contactDto.getPhoneNumber())){
-                System.out.println(contactDto.getName());
-                addCardinListView(contactDto);
-            }
-        }
+       
         //lvFriendsList.setItems(friendsList);
-        
+        //todo notify when admin add someone to group
+        //todo notify allgroupmembers in list
         
     }
     
@@ -80,10 +66,25 @@ public class FriendsListController  implements Initializable{
                     e.printStackTrace();
                 }
      }
-
     }
     void setGroupDto(GroupDto groupDto){
         this.groupDto = groupDto;
+        try {
+            allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
+            allGroupMembers = (groupDto.getAllMembers());
+            
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println(allGroupMembers.size());
+
+        for (ContactDto contactDto : allContacts) {
+            if(!allGroupMembers.contains(contactDto.getPhoneNumber())){
+                System.out.println(contactDto.getName());
+                addCardinListView(contactDto);
+            }
+        }
     }
     void addCardinListView(ContactDto contactDto) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/checkBox.fxml"));

@@ -207,14 +207,21 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     // @Override
     // public GroupDto getGroup(int id) throws RemoteException {
-    //     return this.userDAO.getGroup(id);
+    //     GroupDto groupDto = new GroupDto();
+    //     groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
+    //     return groupDto;
         
     // }
 
     @Override
     public int addMemberToGroup(GroupDto groupDto, String memberPhone) throws RemoteException {
         groupDto.addMember(memberPhone);
-        this.userDAO.addMemberToGroup(groupDto.getGroupId(),memberPhone);  
+        this.userDAO.addMemberToGroup(groupDto.getGroupId(),memberPhone);
+        for (ClientServices client : allClients) {
+            if (memberPhone.equals(client.getUserDTO().getPhone())){
+                client.notifyYouAddedToGroup(groupDto);
+            }
+        }
         return 0;   
     }
 

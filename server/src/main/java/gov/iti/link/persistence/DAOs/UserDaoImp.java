@@ -317,25 +317,25 @@ public class UserDaoImp implements UserDao {
         return groupEntity;
     }
 
-    @Override
-    public GroupEntity getGroup(int groupId) {
-       GroupEntity groupEntity;
-        final String SQL = "select * from allgroups where id=? ";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
-            preparedStatement.setInt(1, groupId);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    int id = resultSet.getInt(1);
-                    String groupName = resultSet.getString(2);
-                    groupEntity = new GroupEntity(id,groupName);
-                    return groupEntity;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    // @Override
+    // public GroupEntity getGroup(int groupId) {
+    //    GroupEntity groupEntity;
+    //     final String SQL = "select * from allgroups where id=? ";
+    //     try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+    //         preparedStatement.setInt(1, groupId);
+    //         try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    //             if (resultSet.next()) {
+    //                 int id = resultSet.getInt(1);
+    //                 String groupName = resultSet.getString(2);
+    //                 groupEntity = new GroupEntity(id,groupName);
+    //                 return groupEntity;
+    //             }
+    //         }
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+    //     return null;
+    // }
 
     @Override
     public int addMemberToGroup(int groupId , String memberPhone) {

@@ -350,16 +350,14 @@ public class ChatController implements Initializable {
             label = fxmlLoader.load();
             label.setId(Integer.toString(groupDto.getGroupId()));
             LabelGroupController labelGroupController = fxmlLoader.getController();
-            labelGroupController.setGroupName(groupDto.getGroupName());
-            labelGroupController.setGroupId(groupDto.getGroupId());
-            labelGroupController.setGroupSize(groupDto.getAllMembers().size());
+            labelGroupController.setGroupDto(groupDto);
             friendsList.add(label);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-    void addNewGroup(GroupDto groupDto) {
+    public void addNewGroup(GroupDto groupDto) {
         allGroups.add(groupDto);
         addGroupinListView(groupDto);
         chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());

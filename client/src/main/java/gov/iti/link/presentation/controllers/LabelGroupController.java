@@ -36,7 +36,7 @@ public class LabelGroupController {
     @FXML
     private Text txtLastMessage;
 
-    int groupId;
+    GroupDto groupDto;
 
     UserService userService = ServiceManager.getInstance().getUserService();;
 
@@ -47,7 +47,7 @@ public class LabelGroupController {
         try {
             addDialogPane = fxmlLoader.load();
             FriendsListController friendsListController = fxmlLoader.getController();
-            friendsListController.setGroupDto(new GroupDto(groupId,lblGroupName.getText()));
+            friendsListController.setGroupDto(groupDto);
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(addDialogPane);
             dialog.showAndWait();
@@ -88,8 +88,10 @@ public class LabelGroupController {
         return lablGroupNumber.getText();
 
     }
-    public void setGroupId(int groupId){
-        this.groupId=groupId;
+    public void setGroupDto(GroupDto groupDto){
+        this.groupDto=groupDto;
+        setGroupName(groupDto.getGroupName());
+        setGroupSize(groupDto.getAllMembers().size());
     }
 
 }

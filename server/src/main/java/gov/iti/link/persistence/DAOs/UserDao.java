@@ -22,7 +22,7 @@ public interface UserDao {
 
     public List<InvitationEntity> getUserInvitations(String userPhone);
     public int deleteInvite(int invitationID);
-    public GroupEntity getGroup(int groupId);
+    //public GroupEntity getGroup(int groupId);
     public int addMemberToGroup(int groupId , String memberPhone);
     public GroupEntity createGroup(String groupName);
     public Vector<GroupEntity> getAllGroups(String mamberPhone);
