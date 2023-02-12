@@ -160,14 +160,21 @@ public class ChatController implements Initializable {
 
     @FXML
     void sendMessage(ActionEvent event) {
-        toPhones.clear();
-        toPhones.add(clickedContact);
         try {
+            toPhones.clear();
             String message = txtMessage.getText().trim();
-            userService.sendMessage(stateManager.getUser().getPhone(), message, toPhones);
+
+            if (clickedContact.startsWith("01")) {
+                userService.sendMessage(stateManager.getUser().getPhone(), message, clickedContact);
+            }
+            else{
+                toPhones=userService.getAllGroupMembers(Integer.parseInt(clickedContact));
+                userService.sendMessageToGroup(stateManager.getUser().getPhone(), Integer.parseInt(clickedContact), message, toPhones);
+            }
             chatVBoxs.get(clickedContact).getChildren()
                     .add(senderMessage(stateManager.getUser(), message, "rightMessage"));
             txtMessage.setText("");
+
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -191,7 +198,6 @@ public class ChatController implements Initializable {
         messageController.setTime(simpleDateFormat.format(new Date()));
         return node;
     }
-    
 
     @FXML
     void onClickFriend(MouseEvent event) {
@@ -200,15 +206,14 @@ public class ChatController implements Initializable {
         try {
             clickedContact = lstFriend.getSelectionModel().getSelectedItem().getId();
             System.out.println(clickedContact);
-            if(clickedContact.startsWith("01")){
+            if (clickedContact.startsWith("01")) {
                 lblContactChat.setText(allContacts.stream()
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getName()).collect(Collectors.toList()).get(0));
-            }
-            else{
+            } else {
                 lblContactChat.setText(allGroups.stream()
-                    .filter((group) -> group.getGroupId()==Integer.valueOf(clickedContact))
-                    .map(grop -> grop.getGroupName()).collect(Collectors.toList()).get(0));
+                        .filter((group) -> group.getGroupId() == Integer.valueOf(clickedContact))
+                        .map(grop -> grop.getGroupName()).collect(Collectors.toList()).get(0));
             }
             handleChatView(clickedContact);
         } catch (RuntimeException e) {
@@ -283,7 +288,8 @@ public class ChatController implements Initializable {
 
         // System.out.println();
         // String imgStr = stateManager.getUser().getPicture();
-        // InputStream stream = new ByteArrayInputStream(imgStr.getBytes(StandardCharsets.UTF_8));
+        // InputStream stream = new
+        // ByteArrayInputStream(imgStr.getBytes(StandardCharsets.UTF_8));
         // Image img = new Image(stream);
         // System.out.println(img);
         // lblInvitesNotifications.setText(String.valueOf(stateManager.getUser().getInvitations().size()));
@@ -302,8 +308,8 @@ public class ChatController implements Initializable {
         try {
             allContacts = userService.getAllContacts(stateManager.getUser().getPhone());
             allGroups = userService.getAllGroups(stateManager.getUser().getPhone());
-            createDatainListView(allContacts,allGroups);
-            
+            createDatainListView(allContacts, allGroups);
+
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -311,7 +317,7 @@ public class ChatController implements Initializable {
 
     }
 
-    private void createDatainListView(Vector<ContactDto> allContacts,Vector<GroupDto> allGroups) {
+    private void createDatainListView(Vector<ContactDto> allContacts, Vector<GroupDto> allGroups) {
         friendsList.clear();
         for (ContactDto contactDto : allContacts) {
             addCardinListView(contactDto);
@@ -344,7 +350,8 @@ public class ChatController implements Initializable {
 
     void addGroupinListView(GroupDto groupDto) {
         String pageName = "lblGroup";
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", pageName)));
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource(String.format("/views/components/%s.fxml", pageName)));
         Parent label;
         try {
             label = fxmlLoader.load();
@@ -357,12 +364,14 @@ public class ChatController implements Initializable {
         }
 
     }
+
     public void addNewGroup(GroupDto groupDto) {
         allGroups.add(groupDto);
         addGroupinListView(groupDto);
         chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
     }
-    public void addNewContact(String phoneNumber){
+
+    public void addNewContact(String phoneNumber) {
         try {
             ContactDto newContact = new ContactDto(userService.findByPhone(phoneNumber));
             allContacts.add(newContact);
@@ -375,11 +384,11 @@ public class ChatController implements Initializable {
     }
 
     public void changeOnFriendState(ContactDto contactDto) {
-        for(int i=0;i<friendsList.size();i++)
+        for (int i = 0; i < friendsList.size(); i++)
             if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
                 friendsList.remove(friendsList.get(i));
                 addCardinListView(contactDto);
-        }
+            }
 
     }
 
@@ -392,8 +401,17 @@ public class ChatController implements Initializable {
         }
     }
 
+    public void recieveMessageFromGroup(String message, int groupId, UserDTO user) {
+        try {
+            chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderMessage(user, message, "leftMessage"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     @FXML
-    void onCreateGroup(MouseEvent mouseEvent){
+    void onCreateGroup(MouseEvent mouseEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/create-group.fxml"));
             DialogPane addDialogPane = fxmlLoader.load();
@@ -402,7 +420,7 @@ public class ChatController implements Initializable {
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(addDialogPane);
             dialog.showAndWait();
-         
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -83,4 +83,18 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
         
     }
 
+    @Override
+    public void tellMessageFromGroup(String message, int groupId, String fromPhone) throws RemoteException {
+        Platform.runLater(()-> {
+            try {
+                chatController.recieveMessageFromGroup(message, groupId, userService.findByPhone(fromPhone) );
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
+
+        
+    }
+
 }

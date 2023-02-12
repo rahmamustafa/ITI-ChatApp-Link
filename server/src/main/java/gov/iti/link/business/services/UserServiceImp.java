@@ -190,9 +190,9 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     }
 
     @Override
-    public void sendMessage(String fromPhone, String message, Vector<String> toPhone) throws RemoteException {
+    public void sendMessage(String fromPhone, String message,String toPhone) throws RemoteException {
         for (ClientServices client : allClients) {
-            if (toPhone.contains(client.getUserDTO().getPhone())){
+            if (toPhone.equals(client.getUserDTO().getPhone())){
                 client.tellMessage(message, fromPhone);
             }
         }
@@ -246,6 +246,17 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         //     allGroupMembers.add(findByPhone(phone));
         //}
         return this.userDAO.getAllGroupMembers(id);
+    }
+
+    @Override
+    public void sendMessageToGroup(String fromPhone, int groupId, String message, Vector<String> toPhone)
+            throws RemoteException {
+            for (ClientServices client : allClients) {
+                if (toPhone.contains(client.getUserDTO().getPhone())&&!client.getUserDTO().getPhone().equals(fromPhone)){
+                        client.tellMessageFromGroup(message, groupId,fromPhone);
+                    }
+                }
+        
     }
 
 }

@@ -33,7 +33,8 @@ public interface UserService extends Remote {
     void userLoggedIn(ClientServices clientServices,UserDTO userDTO) throws RemoteException;
     void userLoggedOut(ClientServices clientServices,UserDTO userDTO) throws RemoteException;
 
-    void sendMessage(String fromPhone,String message,Vector<String>toPhone) throws RemoteException;
+    void sendMessage(String fromPhone,String message,String toPhone) throws RemoteException;
+    void sendMessageToGroup(String fromPhone,int groupId,String message,Vector<String>toPhone) throws RemoteException;
 
     GroupDto createGroup(String groupName) throws RemoteException;
     //GroupDto getGroup(int id) throws RemoteException;

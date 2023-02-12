@@ -14,4 +14,5 @@ public interface ClientServices extends Remote{
     void notifyNewContact(String newContactPhone) throws RemoteException;
     void notifyNewMember() throws RemoteException;
     void notifyYouAddedToGroup(GroupDto groupDto) throws RemoteException;
+    void tellMessageFromGroup(String message, int groupId, String fromPhone) throws RemoteException;
 }
