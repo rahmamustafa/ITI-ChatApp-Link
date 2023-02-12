@@ -38,6 +38,7 @@ import gov.iti.link.business.services.InvitationsState;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.StateManager;
+import gov.iti.link.business.services.UserAuth;
 import gov.iti.link.business.services.UserService;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -108,8 +109,13 @@ public class ChatController implements Initializable {
 
     @FXML
     private Label lblUserName;
+
     @FXML
     private Label lblContactChat;
+
+    @FXML
+    private Circle circleContactChat;
+
     @FXML
     Circle circleUserImage;
 
@@ -188,7 +194,6 @@ public class ChatController implements Initializable {
         messageController.setTime(simpleDateFormat.format(new Date()));
         return node;
     }
-    
 
     @FXML
     void onClickFriend(MouseEvent event) {
@@ -201,6 +206,12 @@ public class ChatController implements Initializable {
                     .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                     .map(cont -> cont.getName()).collect(Collectors.toList()).get(0));
 
+            byte[] contactImgArr = allContacts.stream()
+                    .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
+                    .map(cont -> cont.getImage()).collect(Collectors.toList()).get(0);
+
+            Image contactImage = new Image(new ByteArrayInputStream(contactImgArr));
+            circleContactChat.setFill(new ImagePattern(contactImage));
             handleChatView(clickedContact);
         } catch (RuntimeException e) {
 
@@ -229,6 +240,9 @@ public class ChatController implements Initializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        UserAuth.logOut();
+        stateManager.deleteUser();
+        stageManager.deleteView("home");
         stageManager.switchToLogin();
 
     }
@@ -274,7 +288,8 @@ public class ChatController implements Initializable {
 
         // System.out.println();
         // String imgStr = stateManager.getUser().getPicture();
-        // InputStream stream = new ByteArrayInputStream(imgStr.getBytes(StandardCharsets.UTF_8));
+        // InputStream stream = new
+        // ByteArrayInputStream(imgStr.getBytes(StandardCharsets.UTF_8));
         // Image img = new Image(stream);
         // System.out.println(img);
         // lblInvitesNotifications.setText(String.valueOf(stateManager.getUser().getInvitations().size()));

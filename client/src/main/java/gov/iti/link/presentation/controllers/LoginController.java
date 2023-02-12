@@ -1,6 +1,12 @@
 package gov.iti.link.presentation.controllers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
@@ -11,11 +17,13 @@ import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
 import gov.iti.link.business.services.UserService;
 import gov.iti.link.business.services.StateManager;
+import gov.iti.link.business.services.UserAuth;
 import gov.iti.link.presentation.Validations.RegisterValidation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -48,16 +56,19 @@ public class LoginController implements Initializable {
     @FXML
     private TextField txtPhone;
 
+    @FXML
+    private CheckBox cbStayLoggedIn;
+
     private ServiceManager serviceManager;
     private UserService userService;
     private StateManager stateManager;
     static UserDTO user;
 
     public LoginController() {
+
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
         stateManager = StateManager.getInstance();
-        
 
     }
 
@@ -66,16 +77,22 @@ public class LoginController implements Initializable {
         user = new UserDTO();
         if (RegisterValidation.validPassword(txtPassword.getText())
                 && RegisterValidation.validPhone(txtPhone.getText())) {
+            String hashedPassword = serviceManager.hashingPassword(txtPassword.getText().toString());
             try {
                 user = userService.findByPhone(txtPhone.getText());
             } catch (RemoteException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            if (user != null && user.getPassword().equals(serviceManager.hashingPassword(txtPassword.getText().toString()))) {
+            if (user != null && user.getPassword().equals(hashedPassword)) {
                 System.out.println("loggged");
                 lblErr.setVisible(false);
+                user.setPassword(hashedPassword);
                 stateManager.setUser(user);
+                // Remember User
+                if (cbStayLoggedIn.isSelected())
+                    UserAuth.rememberUser();
+
                 StageManager.getInstance().switchToHome();
                 // StageManager.getInstance().loadView("home");
             } else {
@@ -99,7 +116,6 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         btnLogin.disableProperty().bind(txtPhone.textProperty().isEmpty().or(txtPassword.textProperty().isEmpty()));
-        
 
     }
 
