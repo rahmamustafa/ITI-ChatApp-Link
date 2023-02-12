@@ -76,4 +76,10 @@ public class StageManager {
 
     }
 
+    public void deleteView(String name){
+        if (scenes.containsKey(name)) {
+           scenes.remove(name);
+        }
+    }
+
 }
