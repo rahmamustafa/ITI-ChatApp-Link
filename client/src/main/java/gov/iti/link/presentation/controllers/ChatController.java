@@ -172,13 +172,16 @@ public class ChatController implements Initializable {
 
             if (clickedContact.startsWith("01")) {
                 userService.sendMessage(stateManager.getUser().getPhone(), message, clickedContact);
+                chatVBoxs.get(clickedContact).getChildren()
+                    .add(senderMessage(stateManager.getUser(), message, "rightMessageSingle"));
             }
             else{
                 toPhones=userService.getAllGroupMembers(Integer.parseInt(clickedContact));
                 userService.sendMessageToGroup(stateManager.getUser().getPhone(), Integer.parseInt(clickedContact), message, toPhones);
+                chatVBoxs.get(clickedContact).getChildren()
+                .add(senderMessageGroup(stateManager.getUser(), message, "rightMessageGroup"));
             }
-            chatVBoxs.get(clickedContact).getChildren()
-                    .add(senderMessage(stateManager.getUser(), message, "rightMessage"));
+            
             txtMessage.setText("");
 
         } catch (RemoteException e) {
@@ -193,11 +196,23 @@ public class ChatController implements Initializable {
     private Node senderMessage(UserDTO userDTO, String message, String type) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
         VBox node = loader.load();
-        if (type.equals("rightMessage"))
+        if (type.startsWith("rightMessage"))
             node.setAlignment(Pos.TOP_RIGHT);
         else
             node.setAlignment(Pos.TOP_LEFT);
-        MessageController messageController = loader.getController();
+        MessageControllerSingle messageController = loader.getController();
+        messageController.setMessage(message);
+        messageController.setTime(simpleDateFormat.format(new Date()));
+        return node;
+    }
+    private Node senderMessageGroup(UserDTO userDTO, String message, String type) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
+        VBox node = loader.load();
+        if (type.startsWith("rightMessage"))
+            node.setAlignment(Pos.TOP_RIGHT);
+        else
+            node.setAlignment(Pos.TOP_LEFT);
+        MessageControllerGroup messageController = loader.getController();
         messageController.setImage(userDTO.getPicture());
         messageController.setMessage(message);
         messageController.setName(userDTO.getName());
@@ -205,9 +220,11 @@ public class ChatController implements Initializable {
         return node;
     }
 
+
     @FXML
     void onClickFriend(MouseEvent event) {
         System.out.println("clicked");
+        byte[] contactImgArr;
         btnSend.setDisable(false);
         try {
             clickedContact = lstFriend.getSelectionModel().getSelectedItem().getId();
@@ -217,18 +234,19 @@ public class ChatController implements Initializable {
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getName()).collect(Collectors.toList()).get(0));
 
-                byte[] contactImgArr = allContacts.stream()
+               contactImgArr = allContacts.stream()
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getImage()).collect(Collectors.toList()).get(0);
-
-                Image contactImage = new Image(new ByteArrayInputStream(contactImgArr));
-                circleContactChat.setFill(new ImagePattern(contactImage));
             } else {
                 lblContactChat.setText(allGroups.stream()
                         .filter((group) -> group.getGroupId() == Integer.valueOf(clickedContact))
                         .map(grop -> grop.getGroupName()).collect(Collectors.toList()).get(0));
+                contactImgArr = allGroups.stream()
+                        .filter((group) -> group.getGroupId() == Integer.valueOf(clickedContact))
+                        .map(cont -> cont.getPicture()).collect(Collectors.toList()).get(0);
             }
-
+            Image contactImage = new Image(new ByteArrayInputStream(contactImgArr));
+            circleContactChat.setFill(new ImagePattern(contactImage));
             handleChatView(clickedContact);
         } catch (RuntimeException e) {
 
@@ -411,7 +429,7 @@ public class ChatController implements Initializable {
 
     public void recieveMessage(String message, UserDTO user) {
         try {
-            chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user, message, "leftMessage"));
+            chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user, message, "leftMessageSingle"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -420,7 +438,7 @@ public class ChatController implements Initializable {
 
     public void recieveMessageFromGroup(String message, int groupId, UserDTO user) {
         try {
-            chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderMessage(user, message, "leftMessage"));
+            chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderMessageGroup(user, message, "leftMessageGroup"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

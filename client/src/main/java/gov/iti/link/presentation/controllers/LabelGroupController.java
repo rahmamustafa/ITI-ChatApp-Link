@@ -1,6 +1,8 @@
 package gov.iti.link.presentation.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.business.services.ServiceManager;
@@ -88,10 +90,22 @@ public class LabelGroupController {
         return lablGroupNumber.getText();
 
     }
+    public void setImage(byte[] image){
+        InputStream imgStream = new ByteArrayInputStream(image);
+        Image img = new Image(imgStream);
+        // Image image = new Image(imageUrl);
+        circlePic.setFill(new ImagePattern(img));
+        // System.out.println("ads");
+    }
+
+
+   
     public void setGroupDto(GroupDto groupDto){
         this.groupDto=groupDto;
         setGroupName(groupDto.getGroupName());
         setGroupSize(groupDto.getAllMembers().size());
+        setImage(groupDto.getPicture());
+        
     }
 
 }

@@ -200,8 +200,8 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     }
 
     @Override
-    public GroupDto createGroup(String groupName) throws RemoteException {
-       return groupMapper.entityToDTO(this.userDAO.createGroup(groupName));     
+    public GroupDto createGroup(GroupDto groupDto) throws RemoteException {
+       return groupMapper.entityToDTO(this.userDAO.createGroup(groupDto));     
             
     }
 

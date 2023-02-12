@@ -297,16 +297,20 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public GroupEntity createGroup(String groupName) {
+    public GroupEntity createGroup(GroupDto groupDto) {
         GroupEntity groupEntity = new GroupEntity();
         final String SQL = "insert into allgroups " +
-                "(groupName)" +
-                " values (?)";
-
+                "(groupName ,groupImg,groupAdmin)" +
+                " values (?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, groupName);
+            preparedStatement.setString(1, groupDto.getGroupName());
+            preparedStatement.setBinaryStream(2, new ByteArrayInputStream(groupDto.getPicture()),groupDto.getPicture().length);
+            preparedStatement.setString(3, groupDto.getAdminPhone());
+
             if(preparedStatement.executeUpdate()>0){
-                groupEntity.setGroupName(groupName);
+                groupEntity.setGroupName(groupDto.getGroupName());
+                groupEntity.setAdminPhone(groupDto.getAdminPhone());
+                groupEntity.setPicture(groupDto.getPicture());
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 if(resultSet.next())
                     groupEntity.setGroupId(resultSet.getInt(1));
@@ -358,7 +362,7 @@ public class UserDaoImp implements UserDao {
     @Override
     public Vector<GroupEntity> getAllGroups(String mamberPhone) {
         Vector<GroupEntity> allGroups = new Vector<>();
-        final String SQL = "select id,groupname from groupUsers,allgroups"+ 
+        final String SQL = "select id,groupname,groupImg,groupAdmin from groupUsers,allgroups"+ 
                             " where memberPhone= ? and allgroups.id=groupUsers.groupid";
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
             preparedStatement.setString(1, mamberPhone);
@@ -366,11 +370,13 @@ public class UserDaoImp implements UserDao {
             while (resultSet.next()) {
                 Integer id = resultSet.getInt(1);
                 String groupName = resultSet.getString(2);
-                GroupEntity groupEntity = new GroupEntity(id, groupName);
+                byte[] groupImg = resultSet.getBinaryStream(3).readAllBytes();
+                String groupAdmin = resultSet.getString(4);
+                GroupEntity groupEntity = new GroupEntity(id, groupName,groupAdmin,groupImg);
                 allGroups.add(groupEntity);
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
         return allGroups;

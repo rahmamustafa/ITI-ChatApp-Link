@@ -34,7 +34,7 @@
    <header>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="300.0" style="-fx-background-color: #6F4CBB;" text="Friends List" textFill="WHITE">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
    </header>

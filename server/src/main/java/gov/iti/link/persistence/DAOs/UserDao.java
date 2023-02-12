@@ -24,7 +24,7 @@ public interface UserDao {
     public int deleteInvite(int invitationID);
     //public GroupEntity getGroup(int groupId);
     public int addMemberToGroup(int groupId , String memberPhone);
-    public GroupEntity createGroup(String groupName);
+    public GroupEntity createGroup(GroupDto groupDto);
     public Vector<GroupEntity> getAllGroups(String mamberPhone);
     public Vector<String> getAllGroupMembers(int id);
 }
