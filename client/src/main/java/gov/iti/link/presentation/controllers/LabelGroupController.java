@@ -108,4 +108,8 @@ public class LabelGroupController {
         
     }
 
+    public void setAddMemberDisable() {
+        imgAddMember.setVisible(false);
+    }
+
 }

@@ -393,6 +393,8 @@ public class ChatController implements Initializable {
             label.setId(Integer.toString(groupDto.getGroupId()));
             LabelGroupController labelGroupController = fxmlLoader.getController();
             labelGroupController.setGroupDto(groupDto);
+            if(!groupDto.getAdminPhone().equals(StateManager.getInstance().getUser().getPhone()))
+                labelGroupController.setAddMemberDisable();
             friendsList.add(label);
         } catch (IOException e) {
             e.printStackTrace();
