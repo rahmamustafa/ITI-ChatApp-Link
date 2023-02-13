@@ -1,5 +1,8 @@
 target/
-db/
+db.properties
+.properties
+server\src\main\resources\db\db.properties
+
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -93,5 +96,5 @@ fabric.properties
 
 # Local History for Visual Studio Code
 .history/
-
+.properties
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Maven,Intellij,VisualStudioCode
