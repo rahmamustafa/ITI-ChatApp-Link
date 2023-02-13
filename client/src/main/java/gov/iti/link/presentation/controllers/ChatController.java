@@ -355,7 +355,7 @@ public class ChatController implements Initializable {
     private void createDatainListView(Vector<ContactDto> allContacts, Vector<GroupDto> allGroups) {
         friendsList.clear();
         for (ContactDto contactDto : allContacts) {
-            addCardinListView(contactDto);
+            addCardinListView(contactDto,friendsList.size());
             chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
         }
         for (GroupDto groupDto : allGroups) {
@@ -364,7 +364,7 @@ public class ChatController implements Initializable {
         }
     }
 
-    void addCardinListView(ContactDto contactDto) {
+    void addCardinListView(ContactDto contactDto , int index) {
         String pageName = "lblcontact";
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(String.format("/views/%s.fxml", pageName)));
         Parent label;
@@ -376,7 +376,7 @@ public class ChatController implements Initializable {
             labelContactController.setImage(contactDto.getImage());
             labelContactController.setPhone(contactDto.getPhoneNumber());
             labelContactController.setStatus(contactDto.isActive());
-            friendsList.add(label);
+            friendsList.add(index,label);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -412,7 +412,7 @@ public class ChatController implements Initializable {
         try {
             ContactDto newContact = new ContactDto(userService.findByPhone(phoneNumber));
             allContacts.add(newContact);
-            addCardinListView(newContact);
+            addCardinListView(newContact,friendsList.size());
             chatVBoxs.put(newContact.getPhoneNumber(), new VBox());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
@@ -424,7 +424,7 @@ public class ChatController implements Initializable {
         for (int i = 0; i < friendsList.size(); i++)
             if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
                 friendsList.remove(friendsList.get(i));
-                addCardinListView(contactDto);
+                addCardinListView(contactDto,i);
             }
 
     }

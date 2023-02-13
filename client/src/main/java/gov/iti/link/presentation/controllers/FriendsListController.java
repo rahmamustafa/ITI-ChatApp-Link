@@ -67,6 +67,7 @@ public class FriendsListController  implements Initializable{
                 }
      }
     }
+    
     void setGroupDto(GroupDto groupDto){
         this.groupDto = groupDto;
         try {
