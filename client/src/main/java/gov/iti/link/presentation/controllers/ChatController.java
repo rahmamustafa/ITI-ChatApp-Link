@@ -359,7 +359,7 @@ public class ChatController implements Initializable {
             chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
         }
         for (GroupDto groupDto : allGroups) {
-            addGroupinListView(groupDto);
+            addGroupinListView(groupDto,friendsList.size());
             chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
         }
     }
@@ -383,7 +383,7 @@ public class ChatController implements Initializable {
 
     }
 
-    void addGroupinListView(GroupDto groupDto) {
+    void addGroupinListView(GroupDto groupDto,int index) {
         String pageName = "lblGroup";
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource(String.format("/views/components/%s.fxml", pageName)));
@@ -395,7 +395,7 @@ public class ChatController implements Initializable {
             labelGroupController.setGroupDto(groupDto);
             if(!groupDto.getAdminPhone().equals(StateManager.getInstance().getUser().getPhone()))
                 labelGroupController.setAddMemberDisable();
-            friendsList.add(label);
+            friendsList.add(index,label);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -404,7 +404,7 @@ public class ChatController implements Initializable {
 
     public void addNewGroup(GroupDto groupDto) {
         allGroups.add(groupDto);
-        addGroupinListView(groupDto);
+        addGroupinListView(groupDto,friendsList.size());
         chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
     }
 
@@ -425,6 +425,15 @@ public class ChatController implements Initializable {
             if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
                 friendsList.remove(friendsList.get(i));
                 addCardinListView(contactDto,i);
+            }
+
+    }
+    public void changeOnGroupState(GroupDto groupDto) {
+        for (int i = 0; i < friendsList.size(); i++)
+            if (Integer.parseInt(friendsList.get(i).getId())==groupDto.getGroupId()) {
+                System.out.println("group change");
+                friendsList.remove(friendsList.get(i));
+                addGroupinListView(groupDto,i);
             }
 
     }

@@ -72,9 +72,10 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
     }
 
     @Override
-    public void notifyNewMember() throws RemoteException {
-        
-        
+    public void notifyNewMember(GroupDto groupDto,String newMemberPhone) throws RemoteException {
+        System.out.println(groupDto.getGroupId() + " " +groupDto.getGroupName() + groupDto.getAllMembers().size());
+        Platform.runLater(() -> chatController.changeOnGroupState(groupDto));
+
     }
 
     @Override
