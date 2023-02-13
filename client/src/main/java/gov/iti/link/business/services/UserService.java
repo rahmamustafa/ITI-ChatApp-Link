@@ -1,5 +1,6 @@
 package gov.iti.link.business.services;
 
+import java.nio.channels.FileChannel;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -43,6 +44,9 @@ public interface UserService extends Remote {
 
 
 
+    //void sendFile(String fromPhone,FileChannel message,Vector<String>toPhone) throws RemoteException;
+
+    void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, Vector<String> toPhone) throws RemoteException;
 
 
 }
