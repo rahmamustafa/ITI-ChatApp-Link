@@ -19,9 +19,9 @@
          <children>
             <TextField fx:id="tfGroupName" layoutX="27.0" layoutY="94.0" prefHeight="26.0" prefWidth="145.0" promptText="Enter Group Name" />
             <Button fx:id="btnCreateGroup" layoutX="193.0" layoutY="95.0" mnemonicParsing="false" onAction="#onCreateGroup" prefHeight="26.0" prefWidth="144.0" text="Create Group" />
-            <Button fx:id="BtnChooseProfile" layoutX="48.0" layoutY="27.0" mnemonicParsing="false" onAction="#onChooseProfile" prefHeight="60.0" prefWidth="82.0" style="-fx-background-color: white;" styleClass="fields">
+            <Button fx:id="BtnChooseProfile" layoutX="48.0" layoutY="27.0" mnemonicParsing="false" onAction="#onChooseProfile" prefHeight="60.0" prefWidth="82.0" style="-fx-background-color: white; -fx-cursor: hand;" styleClass="fields">
                <graphic>
-                  <ImageView fitHeight="50.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" styleClass="fields">
+                  <ImageView fitHeight="50.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" styleClass="fields">
                      <image>
                         <Image url="@../../images/addpic.png" />
                      </image>
