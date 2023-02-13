@@ -1,5 +1,8 @@
 package gov.iti.link.business.services;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
@@ -260,6 +263,33 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
                         client.tellMessageFromGroup(message, groupId,fromPhone);
                     }
                 }
+        
+    }
+    @Override
+    public void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, Vector<String> toPhone) throws RemoteException {
+        for (UserDTO user : allOnlineUser) {
+            if (toPhone.contains(user.getPhone()))
+             {
+                
+                int index = allOnlineUser.indexOf(user);
+                
+                File path = new File(filePath);
+                try {
+                    FileOutputStream out = new FileOutputStream(path);
+                    byte [] data = filebytes;
+                    System.out.println("Byte data " + data.length);
+                    out.write(data);
+                    out.flush();
+                    System.out.println("Done Writing data");
+                    allClients.get(index).tellFile(filePath, data ,fromPhone);
+                    out.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            
+        }
         
     }
 

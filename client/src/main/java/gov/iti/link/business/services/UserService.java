@@ -38,7 +38,7 @@ public interface UserService extends Remote {
     int addMemberToGroup(GroupDto groupDto,String memberPhone) throws RemoteException;
     Vector<GroupDto> getAllGroups(String mamberPhone) throws RemoteException;
     Vector<String> getAllGroupMembers(int id) throws RemoteException;
-
+    void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, Vector<String> toPhone) throws RemoteException;
 
 
 
