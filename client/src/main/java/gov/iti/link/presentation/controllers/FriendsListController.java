@@ -68,6 +68,7 @@ public class FriendsListController  implements Initializable{
                     e.printStackTrace();
                 }
      }
+    //  onClose();
     }
     void setGroupDto(GroupDto groupDto){
         this.groupDto = groupDto;

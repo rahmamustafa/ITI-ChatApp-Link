@@ -60,6 +60,7 @@ public class CreateGroupController {
         System.out.println(groupDto);
         System.out.println("group created");
         userService.addMemberToGroup(groupDto,StateManager.getInstance().getUser().getPhone());
+        onClose();
     } catch (RemoteException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
