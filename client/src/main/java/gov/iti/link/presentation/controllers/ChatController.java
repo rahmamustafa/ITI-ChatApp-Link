@@ -140,6 +140,7 @@ public class ChatController implements Initializable {
     String clickedContact;
 
     ObservableList<Parent> friendsList = FXCollections.observableArrayList();
+    ObservableList<Parent> groupList = FXCollections.observableArrayList();
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
 
     ClientServices clientServices;
@@ -359,7 +360,7 @@ public class ChatController implements Initializable {
             chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
         }
         for (GroupDto groupDto : allGroups) {
-            addGroupinListView(groupDto,friendsList.size());
+            addGroupinListView(groupDto,groupList.size());
             chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
         }
     }
@@ -395,7 +396,7 @@ public class ChatController implements Initializable {
             labelGroupController.setGroupDto(groupDto);
             if(!groupDto.getAdminPhone().equals(StateManager.getInstance().getUser().getPhone()))
                 labelGroupController.setAddMemberDisable();
-            friendsList.add(index,label);
+            groupList.add(index,label);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -404,7 +405,7 @@ public class ChatController implements Initializable {
 
     public void addNewGroup(GroupDto groupDto) {
         allGroups.add(groupDto);
-        addGroupinListView(groupDto,friendsList.size());
+        addGroupinListView(groupDto,groupList.size());
         chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
     }
 
@@ -429,10 +430,10 @@ public class ChatController implements Initializable {
 
     }
     public void changeOnGroupState(GroupDto groupDto) {
-        for (int i = 0; i < friendsList.size(); i++)
-            if (Integer.parseInt(friendsList.get(i).getId())==groupDto.getGroupId()) {
+        for (int i = 0; i < groupList.size(); i++)
+            if (Integer.parseInt(groupList.get(i).getId())==groupDto.getGroupId()) {
                 System.out.println("group change");
-                friendsList.remove(friendsList.get(i));
+                groupList.remove(groupList.get(i));
                 addGroupinListView(groupDto,i);
             }
 
@@ -441,6 +442,13 @@ public class ChatController implements Initializable {
     public void recieveMessage(String message, UserDTO user) {
         try {
             chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user, message, "leftMessageSingle"));
+            ContactDto contactDto = new ContactDto(user);
+            contactDto.setActive(true);
+            for (int i = 0; i < friendsList.size(); i++)
+            if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
+                friendsList.remove(friendsList.get(i));
+                addCardinListView(contactDto,0);
+            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -471,5 +479,12 @@ public class ChatController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    @FXML
+    void onOpenGroups(){
+    lstFriend.setItems(groupList);
+    }
+    @FXML
+void onOpenContacts(){
+lstFriend.setItems(friendsList);
+}
 }
