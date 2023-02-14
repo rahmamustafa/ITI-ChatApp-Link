@@ -223,17 +223,17 @@ public class UserDaoImp implements UserDao {
     public int updateUser(UserEntity user) {
         int result = -1;
         final String SQL = "update users set " +
-                "phoneNumber=? ,userName=?, email=?, bio=?, userPassword=?,gender=?,country=?,dateOfBirth=? " +
+                "phoneNumber=? ,userName=?, email=?, bio=?, userPassword=?,picture=?,country=?,dateOfBirth=? " +
                 " where phoneNumber=? ";
 
                 try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)){
                     preparedStatement.setString(1, user.getPhone());
                     preparedStatement.setString(2, user.getName());
-                    System.out.println(user.getName());
+                    System.out.println(user.getName() + " Updated ");
                     preparedStatement.setString(3, user.getEmail());
                     preparedStatement.setString(4, user.getBio());
                     preparedStatement.setString(5, user.getPassword());
-                    preparedStatement.setString(6, user.getGender());
+                    preparedStatement.setBinaryStream(6, new ByteArrayInputStream(user.getPicture()),user.getPicture().length);
                     preparedStatement.setString(7, user.getCountry());
                     preparedStatement.setDate(8, user.getDate());
                     

@@ -71,6 +71,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -81,7 +82,6 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.StageStyle;
-
 
 public class ChatController implements Initializable {
 
@@ -104,7 +104,10 @@ public class ChatController implements Initializable {
     private Button btnSend;
 
     @FXML
-    private ListView<Parent> lstFriend;
+    private Button btnFile;
+
+    @FXML
+    private ListView<Pane> lstFriend;
 
     @FXML
     private VBox messageContainer;
@@ -123,6 +126,11 @@ public class ChatController implements Initializable {
 
     @FXML
     private Circle circleContactChat;
+
+    @FXML
+    private VBox vboxChatFriend;
+    @FXML
+    private GridPane logoPane;
 
     @FXML
     Circle circleUserImage;
@@ -144,15 +152,18 @@ public class ChatController implements Initializable {
     FileControllerGroup fileControllerGroup;
     FileControllerSingle fileControllerSingle;
     Map<String, VBox> chatVBoxs = new HashMap<>();
+    Map<String, LabelContactController> contactLabels = new HashMap<>();
+    Map<Integer, LabelGroupController> groupLabels = new HashMap<>();
     String clickedContact;
 
-    ObservableList<Parent> friendsList = FXCollections.observableArrayList();
-    ObservableList<Parent> groupList = FXCollections.observableArrayList();
+    ObservableList<Pane> friendsList = FXCollections.observableArrayList();
+    ObservableList<Pane> groupList = FXCollections.observableArrayList();
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
 
     ClientServices clientServices;
     private double xOffset = 0;
     private double yOffset = 0;
+
     public ChatController() {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
@@ -183,12 +194,17 @@ public class ChatController implements Initializable {
                 userService.sendMessage(stateManager.getUser().getPhone(), message, clickedContact);
                 chatVBoxs.get(clickedContact).getChildren()
                         .add(senderMessage(stateManager.getUser(), message, "rightMessageSingle"));
+
+                contactLabels.get(clickedContact).setPhone(message);
+                sendUserTopList(clickedContact);
             } else {
                 toPhones = userService.getAllGroupMembers(Integer.parseInt(clickedContact));
                 userService.sendMessageToGroup(stateManager.getUser().getPhone(), Integer.parseInt(clickedContact),
                         message, toPhones);
                 chatVBoxs.get(clickedContact).getChildren()
                         .add(senderMessageGroup(stateManager.getUser(), message, "rightMessageGroup"));
+                groupLabels.get(Integer.parseInt(clickedContact)).setLastMessage(message);
+                sendGroupTopList(Integer.parseInt(clickedContact));
             }
 
             txtMessage.setText("");
@@ -233,7 +249,7 @@ public class ChatController implements Initializable {
     @FXML
     void sendFile(ActionEvent event) {
         toPhones.clear();
-        //toPhones.add(clickedContact);
+        // toPhones.add(clickedContact);
 
         FileChooser fileChooser = new FileChooser();
         // FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("*.*");
@@ -252,14 +268,14 @@ public class ChatController implements Initializable {
             in.read(filebytes, 0, filebytes.length);
             System.out.println("Try to send file : " + file.getName());
             if (clickedContact.startsWith("01")) {
-                userService.sendFile(stateManager.getUser().getPhone() ,filebytes, file.getName(), (int) file.length(),
-                clickedContact);
+                userService.sendFile(stateManager.getUser().getPhone(), filebytes, file.getName(), (int) file.length(),
+                        clickedContact);
                 chatVBoxs.get(clickedContact).getChildren()
                         .add(senderFile(stateManager.getUser(), "rightMessageFileSingle"));
-            }
-            else{
+            } else {
                 toPhones = userService.getAllGroupMembers(Integer.parseInt(clickedContact));
-                userService.sendFileToGroup(stateManager.getUser().getPhone(), Integer.parseInt(clickedContact) ,filebytes, file.getName(), (int) file.length(),
+                userService.sendFileToGroup(stateManager.getUser().getPhone(), Integer.parseInt(clickedContact),
+                        filebytes, file.getName(), (int) file.length(),
                         toPhones);
                 chatVBoxs.get(clickedContact).getChildren()
                         .add(senderFileGroup(stateManager.getUser(), "rightMessageFileGroup"));
@@ -301,16 +317,12 @@ public class ChatController implements Initializable {
         return node;
     }
 
-    public void recieveFile(String file,byte[] data, UserDTO user){
+    public void recieveFile(String file, byte[] data, UserDTO user) {
         try {
             chatVBoxs.get(user.getPhone()).getChildren().add(senderFile(user, "leftMessageFileSingle"));
-            ContactDto contactDto = new ContactDto(user);
-            contactDto.setActive(true);
-            for (int i = 0; i < friendsList.size(); i++)
-            if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
-                friendsList.remove(friendsList.get(i));
-                addCardinListView(contactDto,0);
-            }
+            contactLabels.get(user.getPhone()).setPhone("File Recieved");
+            contactLabels.get(user.getPhone()).setSeenLastMessage(false);
+            sendUserTopList(user.getPhone());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -358,16 +370,14 @@ public class ChatController implements Initializable {
                 System.out.println("Cannot download file");
         }
     }
-    
-    public void recieveFileFromGroup(String file, int groupId  ,byte[] data, UserDTO user) {
+
+    public void recieveFileFromGroup(String file, int groupId, byte[] data, UserDTO user) {
 
         try {
             chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderFileGroup(user, "leftMessageFileGroup"));
-            for (int i = 0; i < friendsList.size(); i++)
-            if (groupList.get(i).getId().equals(Integer.toString(groupId))) {
-                groupList.remove(groupList.get(i));
-                addGroupinListView(userService.getGroup(groupId),0);
-            }
+            groupLabels.get(groupId).setLastMessage("File Recieved");
+            groupLabels.get(groupId).setSeenLastMessage(false);
+            sendGroupTopList(groupId);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -419,8 +429,12 @@ public class ChatController implements Initializable {
     @FXML
     void onClickFriend(MouseEvent event) {
         System.out.println("clicked");
-        byte[] contactImgArr;
-        btnSend.setDisable(false);
+        logoPane.setVisible(false);
+        byte[] contactImgArr = null;
+        btnSend.setVisible(true);
+        btnFile.setVisible(true);
+        TITLE_FINAL_CONTAINER.setVisible(true);
+        txtMessage.setVisible(true);
         try {
             clickedContact = lstFriend.getSelectionModel().getSelectedItem().getId();
             System.out.println(clickedContact);
@@ -432,7 +446,8 @@ public class ChatController implements Initializable {
                 contactImgArr = allContacts.stream()
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getImage()).collect(Collectors.toList()).get(0);
-            } else {
+                contactLabels.get(clickedContact).setSeenLastMessage(true);
+            } else if(Integer.parseInt(clickedContact) > 0) {
                 lblContactChat.setText(allGroups.stream()
                         .filter((group) -> group.getGroupId() == Integer.valueOf(clickedContact))
                         .map(grop -> grop.getGroupName()).collect(Collectors.toList()).get(0));
@@ -443,9 +458,7 @@ public class ChatController implements Initializable {
             Image contactImage = new Image(new ByteArrayInputStream(contactImgArr));
             circleContactChat.setFill(new ImagePattern(contactImage));
             handleChatView(clickedContact);
-        } catch (RuntimeException e) {
-
-        }
+        } catch (RuntimeException e) {}
     }
 
     private void handleChatView(String clickedContact) {
@@ -485,7 +498,7 @@ public class ChatController implements Initializable {
             DialogPane dialogPane = fxmlLoader.load();
             Dialog<Boolean> dialog = new Dialog<>();
             InviteListController controller = fxmlLoader.getController();
-            makeDialogDraggable(dialogPane,dialog);
+            makeDialogDraggable(dialogPane, dialog);
             controller.setDialog(dialog);
             dialog.setDialogPane(dialogPane);
             dialog.initStyle(StageStyle.TRANSPARENT);
@@ -503,13 +516,13 @@ public class ChatController implements Initializable {
             DialogPane addDialogPane = fxmlLoader.load();
             Dialog<Boolean> dialog = new Dialog<>();
             AddContactController controller = fxmlLoader.getController();
-            makeDialogDraggable(addDialogPane,dialog);
+            makeDialogDraggable(addDialogPane, dialog);
             controller.setDialog(dialog);
             dialog.setDialogPane(addDialogPane);
             // dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -517,7 +530,6 @@ public class ChatController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        btnSend.setDisable(true);
         lstFriend.setItems(friendsList);
         byte[] imgb = stateManager.getUser().getPicture();
         InputStream imgStream = new ByteArrayInputStream(imgb);
@@ -564,7 +576,7 @@ public class ChatController implements Initializable {
             chatVBoxs.put(contactDto.getPhoneNumber(), new VBox());
         }
         for (GroupDto groupDto : allGroups) {
-            addGroupinListView(groupDto,groupList.size());
+            addGroupinListView(groupDto, groupList.size());
             chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
         }
     }
@@ -572,15 +584,16 @@ public class ChatController implements Initializable {
     void addCardinListView(ContactDto contactDto, int index) {
         String pageName = "lblcontact";
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(String.format("/views/%s.fxml", pageName)));
-        Parent label;
+        Pane label;
         try {
             label = fxmlLoader.load();
             label.setId(contactDto.getPhoneNumber());
             LabelContactController labelContactController = fxmlLoader.getController();
             labelContactController.setName(contactDto.getName());
             labelContactController.setImage(contactDto.getImage());
-            labelContactController.setPhone(contactDto.getPhoneNumber());
+            labelContactController.setPhone("");
             labelContactController.setStatus(contactDto.isActive());
+            contactLabels.put(contactDto.getPhoneNumber(), labelContactController);
             friendsList.add(index, label);
         } catch (IOException e) {
             e.printStackTrace();
@@ -592,7 +605,7 @@ public class ChatController implements Initializable {
         String pageName = "lblGroup";
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource(String.format("/views/components/%s.fxml", pageName)));
-        Parent label;
+        Pane label;
         try {
             label = fxmlLoader.load();
             label.setId(Integer.toString(groupDto.getGroupId()));
@@ -600,7 +613,8 @@ public class ChatController implements Initializable {
             labelGroupController.setGroupDto(groupDto);
             if (!groupDto.getAdminPhone().equals(StateManager.getInstance().getUser().getPhone()))
                 labelGroupController.setAddMemberDisable();
-            groupList.add(index,label);
+            groupLabels.put(groupDto.getGroupId(), labelGroupController);
+            groupList.add(index, label);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -609,7 +623,7 @@ public class ChatController implements Initializable {
 
     public void addNewGroup(GroupDto groupDto) {
         allGroups.add(groupDto);
-        addGroupinListView(groupDto,groupList.size());
+        addGroupinListView(groupDto, groupList.size());
         chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
     }
 
@@ -626,20 +640,16 @@ public class ChatController implements Initializable {
     }
 
     public void changeOnFriendState(ContactDto contactDto) {
-        for (int i = 0; i < friendsList.size(); i++)
-            if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
-                friendsList.remove(friendsList.get(i));
-                addCardinListView(contactDto, i);
-            }
-
+        if (!stateManager.getUser().getPhone().equals(contactDto.getPhoneNumber()))
+            contactLabels.get(contactDto.getPhoneNumber()).setStatus(contactDto.isActive());
     }
 
     public void changeOnGroupState(GroupDto groupDto) {
         for (int i = 0; i < groupList.size(); i++)
-            if (Integer.parseInt(groupList.get(i).getId())==groupDto.getGroupId()) {
+            if (Integer.parseInt(groupList.get(i).getId()) == groupDto.getGroupId()) {
                 System.out.println("group change");
                 groupList.remove(groupList.get(i));
-                addGroupinListView(groupDto,i);
+                addGroupinListView(groupDto, i);
             }
 
     }
@@ -647,17 +657,32 @@ public class ChatController implements Initializable {
     public void recieveMessage(String message, UserDTO user) {
         try {
             chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user, message, "leftMessageSingle"));
-            ContactDto contactDto = new ContactDto(user);
-            contactDto.setActive(true);
-            for (int i = 0; i < friendsList.size(); i++)
-            if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
-                friendsList.remove(friendsList.get(i));
-                addCardinListView(contactDto,0);
-            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        contactLabels.get(user.getPhone()).setPhone(message);
+        contactLabels.get(user.getPhone()).setSeenLastMessage(false);
+        sendUserTopList(user.getPhone());
+
+    }
+
+    void sendUserTopList(String userId) {
+        for (int i = 0; i < friendsList.size(); i++)
+            if (friendsList.get(i).getId().equals(userId)) {
+                Pane temp = friendsList.get(i);
+                friendsList.remove(friendsList.get(i));
+                friendsList.add(0, temp);
+            }
+    }
+
+    private void sendGroupTopList(int groupId) {
+        for (int i = 0; i < groupList.size(); i++)
+            if (groupList.get(i).getId().equals(Integer.toString(groupId))) {
+                Pane temp = groupList.get(i);
+                groupList.remove(groupList.get(i));
+                groupList.add(0, temp);
+            }
     }
     public void recieveAnnounc(String announcement){
 
@@ -670,11 +695,9 @@ public class ChatController implements Initializable {
         try {
             chatVBoxs.get(Integer.toString(groupId)).getChildren()
                     .add(senderMessageGroup(user, message, "leftMessageGroup"));
-            for (int i = 0; i < friendsList.size(); i++)
-            if (groupList.get(i).getId().equals(Integer.toString(groupId))) {
-                groupList.remove(groupList.get(i));
-                addGroupinListView(userService.getGroup(groupId),0);
-            }
+            groupLabels.get(groupId).setLastMessage(message);
+            groupLabels.get(groupId).setSeenLastMessage(false);
+            sendGroupTopList(groupId);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -689,7 +712,7 @@ public class ChatController implements Initializable {
             CreateGroupController createGroupController = fxmlLoader.getController();
             Dialog<Boolean> dialog = new Dialog<>();
             createGroupController.setChatController(this);
-            makeDialogDraggable(addDialogPane,dialog);
+            makeDialogDraggable(addDialogPane, dialog);
             createGroupController.setDialog(dialog);
             dialog.setDialogPane(addDialogPane);
             dialog.initStyle(StageStyle.TRANSPARENT);
@@ -699,16 +722,18 @@ public class ChatController implements Initializable {
             e.printStackTrace();
         }
     }
-    @FXML
-    void onOpenGroups(){
-    lstFriend.setItems(groupList);
-    }
-    @FXML
-void onOpenContacts(){
-lstFriend.setItems(friendsList);
-}
 
-    private void makeDialogDraggable(Pane pane, Dialog dialog){
+    @FXML
+    void onOpenGroups() {
+        lstFriend.setItems(groupList);
+    }
+
+    @FXML
+    void onOpenContacts() {
+        lstFriend.setItems(friendsList);
+    }
+
+    private void makeDialogDraggable(Pane pane, Dialog dialog) {
         pane.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -717,8 +742,6 @@ lstFriend.setItems(friendsList);
             }
         });
 
-     
-        
         pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

@@ -3,6 +3,8 @@ package gov.iti.link.presentation.controllers;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.business.services.ServiceManager;
@@ -10,6 +12,7 @@ import gov.iti.link.business.services.UserService;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
@@ -24,7 +27,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 
-public class LabelGroupController {
+public class LabelGroupController implements Initializable {
 
     @FXML
     private Circle circlePic;
@@ -32,8 +35,14 @@ public class LabelGroupController {
     @FXML
     private ImageView imgAddMember;
 
+    private boolean seenLastMessage=true;
+    private int counterLastMessage=0; 
+
     @FXML
     private Label lablGroupNumber;
+
+    @FXML
+    private Label lblunSeenMessages;
 
     @FXML
     private Label lblGroupName;
@@ -138,5 +147,24 @@ public class LabelGroupController {
                 dialog.setY(event.getScreenY() - yOffset);
             }
         });
+    }
+
+    public void setSeenLastMessage(boolean seenLastMessage) {
+        this.seenLastMessage = seenLastMessage;
+        if(seenLastMessage){
+           lblunSeenMessages.setVisible(false);
+            counterLastMessage=0;
+        }
+        else{
+            lblunSeenMessages.setVisible(true);
+            counterLastMessage++;
+            lblunSeenMessages.setText(Integer.toString(counterLastMessage));
+        }
+	}
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        lblunSeenMessages.setVisible(false);
+        
     }
 }

@@ -58,6 +58,7 @@ public class ProfileController implements Initializable{
 
     UpdateController updateController ;
     UserDTO user;
+    byte [] byteimage;
 
 
 
@@ -75,6 +76,7 @@ public class ProfileController implements Initializable{
             Parent prof=loader.load();
             updateController = loader.getController();
             usrname.textProperty().bind(updateController.gTextField().textProperty());
+            updateController.setProfileController(this);
             
             paneContent.getChildren().clear();
             paneContent.getChildren().addAll(prof);
@@ -88,7 +90,9 @@ public class ProfileController implements Initializable{
     
 
     void setUserNewImage(byte[] image){
-        InputStream imgStream = new ByteArrayInputStream(image);
+        this.byteimage = image;
+        System.out.println( "Bytes in profile "+ byteimage);
+        InputStream imgStream = new ByteArrayInputStream(byteimage);
         Image img = new Image(imgStream);
         // Image img = new Image(image,false);
         circleImage.setFill(new ImagePattern(img));
@@ -137,7 +141,9 @@ public class ProfileController implements Initializable{
         // if(user.getPicture().isEmpty()){
         //     Image img = new Image(user.getPicture(),false);
         // }
-        Image img = new Image(getClass().getResource("/images/avatar.jpg").toString(),false);
+        InputStream imgStream = new ByteArrayInputStream(StateManager.getInstance().getUser().getPicture());
+        this.byteimage = StateManager.getInstance().getUser().getPicture();
+        Image img = new Image(imgStream);
         circleImage.setFill(new ImagePattern(img));
         circleImage.setEffect(new DropShadow(+25d,0d,+2d,Color.TRANSPARENT));
         usrname.setText(user.getName());

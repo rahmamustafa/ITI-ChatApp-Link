@@ -24,9 +24,11 @@
 	-fx-pref-width : 160;
 	
 }
-
+.vbox {
+    -fx-background-radius: 30% ;
+}
 #usrname{
-    -fx-background-color : white;
+  
     -fx-background-radius : 10;
     -fx-padding : 10 ;
 }
@@ -75,4 +77,12 @@
 
 #btnUpdate:pressed{
     -fx-background-color :  #6F4CBB
+}
+.combox-box{
+    
+    -fx-cell-size: 1.66667em;
+    -fx-background-color: white;
+    -fx-border-color : #6F4CBB;
+    -fx-background-radius :50;
+    
 }

@@ -44,11 +44,14 @@
 
 
 #btnLogin:hover{
-    -fx-background-color :  #431FA0
+    -fx-background-color :  #431FA0;
+    -fx-transition: 2s;
 }
 
 #btnLogin:pressed{
-    -fx-background-color :  #6F4CBB
+    -fx-background-color :  #6F4CBB;
+    -fx-scale-x : 0.9;
+    -fx-scale-y : 0.9;
 }
 
 #imageView {
@@ -56,7 +59,9 @@
 }
 
 #btnRegister:pressed{
-    -fx-background-color :  #6F4CBB
+    -fx-background-color :  #6F4CBB;
+    -fx-scale-x : 0.9;
+    -fx-scale-y : 0.9;
 }
 
 .remember-me{

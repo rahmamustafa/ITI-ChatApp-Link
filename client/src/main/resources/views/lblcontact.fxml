@@ -11,11 +11,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="79.0" prefWidth="234.0" styleClass="root" stylesheets="@../css/lblcontact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
+<Pane prefHeight="62.0" prefWidth="234.0" styleClass="root" stylesheets="@../css/lblcontact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="-3.0" prefHeight="60.0" prefWidth="203.0">
          <children>
-            <Circle fx:id="circlePic" fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE">
+            <Circle fx:id="circlePic" fill="DODGERBLUE" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
@@ -25,12 +25,12 @@
                   <Insets />
                </HBox.margin>
             </Circle>
-            <VBox alignment="CENTER_LEFT" prefHeight="84.0" prefWidth="123.0" stylesheets="@../css/lblcontact.css">
+            <VBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="144.0" stylesheets="@../css/lblcontact.css">
                <padding>
                   <Insets bottom="5.0" />
                </padding>
                <children>
-                  <Label fx:id="lblText" prefHeight="23.0" prefWidth="71.0" style="-fx-background-radius: 15;" text="Name">
+                  <Label fx:id="lblText" prefHeight="26.0" prefWidth="123.0" style="-fx-background-radius: 15;" text="Name">
                      <font>
                         <Font name="Ebrima Bold" size="20.0" />
                      </font>
@@ -38,9 +38,9 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <Text fx:id="txtNumber" opacity="0.52" strokeType="OUTSIDE" strokeWidth="0.0" text="You : bye" translateY="10.0">
+                  <Text fx:id="txtNumber" opacity="0.52" strokeType="OUTSIDE" strokeWidth="0.0" text="You : bye" translateX="5.0" translateY="10.0">
                      <font>
-                        <Font name="Ebrima" size="14.0" />
+                        <Font name="System Italic" size="14.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="-5.0" top="-10.0" />
@@ -53,9 +53,10 @@
             </VBox>
          </children>
          <padding>
-            <Insets bottom="10.0" top="10.0" />
+            <Insets bottom="10.0" top="5.0" />
          </padding>
       </HBox>
+      <Label fx:id="lblunSeenMessages" alignment="CENTER" layoutX="199.0" layoutY="18.0" styleClass="notifaction-label" text="0" translateX="-1.0" />
    </children>
    <effect>
       <DropShadow blurType="ONE_PASS_BOX" />
