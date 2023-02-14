@@ -24,9 +24,11 @@
 	-fx-pref-width : 160;
 	
 }
-
+.vbox {
+    -fx-background-radius: 30% ;
+}
 #usrname{
-    -fx-background-color : white;
+  
     -fx-background-radius : 10;
     -fx-padding : 10 ;
 }
