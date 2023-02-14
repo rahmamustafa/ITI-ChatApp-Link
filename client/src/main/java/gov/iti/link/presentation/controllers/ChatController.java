@@ -108,7 +108,7 @@ public class ChatController implements Initializable {
     private Button btnFile;
 
     @FXML
-    private ListView<Parent> lstFriend;
+    private ListView<Pane> lstFriend;
 
     @FXML
     private VBox messageContainer;
@@ -136,6 +136,7 @@ public class ChatController implements Initializable {
     @FXML
     Circle circleUserImage;
 
+
     @FXML
     private Label lblInvitesNotifications;
 
@@ -153,15 +154,17 @@ public class ChatController implements Initializable {
     FileControllerGroup fileControllerGroup;
     FileControllerSingle fileControllerSingle;
     Map<String, VBox> chatVBoxs = new HashMap<>();
+    Map<String, LabelContactController> contactLabels = new HashMap<>();
     String clickedContact;
 
-    ObservableList<Parent> friendsList = FXCollections.observableArrayList();
-    ObservableList<Parent> groupList = FXCollections.observableArrayList();
+    ObservableList<Pane> friendsList = FXCollections.observableArrayList();
+    ObservableList<Pane> groupList = FXCollections.observableArrayList();
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
 
     ClientServices clientServices;
     private double xOffset = 0;
     private double yOffset = 0;
+
     public ChatController() {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
@@ -192,6 +195,7 @@ public class ChatController implements Initializable {
                 userService.sendMessage(stateManager.getUser().getPhone(), message, clickedContact);
                 chatVBoxs.get(clickedContact).getChildren()
                         .add(senderMessage(stateManager.getUser(), message, "rightMessageSingle"));
+                
             } else {
                 toPhones = userService.getAllGroupMembers(Integer.parseInt(clickedContact));
                 userService.sendMessageToGroup(stateManager.getUser().getPhone(), Integer.parseInt(clickedContact),
@@ -313,13 +317,9 @@ public class ChatController implements Initializable {
     public void recieveFile(String file,byte[] data, UserDTO user){
         try {
             chatVBoxs.get(user.getPhone()).getChildren().add(senderFile(user, "leftMessageFileSingle"));
-            ContactDto contactDto = new ContactDto(user);
-            contactDto.setActive(true);
-            for (int i = 0; i < friendsList.size(); i++)
-            if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
-                friendsList.remove(friendsList.get(i));
-                addCardinListView(contactDto,0);
-            }
+            contactLabels.get(user.getPhone()).setPhone("File Recieved");
+            contactLabels.get(user.getPhone()).setSeenLastMessage(false);
+            sendUserTopList(user.getPhone());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -445,6 +445,7 @@ public class ChatController implements Initializable {
                 contactImgArr = allContacts.stream()
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getImage()).collect(Collectors.toList()).get(0);
+                contactLabels.get(clickedContact).setSeenLastMessage(true);
             } else {
                 lblContactChat.setText(allGroups.stream()
                         .filter((group) -> group.getGroupId() == Integer.valueOf(clickedContact))
@@ -584,27 +585,28 @@ public class ChatController implements Initializable {
     void addCardinListView(ContactDto contactDto, int index) {
         String pageName = "lblcontact";
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(String.format("/views/%s.fxml", pageName)));
-        Parent label;
+        Pane label;
         try {
             label = fxmlLoader.load();
             label.setId(contactDto.getPhoneNumber());
             LabelContactController labelContactController = fxmlLoader.getController();
             labelContactController.setName(contactDto.getName());
             labelContactController.setImage(contactDto.getImage());
-            labelContactController.setPhone(contactDto.getPhoneNumber());
+            labelContactController.setPhone("");
             labelContactController.setStatus(contactDto.isActive());
+            contactLabels.put(contactDto.getPhoneNumber(),labelContactController);
             friendsList.add(index, label);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-
+   
     void addGroupinListView(GroupDto groupDto, int index) {
         String pageName = "lblGroup";
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource(String.format("/views/components/%s.fxml", pageName)));
-        Parent label;
+        Pane label;
         try {
             label = fxmlLoader.load();
             label.setId(Integer.toString(groupDto.getGroupId()));
@@ -638,12 +640,8 @@ public class ChatController implements Initializable {
     }
 
     public void changeOnFriendState(ContactDto contactDto) {
-        for (int i = 0; i < friendsList.size(); i++)
-            if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
-                friendsList.remove(friendsList.get(i));
-                addCardinListView(contactDto, i);
-            }
-
+        if(!stateManager.getUser().getPhone().equals(contactDto.getPhoneNumber()))
+            contactLabels.get(contactDto.getPhoneNumber()).setStatus(contactDto.isActive());
     }
 
     public void changeOnGroupState(GroupDto groupDto) {
@@ -657,19 +655,25 @@ public class ChatController implements Initializable {
     }
 
     public void recieveMessage(String message, UserDTO user) {
-        try {
-            chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user, message, "leftMessageSingle"));
-            ContactDto contactDto = new ContactDto(user);
-            contactDto.setActive(true);
-            for (int i = 0; i < friendsList.size(); i++)
-            if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
+            try {
+				chatVBoxs.get(user.getPhone()).getChildren().add(senderMessage(user, message, "leftMessageSingle"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            contactLabels.get(user.getPhone()).setPhone(message);
+            contactLabels.get(user.getPhone()).setSeenLastMessage(false);
+            sendUserTopList(user.getPhone());
+            
+    }
+
+    void sendUserTopList(String userId){
+        for (int i = 0; i < friendsList.size(); i++)
+            if (friendsList.get(i).getId().equals(userId)) {
+                Pane temp = friendsList.get(i);
                 friendsList.remove(friendsList.get(i));
-                addCardinListView(contactDto,0);
+                friendsList.add(0,temp);
             }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 
     public void recieveMessageFromGroup(String message, int groupId, UserDTO user) {
