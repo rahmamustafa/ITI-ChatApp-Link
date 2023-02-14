@@ -17,5 +17,6 @@ public interface ClientServices extends Remote{
     void notifyYouAddedToGroup(GroupDto groupDto) throws RemoteException;
     void tellMessageFromGroup(String message, int groupId, String fromPhone) throws RemoteException;
     void tellFile(String file,byte[] data,String fromPhone) throws RemoteException;
+    void notify(String notification) throws RemoteException;
 
 }
