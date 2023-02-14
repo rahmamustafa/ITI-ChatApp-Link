@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<DialogPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.InviteListController">
+<DialogPane prefHeight="414.0" prefWidth="314.0" styleClass="dialog" stylesheets="@../../css/dialog.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.InviteListController">
    <content>
-      <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="343.0">
-         <content>
-            <VBox fx:id="vboxInviteList" prefHeight="371.0" prefWidth="306.0" />
-         </content>
-      </ScrollPane>
+      <AnchorPane style="-fx-padding: 0;">
+         <children>
+            <ScrollPane layoutY="42.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="358.0" prefWidth="314.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
+               <content>
+                  <VBox fx:id="vboxInviteList" prefHeight="268.0" prefWidth="310.0" style="-fx-border-image-width: 0;" />
+               </content>
+            </ScrollPane>
+            <Label alignment="CENTER" layoutY="3.0" prefHeight="35.0" prefWidth="314.0" style="-fx-alignment: center;" styleClass="header-label" text="Invitations List" />
+         </children>
+      </AnchorPane>
    </content>
-   <buttonTypes>
-      <ButtonType fx:constant="CLOSE" />
-   </buttonTypes>
+   <header>
+      <AnchorPane prefHeight="30.0" prefWidth="1474.0" styleClass="header">
+         <children>
+            <ImageView fitHeight="23.0" fitWidth="20.0" layoutX="313.0" layoutY="3.0" onMouseClicked="#onClose" pickOnBounds="true" preserveRatio="true" styleClass="icon" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../../images/close.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </header>
 </DialogPane>

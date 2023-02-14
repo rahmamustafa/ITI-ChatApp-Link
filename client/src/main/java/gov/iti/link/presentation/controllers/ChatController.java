@@ -51,6 +51,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -79,6 +80,7 @@ import javafx.scene.control.Label;
 
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.StageStyle;
 
 public class ChatController implements Initializable {
 
@@ -148,7 +150,8 @@ public class ChatController implements Initializable {
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
 
     ClientServices clientServices;
-
+    private double xOffset = 0;
+    private double yOffset = 0;
     public ChatController() {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
@@ -467,8 +470,12 @@ public class ChatController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/invites-list.fxml"));
             DialogPane dialogPane = fxmlLoader.load();
-            Dialog<ButtonType> dialog = new Dialog<>();
+            Dialog<Boolean> dialog = new Dialog<>();
+            InviteListController controller = fxmlLoader.getController();
+            makeDialogDraggable(dialogPane,dialog);
+            controller.setDialog(dialog);
             dialog.setDialogPane(dialogPane);
+            dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -476,16 +483,20 @@ public class ChatController implements Initializable {
     }
 
     @FXML
-    void showNewDialog() {
-        System.out.println("Add contact");
+    void onAddContactClick() {
 
         try {
-
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/add-contact.fxml"));
             DialogPane addDialogPane = fxmlLoader.load();
-            Dialog<ButtonType> dialog = new Dialog<>();
+            Dialog<Boolean> dialog = new Dialog<>();
+            AddContactController controller = fxmlLoader.getController();
+            makeDialogDraggable(addDialogPane,dialog);
+            controller.setDialog(dialog);
             dialog.setDialogPane(addDialogPane);
+            // dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+            dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -652,9 +663,12 @@ public class ChatController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/create-group.fxml"));
             DialogPane addDialogPane = fxmlLoader.load();
             CreateGroupController createGroupController = fxmlLoader.getController();
+            Dialog<Boolean> dialog = new Dialog<>();
             createGroupController.setChatController(this);
-            Dialog<ButtonType> dialog = new Dialog<>();
+            makeDialogDraggable(addDialogPane,dialog);
+            createGroupController.setDialog(dialog);
             dialog.setDialogPane(addDialogPane);
+            dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
 
         } catch (IOException e) {
@@ -669,4 +683,25 @@ public class ChatController implements Initializable {
 void onOpenContacts(){
 lstFriend.setItems(friendsList);
 }
+
+    private void makeDialogDraggable(Pane pane, Dialog dialog){
+        pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+
+     
+        
+        pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                dialog.setX(event.getScreenX() - xOffset);
+                dialog.setY(event.getScreenY() - yOffset);
+            }
+        });
+    }
+
 }
