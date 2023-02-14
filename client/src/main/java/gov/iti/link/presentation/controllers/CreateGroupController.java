@@ -2,6 +2,7 @@ package gov.iti.link.presentation.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.rmi.RemoteException;
@@ -37,13 +38,19 @@ public class CreateGroupController {
     private TextField tfGroupName;
 
     private byte[] groupImg;
+    
 
     UserService userService = ServiceManager.getInstance().getUserService() ;;
     UserDTO userDTO;
     ChatController chatController;
 
     public CreateGroupController(){
-
+        try {
+            groupImg =  Files.readAllBytes(Paths.get(getClass().getResource("/images/group.png").toURI()));
+        } catch (IOException | URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     public void setChatController(ChatController chatController) {
         this.chatController = chatController;
@@ -84,6 +91,8 @@ public class CreateGroupController {
             lblImageUrl.setText(userPictureUrl);
 
         }
+        
+    
     }
 
 

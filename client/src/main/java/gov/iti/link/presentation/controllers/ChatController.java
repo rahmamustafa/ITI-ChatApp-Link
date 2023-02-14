@@ -70,6 +70,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -101,6 +102,9 @@ public class ChatController implements Initializable {
     private Button btnSend;
 
     @FXML
+    private Button btnFile;
+
+    @FXML
     private ListView<Parent> lstFriend;
 
     @FXML
@@ -120,6 +124,11 @@ public class ChatController implements Initializable {
 
     @FXML
     private Circle circleContactChat;
+
+    @FXML
+    private VBox vboxChatFriend;
+    @FXML
+    private GridPane logoPane;
 
     @FXML
     Circle circleUserImage;
@@ -403,8 +412,12 @@ public class ChatController implements Initializable {
     @FXML
     void onClickFriend(MouseEvent event) {
         System.out.println("clicked");
+        logoPane.setVisible(false);
         byte[] contactImgArr;
-        btnSend.setDisable(false);
+        btnSend.setVisible(true);
+        btnFile.setVisible(true);
+        TITLE_FINAL_CONTAINER.setVisible(true);
+        txtMessage.setVisible(true);
         try {
             clickedContact = lstFriend.getSelectionModel().getSelectedItem().getId();
             System.out.println(clickedContact);
@@ -493,7 +506,6 @@ public class ChatController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        btnSend.setDisable(true);
         lstFriend.setItems(friendsList);
         byte[] imgb = stateManager.getUser().getPicture();
         InputStream imgStream = new ByteArrayInputStream(imgb);

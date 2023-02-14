@@ -4,6 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -11,11 +12,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="79.0" prefWidth="234.0" styleClass="root" stylesheets="@../css/lblcontact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
+<Pane prefHeight="62.0" prefWidth="234.0" styleClass="root" stylesheets="@../css/lblcontact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="-3.0" prefHeight="60.0" prefWidth="203.0">
          <children>
-            <Circle fx:id="circlePic" fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE">
+            <Circle fx:id="circlePic" fill="DODGERBLUE" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
@@ -25,12 +26,12 @@
                   <Insets />
                </HBox.margin>
             </Circle>
-            <VBox alignment="CENTER_LEFT" prefHeight="84.0" prefWidth="123.0" stylesheets="@../css/lblcontact.css">
+            <VBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="144.0" stylesheets="@../css/lblcontact.css">
                <padding>
                   <Insets bottom="5.0" />
                </padding>
                <children>
-                  <Label fx:id="lblText" prefHeight="23.0" prefWidth="71.0" style="-fx-background-radius: 15;" text="Name">
+                  <Label fx:id="lblText" prefHeight="26.0" prefWidth="123.0" style="-fx-background-radius: 15;" text="Name">
                      <font>
                         <Font name="Ebrima Bold" size="20.0" />
                      </font>
@@ -53,9 +54,14 @@
             </VBox>
          </children>
          <padding>
-            <Insets bottom="10.0" top="10.0" />
+            <Insets bottom="10.0" top="5.0" />
          </padding>
       </HBox>
+      <AnchorPane layoutX="201.0" layoutY="25.0" prefHeight="26.0" prefWidth="12.0" styleClass="notifaction-label">
+         <children>
+            <Label fx:id="unSeenMessages" layoutX="8.0" text="0" translateX="-1.0" />
+         </children>
+      </AnchorPane>
    </children>
    <effect>
       <DropShadow blurType="ONE_PASS_BOX" />

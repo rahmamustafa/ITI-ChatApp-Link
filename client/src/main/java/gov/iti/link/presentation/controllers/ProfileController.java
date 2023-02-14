@@ -137,7 +137,9 @@ public class ProfileController implements Initializable{
         // if(user.getPicture().isEmpty()){
         //     Image img = new Image(user.getPicture(),false);
         // }
-        Image img = new Image(getClass().getResource("/images/avatar.jpg").toString(),false);
+        InputStream imgStream = new ByteArrayInputStream(StateManager.getInstance().getUser().getPicture());
+
+        Image img = new Image(imgStream);
         circleImage.setFill(new ImagePattern(img));
         circleImage.setEffect(new DropShadow(+25d,0d,+2d,Color.TRANSPARENT));
         usrname.setText(user.getName());
