@@ -321,25 +321,30 @@ public class UserDaoImp implements UserDao {
         return groupEntity;
     }
 
-    // @Override
-    // public GroupEntity getGroup(int groupId) {
-    //    GroupEntity groupEntity;
-    //     final String SQL = "select * from allgroups where id=? ";
-    //     try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
-    //         preparedStatement.setInt(1, groupId);
-    //         try (ResultSet resultSet = preparedStatement.executeQuery()) {
-    //             if (resultSet.next()) {
-    //                 int id = resultSet.getInt(1);
-    //                 String groupName = resultSet.getString(2);
-    //                 groupEntity = new GroupEntity(id,groupName);
-    //                 return groupEntity;
-    //             }
-    //         }
-    //     } catch (SQLException e) {
-    //         e.printStackTrace();
-    //     }
-    //     return null;
-    // }
+    @Override
+    public GroupEntity getGroup(int groupId) {
+       GroupEntity groupEntity;
+        final String SQL = "select * from allgroups where id=? ";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setInt(1, groupId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    Integer id = resultSet.getInt(1);
+                    String groupName = resultSet.getString(2);
+                    byte[] groupImg = resultSet.getBinaryStream(3).readAllBytes();
+                    String groupAdmin = resultSet.getString(4);
+                    groupEntity = new GroupEntity(id, groupName,groupAdmin,groupImg);
+                    return groupEntity;
+                }
+            } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public int addMemberToGroup(int groupId , String memberPhone) {

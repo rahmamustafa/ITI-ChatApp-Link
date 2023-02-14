@@ -82,6 +82,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.StageStyle;
 
+
 public class ChatController implements Initializable {
 
     @FXML
@@ -303,6 +304,13 @@ public class ChatController implements Initializable {
     public void recieveFile(String file,byte[] data, UserDTO user){
         try {
             chatVBoxs.get(user.getPhone()).getChildren().add(senderFile(user, "leftMessageFileSingle"));
+            ContactDto contactDto = new ContactDto(user);
+            contactDto.setActive(true);
+            for (int i = 0; i < friendsList.size(); i++)
+            if (friendsList.get(i).getId().equals(contactDto.getPhoneNumber())) {
+                friendsList.remove(friendsList.get(i));
+                addCardinListView(contactDto,0);
+            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -355,6 +363,11 @@ public class ChatController implements Initializable {
 
         try {
             chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderFileGroup(user, "leftMessageFileGroup"));
+            for (int i = 0; i < friendsList.size(); i++)
+            if (groupList.get(i).getId().equals(Integer.toString(groupId))) {
+                groupList.remove(groupList.get(i));
+                addGroupinListView(userService.getGroup(groupId),0);
+            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -651,6 +664,11 @@ public class ChatController implements Initializable {
         try {
             chatVBoxs.get(Integer.toString(groupId)).getChildren()
                     .add(senderMessageGroup(user, message, "leftMessageGroup"));
+            for (int i = 0; i < friendsList.size(); i++)
+            if (groupList.get(i).getId().equals(Integer.toString(groupId))) {
+                groupList.remove(groupList.get(i));
+                addGroupinListView(userService.getGroup(groupId),0);
+            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
