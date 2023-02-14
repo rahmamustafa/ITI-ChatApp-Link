@@ -20,8 +20,8 @@ public class LabelContactController {
     @FXML
     private Circle circlePicStatus;
 
-    @FXML
-    private Label lblStatus;
+   // @FXML
+   // private Text lastmessage;
 
     @FXML
     private Label lblText;
@@ -48,11 +48,11 @@ public class LabelContactController {
     }
     public void setStatus(boolean status){
         if(status){
-            lblStatus.setText("online");
+            //lblStatus.setText("online");
             circlePicStatus.setFill(Color.GREEN);
         }
         else  {
-            lblStatus.setText("ofline"); 
+            //lblStatus.setText("ofline"); 
             circlePicStatus.setFill(Color.GRAY);
         }
         
@@ -63,15 +63,9 @@ public class LabelContactController {
         return(lblText.getText());
         
     }
-    public String getphone(){
-        return(txtNumber.getText());
+    
         
-    }
-    public String getStatus(){
-        return lblStatus.getText();
-        
-    }
-  
+    
     public void setImage(byte[] image){
         InputStream imgStream = new ByteArrayInputStream(image);
         Image img = new Image(imgStream);
@@ -81,5 +75,5 @@ public class LabelContactController {
     }
 
 
-
+    
 }
