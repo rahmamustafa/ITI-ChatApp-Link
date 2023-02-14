@@ -159,7 +159,7 @@ public class RegisterController implements Initializable {
             for (int i = 0; i < city.length; i++) {
                 cities.add(locale.getDisplayCountry());
             }
-            cities.add(locale.getDisplayCountry());
+            //cities.add(locale.getDisplayCountry());
             
         }
         countryComboBox.setItems(cities);
@@ -225,14 +225,6 @@ public class RegisterController implements Initializable {
             userValid = false;
         } 
         else
-            lblErrPhone.setVisible(false);
-
-        if (!RegisterValidation.validBio(txtBio.getText())) {
-            System.out.println("please Enter bio ");
-            errMsg += "please Enter bio \n";
-            //lblErrBio.setVisible(true);
-            userValid = true;
-        } else
             lblErrPhone.setVisible(false);
 
         if (!RegisterValidation.validDate(convertLocalDatetoSqlDate(dateOfBirth.getValue()))) {
