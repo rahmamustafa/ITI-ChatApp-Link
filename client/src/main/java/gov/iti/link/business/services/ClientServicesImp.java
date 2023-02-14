@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 
 import gov.iti.link.business.DTOs.ContactDto;
+import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 import gov.iti.link.presentation.controllers.ChatController;
@@ -67,6 +68,65 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
         Platform.runLater(() ->chatController.addNewContact(newContactPhone));
         System.out.println("new Contact added");
 
+        
+    }
+
+    @Override
+    public void notifyNewMember(GroupDto groupDto,String newMemberPhone) throws RemoteException {
+        System.out.println(groupDto.getGroupId() + " " +groupDto.getGroupName() + groupDto.getAllMembers().size());
+        Platform.runLater(() -> chatController.changeOnGroupState(groupDto));
+
+    }
+
+    @Override
+    public void notifyYouAddedToGroup(GroupDto groupDto) throws RemoteException {
+        Platform.runLater(()-> chatController.addNewGroup(groupDto));
+        
+    }
+
+    @Override
+    public void tellMessageFromGroup(String message, int groupId, String fromPhone) throws RemoteException {
+        Platform.runLater(()-> {
+            try {
+                chatController.recieveMessageFromGroup(message, groupId, userService.findByPhone(fromPhone) );
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
+        
+        
+    }
+    @Override
+    public void tellFileFromGroup(String file , int groupId ,byte[] data,String fromPhone) throws RemoteException {
+        System.out.println("we get " + file + " from " + fromPhone);
+
+         
+        Platform.runLater(() -> {
+            try {
+                chatController.recieveFileFromGroup(file, groupId ,data , userService.findByPhone(fromPhone));
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
+        
+        
+    }
+
+    @Override
+    public void tellFile(String file, byte[] data, String fromPhone) throws RemoteException {
+        System.out.println("we get " + file + " from " + fromPhone);
+
+         
+        Platform.runLater(() -> {
+            try {
+                chatController.recieveFile(file ,data , userService.findByPhone(fromPhone));
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
         
     }
 

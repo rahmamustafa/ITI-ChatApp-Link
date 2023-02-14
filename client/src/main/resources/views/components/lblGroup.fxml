@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelGroupController">
+   <children>
+      <VBox layoutY="5.0" prefWidth="240.0">
+         <children>
+            <HBox prefWidth="240.0">
+               <VBox.margin>
+                  <Insets left="5.0" top="10.0" />
+               </VBox.margin>
+               <children>
+                  <Label fx:id="lblGroupName" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="54.0" prefWidth="180.0" style="-fx-background-radius: 15;" text="Group Name">
+                     <graphic>
+                        <Circle fx:id="circlePic" fill="DODGERBLUE" radius="27.0" stroke="BLACK" strokeType="INSIDE" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ImageView fx:id="imgAddMember" fitHeight="27.0" fitWidth="28.0" onMouseClicked="#onAddGroupMember" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                     <image>
+                        <Image url="@../../images/icons/add.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets top="15.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Label fx:id="lablGroupNumber" alignment="CENTER" prefHeight="20.0" prefWidth="17.0" style="-fx-background-radius: 15;" text="16">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </Label>
+            <Text fx:id="txtLastMessage" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Message">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin></Text>
+         </children>
+         <padding>
+            <Insets bottom="5.0" />
+         </padding>
+      </VBox>
+   </children>
+</Pane>

@@ -1,5 +1,9 @@
 package gov.iti.link.presentation.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -17,8 +21,8 @@ public class LabelContactController {
     @FXML
     private Circle circlePicStatus;
 
-    @FXML
-    private Label lblStatus;
+   // @FXML
+   // private Text lastmessage;
 
     @FXML
     private Label lblText;
@@ -30,8 +34,8 @@ public class LabelContactController {
 
     }
     
-    public LabelContactController(String imageUrl, String lblText,boolean isActive) {
-       setImage(imageUrl);
+    public LabelContactController(byte[] image, String lblText,boolean isActive) {
+       setImage(image);
        setName(lblText);
     }
 
@@ -45,11 +49,11 @@ public class LabelContactController {
     }
     public void setStatus(boolean status){
         if(status){
-            lblStatus.setText("online");
-            circlePicStatus.setFill(Color.GREEN);
+            //lblStatus.setText("online");
+            circlePicStatus.setFill(Color.web("#1fff3d"));
         }
         else  {
-            lblStatus.setText("ofline"); 
+            //lblStatus.setText("ofline"); 
             circlePicStatus.setFill(Color.GRAY);
         }
         
@@ -60,21 +64,17 @@ public class LabelContactController {
         return(lblText.getText());
         
     }
-    public String getphone(){
-        return(txtNumber.getText());
+    
         
-    }
-    public String getStatus(){
-        return lblStatus.getText();
-        
-    }
-  
-    public void setImage(String imageUrl){
+    
+    public void setImage(byte[] image){
+        InputStream imgStream = new ByteArrayInputStream(image);
+        Image img = new Image(imgStream);
         // Image image = new Image(imageUrl);
-        // circlePic.setFill(new ImagePattern(image));
-        System.out.println("ads");
+        circlePic.setFill(new ImagePattern(img));
+        // System.out.println("ads");
     }
 
 
-
+    
 }

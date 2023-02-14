@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="5.0" stylesheets="@../../css/msg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.MessageControllerSingle">
+   <children>
+      <Label fx:id="lblMessage" styleClass="left-message" text="Message" textFill="WHITE" />
+      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" text="Time" />
+   </children>
+</VBox>

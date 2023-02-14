@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 import gov.iti.link.business.DTOs.ContactDto;
+import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.business.DTOs.InvitationDTO;
 import gov.iti.link.business.DTOs.UserDTO;
 
@@ -30,7 +31,19 @@ public interface UserService extends Remote {
     void userLoggedIn(ClientServices clientServices, UserDTO userDTO) throws RemoteException;
 
     void userLoggedOut(ClientServices clientServices, UserDTO userDTO) throws RemoteException;
-    void sendMessage(String fromPhone,String message,Vector<String>toPhone) throws RemoteException;
+    void sendMessage(String fromPhone,String message,String toPhone) throws RemoteException;
+    void sendMessageToGroup(String fromPhone,int groupId,String message,Vector<String>toPhone) throws RemoteException;
+    GroupDto createGroup(GroupDto groupDto) throws RemoteException;
+    GroupDto getGroup(int id) throws RemoteException;
+    int addMemberToGroup(GroupDto groupDto,String memberPhone) throws RemoteException;
+    Vector<GroupDto> getAllGroups(String mamberPhone) throws RemoteException;
+    Vector<String> getAllGroupMembers(int id) throws RemoteException;
+    void sendFileToGroup(String fromPhone, int groupId , byte[] filebytes, String filePath, int length, Vector<String> toPhone) throws RemoteException;
+    void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, String toPhone) throws RemoteException;
+
+
+
+
 
 
 }

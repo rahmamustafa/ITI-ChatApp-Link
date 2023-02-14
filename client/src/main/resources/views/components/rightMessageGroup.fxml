@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<VBox spacing="5.0" stylesheets="@../../css/msg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.MessageController">
+<VBox spacing="5.0" stylesheets="@../../css/msg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.MessageControllerGroup">
    <children>
       <Label fx:id="lblName" alignment="TOP_RIGHT" contentDisplay="RIGHT" text="Name" textAlignment="RIGHT" textFill="WHITE">
          <opaqueInsets>
@@ -16,6 +16,6 @@
          </graphic>
       </Label>
       <Label fx:id="lblMessage" styleClass="right-message" text="Message" textFill="WHITE" />
-      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" text="Time" />
+      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" prefHeight="26.0" prefWidth="105.0" text="Time" />
    </children>
 </VBox>

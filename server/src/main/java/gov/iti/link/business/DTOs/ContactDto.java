@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ContactDto implements Serializable{
 
     String phoneNumber;
-    String imageUrl;
+    byte[] image;
     boolean isActive;
     String name;
 
@@ -13,15 +13,15 @@ public class ContactDto implements Serializable{
     public ContactDto() {
     }
     public ContactDto(UserDTO userDTO) {
-        this.imageUrl=userDTO.getPicture();
+        this.image=userDTO.getPicture();
         this.phoneNumber=userDTO.getPhone();
         this.name=userDTO.getName();
         isActive=true;
     }
     
-    public ContactDto(String phoneNumber, String imageUrl, boolean isActive, String name) {
+    public ContactDto(String phoneNumber, byte[] image, boolean isActive, String name) {
         this.phoneNumber = phoneNumber;
-        this.imageUrl = imageUrl;
+        this.image = image;
         this.isActive = isActive;
         this.name = name;
     }
@@ -31,11 +31,11 @@ public class ContactDto implements Serializable{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    public String getImageUrl() {
-        return imageUrl;
+    public byte[] getImage() {
+        return image;
     }
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
     public boolean isActive() {
         return isActive;

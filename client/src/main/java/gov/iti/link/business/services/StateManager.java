@@ -19,6 +19,10 @@ public class StateManager {
         this.user = user;
     }
 
+    public void deleteUser(){
+        this.user = null;
+    }
+
     private StateManager() {}
 
 }

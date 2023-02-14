@@ -1,0 +1,6 @@
+.root {
+    
+}
+.root:hover {
+    -fx-background-color : grey;
+}

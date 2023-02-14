@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<DialogPane prefHeight="205.0" prefWidth="358.0" style="-fx-background-color: white;" styleClass="dialog" stylesheets="@../../css/dialog.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.CreateGroupController">
+   <content>
+      <AnchorPane prefHeight="200.0" prefWidth="358.0">
+         <children>
+            <TextField fx:id="tfGroupName" layoutX="24.0" layoutY="128.0" prefHeight="26.0" prefWidth="145.0" promptText="Enter Group Name" />
+            <Button fx:id="btnCreateGroup" layoutX="194.0" layoutY="128.0" mnemonicParsing="false" onAction="#onCreateGroup" prefHeight="26.0" prefWidth="144.0" styleClass="add-button" text="Create Group" />
+            <!-- <Button fx:id="BtnChooseProfile" layoutX="123.0" layoutY="40.0" mnemonicParsing="false" onAction="#onChooseProfile" prefHeight="60.0" prefWidth="96.0" style="-fx-background-color: white; -fx-cursor: hand;" styleClass="fields" /> -->
+            <Label fx:id="lblImageUrl" layoutX="105.0" layoutY="96.0" prefHeight="17.0" prefWidth="129.0" />
+            <Label layoutX="97.0" layoutY="9.0" styleClass="header-label" text="Create Group" />
+            <ImageView fitHeight="50.0" fitWidth="72.0" layoutX="145.0" layoutY="45.0" onMouseClicked="#onChooseProfile" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" styleClass="fields">
+               <image>
+                  <Image url="@../../images/addpic.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </content>
+   <header>
+      <AnchorPane styleClass="header">
+         <children>
+            <ImageView fitHeight="23.0" fitWidth="20.0" layoutX="386.0" onMouseClicked="#onClose" pickOnBounds="true" preserveRatio="true" styleClass="icon" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../../images/close.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </header>
+</DialogPane>
