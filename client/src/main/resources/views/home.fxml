@@ -55,7 +55,7 @@
 
       <VBox alignment="TOP_CENTER" layoutX="-5.0" layoutY="64.0" prefHeight="636.0" prefWidth="74.0" style="-fx-background-color: #ebe7f5; -fx-background-radius: 30;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="64.0">
          <children>
-            <ImageView fx:id="imgVaddContact" fitHeight="37.0" fitWidth="37.0" onMouseClicked="#showNewDialog" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+            <ImageView fx:id="imgVaddContact" fitHeight="37.0" fitWidth="37.0" onMouseClicked="#onAddContactClick" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../images/add-friend.png" />
                </image>

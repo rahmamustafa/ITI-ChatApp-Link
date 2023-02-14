@@ -3,6 +3,7 @@ package gov.iti.link.presentation.controllers;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -49,7 +50,7 @@ public class LabelContactController {
     public void setStatus(boolean status){
         if(status){
             //lblStatus.setText("online");
-            circlePicStatus.setFill(Color.GREEN);
+            circlePicStatus.setFill(Color.web("#1fff3d"));
         }
         else  {
             //lblStatus.setText("ofline"); 

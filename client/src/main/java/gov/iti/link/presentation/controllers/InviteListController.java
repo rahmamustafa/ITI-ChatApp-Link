@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.layout.VBox;
 
@@ -25,7 +26,7 @@ public class InviteListController implements Initializable {
 
     ObservableList<Node> invites; 
     ObservableList<InvitationDTO> invitations;
-    
+    Dialog<Boolean> dialog;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -61,6 +62,16 @@ public class InviteListController implements Initializable {
 
     public void deleteInvite(Object obj){
         vboxInviteList.getChildren().remove(obj);
+    }
+
+    public void setDialog(Dialog<Boolean> dialog){
+        this.dialog = dialog ;
+    }
+
+    @FXML
+    void onClose(){
+        this.dialog.setResult(Boolean.TRUE);
+        dialog.close();
     }
 
 }

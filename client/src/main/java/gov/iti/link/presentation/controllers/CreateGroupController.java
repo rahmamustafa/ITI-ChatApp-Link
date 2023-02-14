@@ -17,6 +17,7 @@ import gov.iti.link.business.services.UserService;
 import gov.iti.link.presentation.Validations.RegisterValidation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -25,8 +26,8 @@ import javafx.stage.FileChooser;
 public class CreateGroupController {
 
   
-    @FXML
-    private Button BtnChooseProfile;
+    // @FXML
+    // private Button BtnChooseProfile;
 
     @FXML
     private Button btnCreateGroup;
@@ -43,6 +44,7 @@ public class CreateGroupController {
     UserService userService = ServiceManager.getInstance().getUserService() ;;
     UserDTO userDTO;
     ChatController chatController;
+    Dialog<Boolean> dialog;
 
     public CreateGroupController(){
         try {
@@ -65,6 +67,7 @@ public class CreateGroupController {
         System.out.println(groupDto);
         System.out.println("group created");
         userService.addMemberToGroup(groupDto,StateManager.getInstance().getUser().getPhone());
+        onClose();
     } catch (RemoteException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
@@ -73,6 +76,7 @@ public class CreateGroupController {
 
     @FXML
     private void onChooseProfile() {
+        System.out.println("clicked");
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif",
                 "*.jpeg");
@@ -93,6 +97,16 @@ public class CreateGroupController {
         }
         
     
+    }
+
+    public void setDialog(Dialog<Boolean> dialog){
+        this.dialog = dialog ;
+    }
+
+    @FXML
+    void onClose(){
+        this.dialog.setResult(Boolean.TRUE);
+        dialog.close();
     }
 
 

@@ -207,13 +207,13 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     }
 
-    // @Override
-    // public GroupDto getGroup(int id) throws RemoteException {
-    // GroupDto groupDto = new GroupDto();
-    // groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
-    // return groupDto;
+    @Override
+    public GroupDto getGroup(int id) throws RemoteException {
+    GroupDto groupDto = groupMapper.entityToDTO(this.userDAO.getGroup(id));
+    groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
+    return groupDto;
 
-    // }
+    }
 
     @Override
     public int addMemberToGroup(GroupDto groupDto, String memberPhone) throws RemoteException {
