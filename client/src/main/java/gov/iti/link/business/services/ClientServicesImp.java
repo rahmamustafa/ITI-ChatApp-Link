@@ -94,23 +94,39 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
                 e.printStackTrace();
             }
         });
-
+        
         
     }
     @Override
-    public void tellFile(String file, byte[] data ,String fromPhone) throws RemoteException {
+    public void tellFileFromGroup(String file , int groupId ,byte[] data,String fromPhone) throws RemoteException {
         System.out.println("we get " + file + " from " + fromPhone);
 
          
         Platform.runLater(() -> {
             try {
-                chatController.recieveFile(file, data , userService.findByPhone(fromPhone));
+                chatController.recieveFileFromGroup(file, groupId ,data , userService.findByPhone(fromPhone));
             } catch (RemoteException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         });
         
+        
+    }
+
+    @Override
+    public void tellFile(String file, byte[] data, String fromPhone) throws RemoteException {
+        System.out.println("we get " + file + " from " + fromPhone);
+
+         
+        Platform.runLater(() -> {
+            try {
+                chatController.recieveFile(file ,data , userService.findByPhone(fromPhone));
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        });
         
     }
 

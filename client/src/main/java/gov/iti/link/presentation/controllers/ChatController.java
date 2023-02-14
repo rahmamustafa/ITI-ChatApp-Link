@@ -139,6 +139,7 @@ public class ChatController implements Initializable {
 
     Vector<String> toPhones = new Vector<>();
     FileControllerGroup fileControllerGroup;
+    FileControllerSingle fileControllerSingle;
     Map<String, VBox> chatVBoxs = new HashMap<>();
     String clickedContact;
 
@@ -227,15 +228,15 @@ public class ChatController implements Initializable {
     @FXML
     void sendFile(ActionEvent event) {
         toPhones.clear();
-        toPhones.add(clickedContact);
+        //toPhones.add(clickedContact);
 
         FileChooser fileChooser = new FileChooser();
         // FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("*.*");
         // fileChooser.getExtensionFilters().add(filter);
 
         File file = fileChooser.showOpenDialog(StageManager.getInstance().getCurrentStage());
-        if (file != null) {
-            txtMessage.setText(file.getName());
+        if (file == null) {
+            return;
         }
         byte[] filebytes = new byte[(int) file.length()];
 
@@ -245,11 +246,20 @@ public class ChatController implements Initializable {
             System.out.println("Bytes len " + filebytes.length);
             in.read(filebytes, 0, filebytes.length);
             System.out.println("Try to send file : " + file.getName());
-            userService.sendFile(stateManager.getUser().getPhone(), filebytes, file.getName(), (int) file.length(),
-                    toPhones);
-            chatVBoxs.get(clickedContact).getChildren()
-                    .add(senderFile(stateManager.getUser(), "rightMessageFileGroup"));
-            in.close();
+            if (clickedContact.startsWith("01")) {
+                userService.sendFile(stateManager.getUser().getPhone() ,filebytes, file.getName(), (int) file.length(),
+                clickedContact);
+                chatVBoxs.get(clickedContact).getChildren()
+                        .add(senderFile(stateManager.getUser(), "rightMessageFileSingle"));
+            }
+            else{
+                toPhones = userService.getAllGroupMembers(Integer.parseInt(clickedContact));
+                userService.sendFileToGroup(stateManager.getUser().getPhone(), Integer.parseInt(clickedContact) ,filebytes, file.getName(), (int) file.length(),
+                        toPhones);
+                chatVBoxs.get(clickedContact).getChildren()
+                        .add(senderFileGroup(stateManager.getUser(), "rightMessageFileGroup"));
+                in.close();
+            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -257,6 +267,20 @@ public class ChatController implements Initializable {
     }
 
     private Node senderFile(UserDTO userDTO, String type) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
+        VBox node = loader.load();
+        if (type.equals("rightMessageFileSingle"))
+            node.setAlignment(Pos.TOP_RIGHT);
+        else
+            node.setAlignment(Pos.TOP_LEFT);
+
+        fileControllerSingle = loader.getController();
+        // isClicked = fileController.isCheck();
+        fileControllerSingle.setTime(simpleDateFormat.format(new Date()));
+        return node;
+    }
+
+    private Node senderFileGroup(UserDTO userDTO, String type) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
         VBox node = loader.load();
         if (type.equals("rightMessageFileGroup"))
@@ -272,10 +296,61 @@ public class ChatController implements Initializable {
         return node;
     }
 
-    public void recieveFile(String file , byte[] data, UserDTO user) {
-        
+    public void recieveFile(String file,byte[] data, UserDTO user){
         try {
-            chatVBoxs.get(user.getPhone()).getChildren().add(senderFile(user, "leftMessageFileGroup"));
+            chatVBoxs.get(user.getPhone()).getChildren().add(senderFile(user, "leftMessageFileSingle"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        fileControllerSingle.ShowConfirmation();
+
+        File filePath = new File(file);
+        if (fileControllerSingle.isCheck()) {
+            byte[] mydata = data;
+
+            // mydata = new byte[(int) filePath.length()];
+            FileInputStream in;
+            try {
+
+                // mydata = Files.readAllBytes(Paths.get(file));
+                in = new FileInputStream(filePath);
+                try {
+                    in.read(mydata, 0, mydata.length);
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+
+                }
+                try {
+                    in.close();
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            System.out.println("Downloading");
+            try {
+                FileOutputStream out = new FileOutputStream(new File(file));
+                out.write(mydata);
+                out.flush();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else {
+            if (filePath.delete())
+                System.out.println("Cannot download file");
+        }
+    }
+    
+    public void recieveFileFromGroup(String file, int groupId  ,byte[] data, UserDTO user) {
+
+        try {
+            chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderFileGroup(user, "leftMessageFileGroup"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -283,47 +358,45 @@ public class ChatController implements Initializable {
         fileControllerGroup.ShowConfirmation();
 
         File filePath = new File(file);
-        if(fileControllerGroup.isCheck()){
-        byte [] mydata = data;
+        if (fileControllerGroup.isCheck()) {
+            byte[] mydata = data;
 
-       
-        //mydata = new byte[(int) filePath.length()];
-        FileInputStream in ;
-        try {
-            
-            //mydata = Files.readAllBytes(Paths.get(file));
-            in = new FileInputStream(filePath);
+            // mydata = new byte[(int) filePath.length()];
+            FileInputStream in;
             try {
-                in.read(mydata, 0, mydata.length);
-            } catch (IOException e) {
-                
-                e.printStackTrace();
-                
+
+                // mydata = Files.readAllBytes(Paths.get(file));
+                in = new FileInputStream(filePath);
+                try {
+                    in.read(mydata, 0, mydata.length);
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+
+                }
+                try {
+                    in.close();
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                // TODO: handle exception
             }
+            System.out.println("Downloading");
             try {
-                in.close();
+                FileOutputStream out = new FileOutputStream(new File(file));
+                out.write(mydata);
+                out.flush();
             } catch (IOException e) {
-            
+                // TODO Auto-generated catch block
                 e.printStackTrace();
-            }					
-        
-        } catch (Exception e) {
-            // TODO: handle exception
+            }
+        } else {
+            if (filePath.delete())
+                System.out.println("Cannot download file");
         }
-        System.out.println("Downloading");
-        try {
-            FileOutputStream out = new FileOutputStream(new File(file));
-            out.write(mydata);
-            out.flush();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    else{
-        if(filePath.delete())
-            System.out.println("Cannot download file");
-    }
     }
 
     @FXML
@@ -440,6 +513,7 @@ public class ChatController implements Initializable {
             clientServices = new ClientServicesImp(this);
             userService.userLoggedIn(clientServices, stateManager.getUser());
             fileControllerGroup = new FileControllerGroup(this);
+            fileControllerSingle = new FileControllerSingle(this);
 
         } catch (RemoteException e) {
             // TODO Auto-generated catch block

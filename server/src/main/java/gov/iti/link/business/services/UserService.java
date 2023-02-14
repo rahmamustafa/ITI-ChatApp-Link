@@ -25,7 +25,6 @@ public interface UserService extends Remote {
     Vector<ContactDto> getAllContacts(String userPhone) throws RemoteException;
     int updateUser(UserDTO user) throws RemoteException;
 
-
     List<InvitationDTO> getInvitations(String userPhone) throws RemoteException;
     void acceptInvite(InvitationDTO invite) throws RemoteException;
     void rejectInvite(InvitationDTO invite) throws RemoteException;
@@ -41,7 +40,7 @@ public interface UserService extends Remote {
     int addMemberToGroup(GroupDto groupDto,String memberPhone) throws RemoteException;
     Vector<GroupDto> getAllGroups(String mamberPhone) throws RemoteException;
     Vector<String> getAllGroupMembers(int id) throws RemoteException;
-    void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, Vector<String> toPhone) throws RemoteException;
-
+    void sendFileToGroup(String fromPhone, int groupId , byte[] filebytes, String filePath, int length, Vector<String> toPhone) throws RemoteException;
+    void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, String toPhone) throws RemoteException;
   
 }

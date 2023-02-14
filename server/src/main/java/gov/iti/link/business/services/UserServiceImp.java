@@ -29,7 +29,7 @@ import gov.iti.link.business.mappers.InvitationMapper;
 import gov.iti.link.persistence.entities.InvitationEntity;
 import gov.iti.link.persistence.entities.UserEntity;
 
-public class UserServiceImp extends UnicastRemoteObject implements UserService {        
+public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     Vector<ClientServices> allClients = new Vector<>();
     Vector<UserDTO> allOnlineUser = new Vector<>();
@@ -141,11 +141,11 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     @Override
     public void userLoggedIn(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
         System.out.println("user" + userDTO.getPhone());
-        synchronized(this){
+        synchronized (this) {
             allClients.add(clientServices);
             allOnlineUser.add(userDTO);
         }
-      
+
         for (ClientServices client : allClients)
             if (!client.equals(clientServices))
                 client.notifyContactStatus(userDTO, true);
@@ -159,7 +159,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     @Override
     public void userLoggedOut(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
         System.out.println("user" + userDTO.getPhone());
-        synchronized(this){
+        synchronized (this) {
             allClients.remove(clientServices);
             allOnlineUser.remove(userDTO);
         }
@@ -174,13 +174,12 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         this.userDAO.addContact(invite.getToPhone(), invite.getFromPhone());
         this.userDAO.deleteInvite(invite.getId());
         for (ClientServices client : allClients) {
-            if (client.getUserDTO().getPhone().equals(invite.getFromPhone())){
-                    client.notifyNewContact(invite.getToPhone());
-                System.out.println(invite.getToPhone()+" you accept invitation from " + invite.getFromPhone());
-            }
-            else if(client.getUserDTO().getPhone().equals(invite.getToPhone())){
-                 client.notifyNewContact(invite.getFromPhone());
-                System.out.println(invite.getToPhone()+" accepted your invitation");
+            if (client.getUserDTO().getPhone().equals(invite.getFromPhone())) {
+                client.notifyNewContact(invite.getToPhone());
+                System.out.println(invite.getToPhone() + " you accept invitation from " + invite.getFromPhone());
+            } else if (client.getUserDTO().getPhone().equals(invite.getToPhone())) {
+                client.notifyNewContact(invite.getFromPhone());
+                System.out.println(invite.getToPhone() + " accepted your invitation");
 
             }
         }
@@ -193,9 +192,9 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     }
 
     @Override
-    public void sendMessage(String fromPhone, String message,String toPhone) throws RemoteException {
+    public void sendMessage(String fromPhone, String message, String toPhone) throws RemoteException {
         for (ClientServices client : allClients) {
-            if (toPhone.equals(client.getUserDTO().getPhone())){
+            if (toPhone.equals(client.getUserDTO().getPhone())) {
                 client.tellMessage(message, fromPhone);
             }
         }
@@ -204,32 +203,31 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     @Override
     public GroupDto createGroup(GroupDto groupDto) throws RemoteException {
-       return groupMapper.entityToDTO(this.userDAO.createGroup(groupDto));     
-            
+        return groupMapper.entityToDTO(this.userDAO.createGroup(groupDto));
+
     }
 
     // @Override
     // public GroupDto getGroup(int id) throws RemoteException {
-    //     GroupDto groupDto = new GroupDto();
-    //     groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
-    //     return groupDto;
-        
+    // GroupDto groupDto = new GroupDto();
+    // groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
+    // return groupDto;
+
     // }
 
     @Override
     public int addMemberToGroup(GroupDto groupDto, String memberPhone) throws RemoteException {
         groupDto.addMember(memberPhone);
-        this.userDAO.addMemberToGroup(groupDto.getGroupId(),memberPhone);
+        this.userDAO.addMemberToGroup(groupDto.getGroupId(), memberPhone);
         Vector<String> allMembers = getAllGroupMembers(groupDto.getGroupId());
         for (ClientServices client : allClients) {
-            if (memberPhone.equals(client.getUserDTO().getPhone())){
+            if (memberPhone.equals(client.getUserDTO().getPhone())) {
                 client.notifyYouAddedToGroup(groupDto);
-            }
-            else if(allMembers.contains(memberPhone)){
-                client.notifyNewMember(groupDto,memberPhone);
+            } else if (allMembers.contains(memberPhone)) {
+                client.notifyNewMember(groupDto, memberPhone);
             }
         }
-        return 0;   
+        return 0;
     }
 
     @Override
@@ -241,56 +239,88 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
             groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
             allGroupsDtos.add(groupDto);
         }
-        //todo get all members and add in list
+        // todo get all members and add in list
         return allGroupsDtos;
     }
 
     @Override
     public Vector<String> getAllGroupMembers(int id) throws RemoteException {
-        //Vector<String> allMembersPhone = this.userDAO.getAllGroupMembers(id);
+        // Vector<String> allMembersPhone = this.userDAO.getAllGroupMembers(id);
         // Vector<UserDTO> allGroupMembers = new Vector<>();
         // for(String phone:allMembersPhone){
-        //     allGroupMembers.add(findByPhone(phone));
-        //}
+        // allGroupMembers.add(findByPhone(phone));
+        // }
         return this.userDAO.getAllGroupMembers(id);
     }
 
     @Override
     public void sendMessageToGroup(String fromPhone, int groupId, String message, Vector<String> toPhone)
             throws RemoteException {
-            for (ClientServices client : allClients) {
-                if (toPhone.contains(client.getUserDTO().getPhone())&&!client.getUserDTO().getPhone().equals(fromPhone)){
-                        client.tellMessageFromGroup(message, groupId,fromPhone);
-                    }
-                }
-        
+        for (ClientServices client : allClients) {
+            if (toPhone.contains(client.getUserDTO().getPhone()) && !client.getUserDTO().getPhone().equals(fromPhone)) {
+                client.tellMessageFromGroup(message, groupId, fromPhone);
+            }
+        }
+
     }
+
     @Override
-    public void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, Vector<String> toPhone) throws RemoteException {
-        for (UserDTO user : allOnlineUser) {
-            if (toPhone.contains(user.getPhone()))
-             {
-                
-                int index = allOnlineUser.indexOf(user);
-                
+    public void sendFileToGroup(String fromPhone, int groupId, byte[] filebytes, String filePath, int length,
+            Vector<String> toPhone) throws RemoteException {
+        for (ClientServices client : allClients) {
+            if (toPhone.contains(client.getUserDTO().getPhone()) && !client.getUserDTO().getPhone().equals(fromPhone)) {
+
+                //int index = allOnlineUser.indexOf(user);
+
                 File path = new File(filePath);
                 try {
                     FileOutputStream out = new FileOutputStream(path);
-                    byte [] data = filebytes;
+                    byte[] data = filebytes;
                     System.out.println("Byte data " + data.length);
                     out.write(data);
                     out.flush();
                     System.out.println("Done Writing data");
-                    allClients.get(index).tellFile(filePath, data ,fromPhone);
+                    client.tellFileFromGroup(filePath, groupId, data, fromPhone);
                     out.close();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
-            
+
         }
+
+    }
+
+    @Override
+    public void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, String toPhone) throws RemoteException {
+  
+    for (UserDTO user : allOnlineUser) {
+        if (toPhone.contains(user.getPhone()))
+         {
+            
+            int index = allOnlineUser.indexOf(user);
+            
+            File path = new File(filePath);
+            try {
+                FileOutputStream out = new FileOutputStream(path);
+                byte [] data = filebytes;
+                System.out.println("Byte data " + data.length);
+                out.write(data);
+                out.flush();
+                System.out.println("Done Writing data");
+                allClients.get(index).tellFile(filePath ,data ,fromPhone);
+                out.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        
+    }
         
     }
 
 }
+
+

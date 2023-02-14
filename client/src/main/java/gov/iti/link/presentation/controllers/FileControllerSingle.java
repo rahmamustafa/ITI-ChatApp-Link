@@ -1,30 +1,19 @@
 package gov.iti.link.presentation.controllers;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.Optional;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 
-public class FileControllerGroup {
-
-    @FXML
-    private Circle circleImage;
+public class FileControllerSingle {
 
     @FXML
     private Label lblMessage;
-
-    @FXML
-    private Label lblName;
 
     @FXML
     private Label lblTime;
@@ -32,16 +21,18 @@ public class FileControllerGroup {
     private boolean check;
     ChatController chatController;
     
-    public FileControllerGroup(ChatController chatController) {
+    
+
+    public FileControllerSingle(ChatController chatController) {
         this.chatController = chatController;
-	}
-
-	public FileControllerGroup() {
     }
 
-    public void setName(String senderName) {
-        this.lblName.setText(senderName);;
+    
+
+    public FileControllerSingle() {
     }
+
+
 
     public String getTime() {
         return lblTime.getText();
@@ -49,13 +40,6 @@ public class FileControllerGroup {
 
     public void setTime(String lblTime) {
         this.lblTime.setText(lblTime);
-    }
-    public void setImage(byte[] image){
-        InputStream imgStream = new ByteArrayInputStream(image);
-        Image img = new Image(imgStream);
-        // Image image = new Image(imageUrl);
-        circleImage.setFill(new ImagePattern(img));
-        // System.out.println("ads");
     }
 
     public boolean isCheck() {
@@ -66,7 +50,6 @@ public class FileControllerGroup {
         this.check = check;
     }
 
-    /* 
     @FXML
     void OnClickFile(MouseEvent event) {
 
@@ -77,6 +60,8 @@ public class FileControllerGroup {
         alert.setTitle("Save");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get().getText() == "Save") {
+            Alert conf = new Alert(Alert.AlertType.CONFIRMATION, "File Downloaded Successfully", new ButtonType("OK", ButtonBar.ButtonData.OK_DONE));
+            conf.show();
             check = true;
             
         }
@@ -85,9 +70,7 @@ public class FileControllerGroup {
         }
         
     }
-    */
 
-    
 
     public void ShowConfirmation (){
         
@@ -97,8 +80,6 @@ public class FileControllerGroup {
         alert.setTitle("Save");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get().getText() == "Save") {
-            Alert conf = new Alert(Alert.AlertType.CONFIRMATION, "File Downloaded Successfully", new ButtonType("OK", ButtonBar.ButtonData.OK_DONE));
-            conf.show();
             check = true;
         }
         else if (result.isPresent() && result.get().getText() == "Cancel") {
@@ -107,6 +88,6 @@ public class FileControllerGroup {
         
     }
 
-    
-    
+
+
 }
