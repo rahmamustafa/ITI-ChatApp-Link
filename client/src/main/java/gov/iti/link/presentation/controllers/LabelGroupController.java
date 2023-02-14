@@ -32,6 +32,9 @@ public class LabelGroupController {
     @FXML
     private ImageView imgAddMember;
 
+    private boolean seenLastMessage=true;
+    private int counterLastMessage=0; 
+
     @FXML
     private Label lablGroupNumber;
 
@@ -139,4 +142,17 @@ public class LabelGroupController {
             }
         });
     }
+
+    public void setSeenLastMessage(boolean seenLastMessage) {
+        this.seenLastMessage = seenLastMessage;
+        if(seenLastMessage){
+           // lblunSeenMessages.setVisible(false);
+            counterLastMessage=0;
+        }
+        else{
+           // lblunSeenMessages.setVisible(true);
+            counterLastMessage++;
+            //lblunSeenMessages.setText(Integer.toString(counterLastMessage));
+        }
+	}
 }

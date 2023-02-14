@@ -155,6 +155,7 @@ public class ChatController implements Initializable {
     FileControllerSingle fileControllerSingle;
     Map<String, VBox> chatVBoxs = new HashMap<>();
     Map<String, LabelContactController> contactLabels = new HashMap<>();
+    Map<Integer, LabelGroupController> groupLabels = new HashMap<>();
     String clickedContact;
 
     ObservableList<Pane> friendsList = FXCollections.observableArrayList();
@@ -372,11 +373,9 @@ public class ChatController implements Initializable {
 
         try {
             chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderFileGroup(user, "leftMessageFileGroup"));
-            for (int i = 0; i < friendsList.size(); i++)
-            if (groupList.get(i).getId().equals(Integer.toString(groupId))) {
-                groupList.remove(groupList.get(i));
-                addGroupinListView(userService.getGroup(groupId),0);
-            }
+            groupLabels.get(groupId).setLastMessage("File Recieved");
+            //groupLabels.get(groupId).setSeenLastMessage(false);
+            sendGroupTopList(groupId);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -425,7 +424,9 @@ public class ChatController implements Initializable {
         }
     }
 
-    @FXML
+    
+
+	@FXML
     void onClickFriend(MouseEvent event) {
         System.out.println("clicked");
         logoPane.setVisible(false);
@@ -675,16 +676,22 @@ public class ChatController implements Initializable {
                 friendsList.add(0,temp);
             }
     }
+    private void sendGroupTopList(int groupId) {
+        for (int i = 0; i < groupList.size(); i++)
+        if (groupList.get(i).getId().equals(Integer.toString(groupId))) {
+            Pane temp = groupList.get(i);
+            groupList.remove(groupList.get(i));
+            groupList.add(0,temp);
+        }
+	}
 
     public void recieveMessageFromGroup(String message, int groupId, UserDTO user) {
         try {
             chatVBoxs.get(Integer.toString(groupId)).getChildren()
                     .add(senderMessageGroup(user, message, "leftMessageGroup"));
-            for (int i = 0; i < friendsList.size(); i++)
-            if (groupList.get(i).getId().equals(Integer.toString(groupId))) {
-                groupList.remove(groupList.get(i));
-                addGroupinListView(userService.getGroup(groupId),0);
-            }
+            groupLabels.get(groupId).setLastMessage(message);
+            //groupLabels.get(groupId).setSeenLastMessage(false);
+            sendGroupTopList(groupId);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
