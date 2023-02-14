@@ -113,12 +113,13 @@ public class mangeServiceController implements Initializable {
     @FXML
     void onlinebtnAction(ActionEvent event) {
         try {
-            users = new UserServiceImp();
-           int  allUser = users.getAllUsers().size();
-           int  onlinuser =users.allOnlineUser.size();
+            users = ServerManager.getInstance().getUserSeviceImp();
+            int allUser = users.getAllUsers().size();
+            int onlinuser = users.allOnlineUser.size();
+            System.out.println("All:" + allUser);
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                    new PieChart.Data("Online ", onlinuser), new PieChart.Data("OffLine ", allUser - onlinuser));
 
-            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(new  PieChart.Data("Online ",onlinuser),new  PieChart.Data("OffLine ",allUser-onlinuser));
-           
             piechart.getData().clear();
             piechart.getData().addAll(pieChartData);
             piechart.setTitle("Online User");
@@ -147,13 +148,14 @@ public class mangeServiceController implements Initializable {
             switchBtn.setContentDisplay(ContentDisplay.LEFT);
         }
     }
+
     @FXML
     void announcebtnAction(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Announcement.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
 
-            Stage stage=new Stage();
+            Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

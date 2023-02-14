@@ -48,6 +48,17 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
         });
 
     }
+    @Override
+    public void tellAnnouce(String announcement) throws RemoteException {
+        System.out.println("we get " + announcement + " from Sever" );
+
+        Platform.runLater(() -> {
+           
+               chatController.recieveAnnounc(announcement);
+            
+        });
+
+    }
 
     @Override
     public void notifyInvitation(InvitationDTO invitationDTO) {

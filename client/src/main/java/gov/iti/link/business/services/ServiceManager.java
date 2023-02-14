@@ -38,7 +38,7 @@ public class ServiceManager {
                 DialogPane dialogPane = fxmlLoader.load();
                 Dialog<ButtonType> dialog = new Dialog<>();
                 dialog.setDialogPane(dialogPane);
-                dialog.showAndWait();
+                dialog.show();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

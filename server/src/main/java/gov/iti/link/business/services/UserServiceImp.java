@@ -321,6 +321,21 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         
     }
 
+    @Override
+    public void sendAnnounce(String announcement) throws RemoteException {
+        // TODO Auto-generated method stub
+        for (UserDTO onLineUser : allOnlineUser) {
+            for (ClientServices client : allClients) {
+                if (onLineUser.getPhone().equals(client.getUserDTO().getPhone())) {
+                    client.tellAnnouce(announcement);
+                    break;
+                }
+            }
+        }
+
+        
+    }
+
 }
 
 

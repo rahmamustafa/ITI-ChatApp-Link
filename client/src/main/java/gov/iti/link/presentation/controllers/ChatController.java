@@ -659,6 +659,12 @@ public class ChatController implements Initializable {
             e.printStackTrace();
         }
     }
+    public void recieveAnnounc(String announcement){
+
+    
+        System.out.println(announcement);
+    
+    }
 
     public void recieveMessageFromGroup(String message, int groupId, UserDTO user) {
         try {

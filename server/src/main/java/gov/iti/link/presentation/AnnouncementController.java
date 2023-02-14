@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import gov.iti.link.business.services.ServerManager;
 import gov.iti.link.business.services.UserServiceImp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,15 +27,11 @@ public class AnnouncementController implements Initializable{
 
     @FXML
     void sendbtnAction(ActionEvent event) throws RemoteException {
-        UserServiceImp obj=new UserServiceImp();
-        String Fromphone="01000000000";
-        Vector<String> toPhone=new Vector<String>();
-        for(int i=0;i<obj.allOnlineUser.size();i++){
-            toPhone.add(obj.allOnlineUser.get(i).getPhone());
-        }
+       
         if (!texmesage.getText().equals("")){
-            obj.sendMessage(Fromphone, texmesage.getText().toString(), toPhone);
-            texmesage.clear();
+           ServerManager.getInstance().getUserSeviceImp().sendAnnounce(texmesage.getText().toString());
+           System.out.println(texmesage.getText().toString());
+           texmesage.clear();
         }
 
     }
