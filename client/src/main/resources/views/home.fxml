@@ -96,6 +96,22 @@
                   <Insets left="11.0" />
                </VBox.margin>
             </Text>
+            <ImageView fx:id="imgContacts" fitHeight="43.0" fitWidth="43.0" onMouseClicked="#onOpenContacts" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../images/icons/friends.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="7.0" />
+               </VBox.margin>
+            </ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contacts" wrappingWidth="57.89141893386841">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="12.0" />
+               </VBox.margin>
+            </Text>
             <ImageView fx:id="imgCreateGroup" fitHeight="50.0" fitWidth="53.0" onMouseClicked="#onCreateGroup" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../images/icons/createGroup.png" />
@@ -109,12 +125,28 @@
                   <Font size="10.0" />
                </font>
             </Text>
+            <ImageView fx:id="imgOpenGroup" fitHeight="50.0" fitWidth="53.0" onMouseClicked="#onOpenGroups" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../images/icons/groups.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="7.0" />
+               </VBox.margin>
+            </ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Groups" wrappingWidth="57.89141893386841">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="12.0" />
+               </VBox.margin>
+            </Text>
             <ImageView fx:id="imgVProfile1" fitHeight="39.0" fitWidth="36.0" onMouseClicked="#onLogOut" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                <image>
                   <Image url="@../images/logout.png" />
                </image>
                <VBox.margin>
-                  <Insets top="15.0" />
+                  <Insets top="12.0" />
                </VBox.margin>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="log out" wrappingWidth="39.491424560546875">
