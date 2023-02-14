@@ -6,6 +6,7 @@ module gov.iti.link{
     requires transitive javafx.graphics;
     requires mysql.connector.j;
     requires java.sql.rowset;
+    requires org.controlsfx.controls;
     opens gov.iti.link.presentation.controllers to javafx.fxml;
     exports gov.iti.link.business.services to java.rmi;
     exports gov.iti.link.business.DTOs;
