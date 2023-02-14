@@ -78,3 +78,11 @@
 #btnUpdate:pressed{
     -fx-background-color :  #6F4CBB
 }
+.combox-box{
+    
+    -fx-cell-size: 1.66667em;
+    -fx-background-color: white;
+    -fx-border-color : #6F4CBB;
+    -fx-background-radius :50;
+    
+}

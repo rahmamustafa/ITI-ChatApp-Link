@@ -230,8 +230,8 @@ public class RegisterController implements Initializable {
         if (!RegisterValidation.validBio(txtBio.getText())) {
             System.out.println("please Enter bio ");
             errMsg += "please Enter bio \n";
-            lblErrBio.setVisible(true);
-            userValid = false;
+            //lblErrBio.setVisible(true);
+            userValid = true;
         } else
             lblErrPhone.setVisible(false);
 

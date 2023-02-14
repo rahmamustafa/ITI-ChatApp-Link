@@ -6,20 +6,36 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane prefHeight="553.0" prefWidth="414.0" style="-fx-background-color: white;" stylesheets="@../css/profile.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.UpdateController">
+<Pane prefHeight="553.0" prefWidth="414.0" style="-fx-background-color: white;" styleClass="combox-box" stylesheets="@../css/profile.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.UpdateController">
    <children>
       <Label fx:id="lblImageUrl" layoutX="166.0" layoutY="431.0" prefHeight="30.0" prefWidth="170.0" />
       <TextField fx:id="txtDisplayName" layoutX="62.0" layoutY="67.0" prefHeight="34.0" prefWidth="275.0" promptText="Name" />
       <Button fx:id="btnUpdate" layoutX="62.0" layoutY="444.0" mnemonicParsing="false" onAction="#OnUpdate" prefHeight="34.0" prefWidth="292.0" text="Update" />
-      <DatePicker fx:id="dateOfBirth" layoutX="62.0" layoutY="322.0" prefHeight="25.0" prefWidth="124.0" />
+      <DatePicker fx:id="dateOfBirth" layoutX="62.0" layoutY="314.0" prefHeight="25.0" prefWidth="275.0" styleClass="combox-box" />
       <TextField fx:id="txtBio" layoutX="62.0" layoutY="207.0" prefHeight="34.0" prefWidth="275.0" promptText="Add your bio" />
-      <ComboBox fx:id="genderComboBox" layoutX="62.0" layoutY="277.0" prefHeight="25.0" prefWidth="124.0" promptText="Gender" visibleRowCount="2" />
-      <Button fx:id="BtnChooseProfile" layoutX="72.0" layoutY="370.0" mnemonicParsing="false" onAction="#onChooseProfile" prefHeight="25.0" prefWidth="105.0" text="Choose profile image" />
+      <ComboBox fx:id="countryComboBox" layoutX="62.0" layoutY="264.0" prefHeight="25.0" prefWidth="275.0" promptText="Country" styleClass="combox-box" visibleRowCount="2" />
       <TextField fx:id="txtEmail" layoutX="62.0" layoutY="141.0" prefHeight="34.0" prefWidth="275.0" promptText="Email" />
       <Label fx:id="lblErrName" layoutX="103.0" layoutY="101.0" text="Alphapets between 2 and 30 characters *" textFill="RED" visible="false" />
       <Label fx:id="lblErrEmail" layoutX="113.0" layoutY="181.0" text="Enter email like 'user@domain.com' *" textFill="RED" visible="false" />
       <Separator layoutX="58.0" layoutY="422.0" prefHeight="3.0" prefWidth="302.0" />
+      <Button fx:id="BtnChooseProfile" layoutX="278.0" layoutY="380.0" mnemonicParsing="false" onAction="#onChooseProfile" prefHeight="27.0" prefWidth="31.0" style="-fx-background-color: white;" styleClass="fields">
+         <graphic>
+            <ImageView fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" styleClass="fields">
+               <image>
+                  <Image url="@../images/addpic.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Label layoutX="65.0" layoutY="387.0" text="Change your profile picture :">
+         <font>
+            <Font name="Ebrima Bold" size="15.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
