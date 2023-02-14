@@ -123,6 +123,8 @@ public class ChatController implements Initializable {
 
     @FXML
     private Label lblContactChat;
+    @FXML
+    private Label lblContactChatName;
 
     @FXML
     private Circle circleContactChat;
@@ -445,6 +447,9 @@ public class ChatController implements Initializable {
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getName()).collect(Collectors.toList()).get(0));
 
+                lblContactChatName.setText(allContacts.stream()
+                        .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
+                        .map(cont -> cont.getPhoneNumber()).collect(Collectors.toList()).get(0));
                 contactImgArr = allContacts.stream()
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getImage()).collect(Collectors.toList()).get(0);
