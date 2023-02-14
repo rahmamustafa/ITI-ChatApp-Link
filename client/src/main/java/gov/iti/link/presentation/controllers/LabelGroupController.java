@@ -38,8 +38,7 @@ public class LabelGroupController implements Initializable {
     private boolean seenLastMessage=true;
     private int counterLastMessage=0; 
 
-    @FXML
-    private Label lablGroupNumber;
+    
 
     @FXML
     private Label lblunSeenMessages;
@@ -94,19 +93,13 @@ public class LabelGroupController implements Initializable {
         txtLastMessage.setText(message);
     }
 
-    public void setGroupSize(int number) {
-        lablGroupNumber.setText(Integer.toString(number));
-    }
+    
 
     public String getName() {
         return (lblGroupName.getText());
 
     }
 
-    public String getGroupSize() {
-        return lablGroupNumber.getText();
-
-    }
     public void setImage(byte[] image){
         InputStream imgStream = new ByteArrayInputStream(image);
         Image img = new Image(imgStream);
@@ -120,7 +113,7 @@ public class LabelGroupController implements Initializable {
     public void setGroupDto(GroupDto groupDto){
         this.groupDto=groupDto;
         setGroupName(groupDto.getGroupName());
-        setGroupSize(groupDto.getAllMembers().size());
+        //setGroupSize(groupDto.getAllMembers().size());
         setImage(groupDto.getPicture());
         
     }
