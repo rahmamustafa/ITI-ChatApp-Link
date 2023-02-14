@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 
@@ -41,6 +42,7 @@ public class FriendsListController  implements Initializable{
     private Button btnAddToGroup;
 
     private GroupDto groupDto;
+    Dialog<Boolean> dialog;
 
     public FriendsListController() {
 
@@ -101,6 +103,16 @@ public class FriendsListController  implements Initializable{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public void setDialog(Dialog<Boolean> dialog){
+        this.dialog = dialog ;
+    }
+
+    @FXML
+    void onClose(){
+        this.dialog.setResult(Boolean.TRUE);
+        dialog.close();
     }
 
 }

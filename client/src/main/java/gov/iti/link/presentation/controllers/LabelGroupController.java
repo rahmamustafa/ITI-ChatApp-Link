@@ -7,6 +7,7 @@ import java.io.InputStream;
 import gov.iti.link.business.DTOs.GroupDto;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.UserService;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
@@ -16,10 +17,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 
 public class LabelGroupController {
 
@@ -41,18 +44,23 @@ public class LabelGroupController {
     GroupDto groupDto;
 
     UserService userService = ServiceManager.getInstance().getUserService();;
-
+    private double xOffset = 0;
+    private double yOffset = 0;
     @FXML
     void onAddGroupMember(MouseEvent mouseEvent) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/friends-checkList.fxml"));
         DialogPane addDialogPane;
         try {
             addDialogPane = fxmlLoader.load();
+            Dialog<Boolean> dialog = new Dialog<>();
             FriendsListController friendsListController = fxmlLoader.getController();
             friendsListController.setGroupDto(groupDto);
-            Dialog<ButtonType> dialog = new Dialog<>();
+            friendsListController.setDialog(dialog);
+            makeDialogDraggable(addDialogPane,dialog);
             dialog.setDialogPane(addDialogPane);
+            dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
+
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -112,4 +120,23 @@ public class LabelGroupController {
         imgAddMember.setVisible(false);
     }
 
+    private void makeDialogDraggable(Pane pane, Dialog dialog){
+        pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+
+     
+        
+        pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                dialog.setX(event.getScreenX() - xOffset);
+                dialog.setY(event.getScreenY() - yOffset);
+            }
+        });
+    }
 }

@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<DialogPane prefHeight="172.0" prefWidth="390.0" stylesheets="@../../css/add-contact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.AddContactController">
+<DialogPane prefHeight="140.0" prefWidth="407.0" styleClass="dialog" stylesheets="@../../css/dialog.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.AddContactController">
    <content>
-      <AnchorPane prefHeight="91.0" prefWidth="390.0">
+      <AnchorPane prefHeight="159.0" prefWidth="406.0">
          <children>
-            <TextField fx:id="textfieldPhone" layoutX="14.0" layoutY="50.0" prefHeight="26.0" prefWidth="259.0" />
-            <Button fx:id="buttonAddContact" layoutX="299.0" layoutY="50.0" mnemonicParsing="false" onAction="#onAddContact" prefHeight="26.0" prefWidth="86.0" styleClass="add-button" text="Add" />
-            <Label layoutX="85.0" layoutY="93.0" prefHeight="18.0" prefWidth="220.0" style="-fx-alignment: center;" text="Invitation Sent Succesfully" textAlignment="CENTER" />
+            <TextField fx:id="textfieldPhone" layoutX="20.0" layoutY="54.0" prefHeight="26.0" prefWidth="266.0" promptText="Enter Contact Number" />
+            <Button fx:id="buttonAddContact" layoutX="299.0" layoutY="52.0" mnemonicParsing="false" onAction="#onAddContact" prefHeight="26.0" prefWidth="86.0" styleClass="add-button" text="Add" />
+            <Label id="lblMessage" fx:id="labelMessage" layoutX="19.0" layoutY="93.0" prefHeight="18.0" prefWidth="366.0" style="-fx-alignment: center; -fx-padding: 2px;" text="Invitation Sent Succesfully" textAlignment="CENTER" visible="false" />
+            <Label layoutX="100.0" layoutY="7.0" styleClass="header-label" text="Add New Contact" />
          </children>
       </AnchorPane>
    </content>
    <header>
-      <Label style="-fx-font-weight: bold;" styleClass="header-label" text="Add New Contact" />
+      <AnchorPane styleClass="header">
+         <children>
+            <ImageView fitHeight="23.0" fitWidth="20.0" layoutX="386.0" onMouseClicked="#onClose" pickOnBounds="true" preserveRatio="true" styleClass="icon" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../../images/close.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </header>
-   <buttonTypes>
-      <ButtonType fx:constant="CLOSE" />
-   </buttonTypes>
 </DialogPane>

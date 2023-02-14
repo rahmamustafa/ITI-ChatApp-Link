@@ -49,6 +49,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -76,6 +77,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
 
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 
 public class ChatController implements Initializable {
 
@@ -143,7 +145,8 @@ public class ChatController implements Initializable {
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
 
     ClientServices clientServices;
-
+    private double xOffset = 0;
+    private double yOffset = 0;
     public ChatController() {
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
@@ -173,15 +176,15 @@ public class ChatController implements Initializable {
             if (clickedContact.startsWith("01")) {
                 userService.sendMessage(stateManager.getUser().getPhone(), message, clickedContact);
                 chatVBoxs.get(clickedContact).getChildren()
-                    .add(senderMessage(stateManager.getUser(), message, "rightMessageSingle"));
-            }
-            else{
-                toPhones=userService.getAllGroupMembers(Integer.parseInt(clickedContact));
-                userService.sendMessageToGroup(stateManager.getUser().getPhone(), Integer.parseInt(clickedContact), message, toPhones);
+                        .add(senderMessage(stateManager.getUser(), message, "rightMessageSingle"));
+            } else {
+                toPhones = userService.getAllGroupMembers(Integer.parseInt(clickedContact));
+                userService.sendMessageToGroup(stateManager.getUser().getPhone(), Integer.parseInt(clickedContact),
+                        message, toPhones);
                 chatVBoxs.get(clickedContact).getChildren()
-                .add(senderMessageGroup(stateManager.getUser(), message, "rightMessageGroup"));
+                        .add(senderMessageGroup(stateManager.getUser(), message, "rightMessageGroup"));
             }
-            
+
             txtMessage.setText("");
 
         } catch (RemoteException e) {
@@ -205,6 +208,7 @@ public class ChatController implements Initializable {
         messageController.setTime(simpleDateFormat.format(new Date()));
         return node;
     }
+
     private Node senderMessageGroup(UserDTO userDTO, String message, String type) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
         VBox node = loader.load();
@@ -220,7 +224,6 @@ public class ChatController implements Initializable {
         return node;
     }
 
-
     @FXML
     void onClickFriend(MouseEvent event) {
         System.out.println("clicked");
@@ -234,7 +237,7 @@ public class ChatController implements Initializable {
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getName()).collect(Collectors.toList()).get(0));
 
-               contactImgArr = allContacts.stream()
+                contactImgArr = allContacts.stream()
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getImage()).collect(Collectors.toList()).get(0);
             } else {
@@ -288,8 +291,12 @@ public class ChatController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/invites-list.fxml"));
             DialogPane dialogPane = fxmlLoader.load();
-            Dialog<ButtonType> dialog = new Dialog<>();
+            Dialog<Boolean> dialog = new Dialog<>();
+            InviteListController controller = fxmlLoader.getController();
+            makeDialogDraggable(dialogPane,dialog);
+            controller.setDialog(dialog);
             dialog.setDialogPane(dialogPane);
+            dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -297,16 +304,20 @@ public class ChatController implements Initializable {
     }
 
     @FXML
-    void showNewDialog() {
-        System.out.println("Add contact");
+    void onAddContactClick() {
 
         try {
-
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/add-contact.fxml"));
             DialogPane addDialogPane = fxmlLoader.load();
-            Dialog<ButtonType> dialog = new Dialog<>();
+            Dialog<Boolean> dialog = new Dialog<>();
+            AddContactController controller = fxmlLoader.getController();
+            makeDialogDraggable(addDialogPane,dialog);
+            controller.setDialog(dialog);
             dialog.setDialogPane(addDialogPane);
+            // dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+            dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -393,7 +404,7 @@ public class ChatController implements Initializable {
             label.setId(Integer.toString(groupDto.getGroupId()));
             LabelGroupController labelGroupController = fxmlLoader.getController();
             labelGroupController.setGroupDto(groupDto);
-            if(!groupDto.getAdminPhone().equals(StateManager.getInstance().getUser().getPhone()))
+            if (!groupDto.getAdminPhone().equals(StateManager.getInstance().getUser().getPhone()))
                 labelGroupController.setAddMemberDisable();
             friendsList.add(label);
         } catch (IOException e) {
@@ -440,7 +451,8 @@ public class ChatController implements Initializable {
 
     public void recieveMessageFromGroup(String message, int groupId, UserDTO user) {
         try {
-            chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderMessageGroup(user, message, "leftMessageGroup"));
+            chatVBoxs.get(Integer.toString(groupId)).getChildren()
+                    .add(senderMessageGroup(user, message, "leftMessageGroup"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -453,14 +465,37 @@ public class ChatController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/create-group.fxml"));
             DialogPane addDialogPane = fxmlLoader.load();
             CreateGroupController createGroupController = fxmlLoader.getController();
+            Dialog<Boolean> dialog = new Dialog<>();
             createGroupController.setChatController(this);
-            Dialog<ButtonType> dialog = new Dialog<>();
+            makeDialogDraggable(addDialogPane,dialog);
+            createGroupController.setDialog(dialog);
             dialog.setDialogPane(addDialogPane);
+            dialog.initStyle(StageStyle.TRANSPARENT);
             dialog.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void makeDialogDraggable(Pane pane, Dialog dialog){
+        pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+
+     
+        
+        pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                dialog.setX(event.getScreenX() - xOffset);
+                dialog.setY(event.getScreenY() - yOffset);
+            }
+        });
     }
 
 }
