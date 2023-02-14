@@ -376,7 +376,7 @@ public class ChatController implements Initializable {
         try {
             chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderFileGroup(user, "leftMessageFileGroup"));
             groupLabels.get(groupId).setLastMessage("File Recieved");
-            // groupLabels.get(groupId).setSeenLastMessage(false);
+            groupLabels.get(groupId).setSeenLastMessage(false);
             sendGroupTopList(groupId);
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -430,7 +430,7 @@ public class ChatController implements Initializable {
     void onClickFriend(MouseEvent event) {
         System.out.println("clicked");
         logoPane.setVisible(false);
-        byte[] contactImgArr;
+        byte[] contactImgArr = null;
         btnSend.setVisible(true);
         btnFile.setVisible(true);
         TITLE_FINAL_CONTAINER.setVisible(true);
@@ -447,7 +447,7 @@ public class ChatController implements Initializable {
                         .filter((contact) -> contact.getPhoneNumber().equals(clickedContact))
                         .map(cont -> cont.getImage()).collect(Collectors.toList()).get(0);
                 contactLabels.get(clickedContact).setSeenLastMessage(true);
-            } else {
+            } else if(Integer.parseInt(clickedContact) > 0) {
                 lblContactChat.setText(allGroups.stream()
                         .filter((group) -> group.getGroupId() == Integer.valueOf(clickedContact))
                         .map(grop -> grop.getGroupName()).collect(Collectors.toList()).get(0));
@@ -458,9 +458,7 @@ public class ChatController implements Initializable {
             Image contactImage = new Image(new ByteArrayInputStream(contactImgArr));
             circleContactChat.setFill(new ImagePattern(contactImage));
             handleChatView(clickedContact);
-        } catch (RuntimeException e) {
-
-        }
+        } catch (RuntimeException e) {}
     }
 
     private void handleChatView(String clickedContact) {
@@ -692,7 +690,7 @@ public class ChatController implements Initializable {
             chatVBoxs.get(Integer.toString(groupId)).getChildren()
                     .add(senderMessageGroup(user, message, "leftMessageGroup"));
             groupLabels.get(groupId).setLastMessage(message);
-            // groupLabels.get(groupId).setSeenLastMessage(false);
+            groupLabels.get(groupId).setSeenLastMessage(false);
             sendGroupTopList(groupId);
         } catch (IOException e) {
             // TODO Auto-generated catch block

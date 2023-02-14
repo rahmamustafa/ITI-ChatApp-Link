@@ -1,5 +1,6 @@
 .root {
-    
+    -fx-cursor : hand;
+    -fx-background-color : white;
 }
 .root:hover {
     -fx-background-color : grey;
