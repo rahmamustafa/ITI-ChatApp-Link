@@ -166,8 +166,17 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     public void userLoggedOut(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
         System.out.println("user" + userDTO.getPhone());
         synchronized (this) {
-            allClients.remove(clientServices);
-            allOnlineUser.remove(userDTO);
+            for (int i = 0; i < allOnlineUser.size(); i++) {
+                if(userDTO.getPhone().equals(allOnlineUser.get(i).getPhone()))
+                    {
+                        allOnlineUser.remove(i);
+                        allClients.remove(i);
+                        System.out.println("user" + userDTO.getPhone() + " removed");
+
+                        break;
+                    }
+            }
+            
         }
         Vector<ContactDto> allContacts = getAllContacts(userDTO.getPhone());
         List<String> contactsPhone =  allContacts.stream().map(c -> c.getPhoneNumber()).collect(Collectors.toList());
