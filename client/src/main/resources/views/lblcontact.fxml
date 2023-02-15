@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" prefHeight="80.0" styleClass="root" stylesheets="@../css/lblcontact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
    <children>
@@ -37,14 +36,11 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <Text fx:id="txtNumber" opacity="0.52" strokeType="OUTSIDE" strokeWidth="0.0" text="You : bye" translateX="5.0" translateY="10.0">
+                  <Label fx:id="txtNumber" text="Label">
                      <font>
-                        <Font name="System Italic" size="14.0" />
+                        <Font name="System Italic" size="12.0" />
                      </font>
-                     <VBox.margin>
-                        <Insets bottom="-5.0" top="-10.0" />
-                     </VBox.margin>
-                  </Text>
+                  </Label>
                </children>
                <HBox.margin>
                   <Insets />

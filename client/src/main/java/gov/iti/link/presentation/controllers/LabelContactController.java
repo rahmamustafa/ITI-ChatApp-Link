@@ -34,7 +34,7 @@ public class LabelContactController implements Initializable{
     private Label lblText;
 
     @FXML
-    private Text txtNumber;
+    private Label txtNumber;
 
     public LabelContactController getLabelController(){
         return this;

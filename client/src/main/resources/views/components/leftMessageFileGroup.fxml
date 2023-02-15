@@ -32,7 +32,7 @@
                   </ImageView>
                </graphic>
             </Label>
-            <Button mnemonicParsing="false" styleClass="downloadbtn">
+            <Button mnemonicParsing="false" styleClass="downloadbtn" visible="false">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>

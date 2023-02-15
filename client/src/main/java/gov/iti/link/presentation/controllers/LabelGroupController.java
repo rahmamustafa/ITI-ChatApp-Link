@@ -47,7 +47,7 @@ public class LabelGroupController implements Initializable {
     private Label lblGroupName;
 
     @FXML
-    private Text txtLastMessage;
+    private Label txtLastMessage;
 
     GroupDto groupDto;
 
