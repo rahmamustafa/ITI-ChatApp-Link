@@ -39,11 +39,16 @@ public class App extends Application {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
 
-                } finally {
-                    Platform.exit();
-                    System.exit(0);
-                }
-
+                } 
+             catch (NullPointerException e2) {
+                // TODO Auto-generated catch block
+                e2.printStackTrace();
+            } finally {
+                Platform.exit();
+                System.exit(0);
+            }
+              
+              
             }
         });
     }

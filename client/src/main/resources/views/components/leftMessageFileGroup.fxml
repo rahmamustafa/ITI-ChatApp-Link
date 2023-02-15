@@ -5,39 +5,51 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<VBox prefHeight="130.0" prefWidth="210.0" spacing="5.0" stylesheets="@../../css/msg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.FileControllerGroup">
+<HBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.FileControllerGroup">
    <children>
-      <Label fx:id="lblName" alignment="TOP_RIGHT" contentDisplay="RIGHT" text="Name" textAlignment="RIGHT" textFill="WHITE">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <graphic>
-            <Circle fx:id="circleImage" fill="DODGERBLUE" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
-         </graphic>
-      </Label>
-      <Label fx:id="lblMessage" styleClass="left-message" textFill="WHITE">
-         <graphic>
-            <ImageView fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/file.png" />
-               </image>
-            </ImageView>
-         </graphic></Label>
-      <Button mnemonicParsing="false">
-         <graphic>
-            <ImageView fitHeight="16.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/download.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <VBox.margin>
-            <Insets left="70.0" top="-40.0" />
-         </VBox.margin>
-      </Button>
-      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" text="Time" />
+      <Circle fx:id="circleImage" fill="DODGERBLUE" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+         <HBox.margin>
+            <Insets right="5.0" />
+         </HBox.margin>
+      </Circle>
+      <VBox spacing="5.0" stylesheets="@../../css/msg.css">
+         <children>
+            <Label fx:id="lblName" alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="labelMessage" text="Name" textAlignment="RIGHT" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Label>
+            <Label fx:id="lblMessage" styleClass="left-message" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/file.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Button mnemonicParsing="false" styleClass="downloadbtn">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/download.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="70.0" top="-40.0" />
+               </VBox.margin>
+            </Button>
+            <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" styleClass="labelTime" text="Time">
+               <VBox.margin>
+                  <Insets top="-5.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
    </children>
-</VBox>
+</HBox>

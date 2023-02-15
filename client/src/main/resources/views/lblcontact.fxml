@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -11,9 +10,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="62.0" prefWidth="234.0" styleClass="root" stylesheets="@../css/lblcontact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
+<Pane styleClass="root" stylesheets="@../css/lblcontact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
    <children>
-      <HBox alignment="CENTER_LEFT" layoutX="-3.0" prefHeight="60.0" prefWidth="203.0">
+      <HBox alignment="CENTER_LEFT" layoutX="-3.0">
          <children>
             <Circle fx:id="circlePic" fill="DODGERBLUE" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
                <HBox.margin>
@@ -58,9 +57,6 @@
       </HBox>
       <Label fx:id="lblunSeenMessages" alignment="CENTER" layoutX="199.0" layoutY="18.0" styleClass="notifaction-label" text="0" translateX="-1.0" />
    </children>
-   <effect>
-      <DropShadow blurType="ONE_PASS_BOX" />
-   </effect>
    <cursor>
       <Cursor fx:constant="HAND" />
    </cursor>

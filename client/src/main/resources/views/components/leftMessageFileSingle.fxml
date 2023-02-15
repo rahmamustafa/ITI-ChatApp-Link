@@ -17,9 +17,9 @@
                </image>
             </ImageView>
          </graphic></Label>
-      <Button mnemonicParsing="false">
+      <Button mnemonicParsing="false" styleClass="downloadbtn">
          <graphic>
-            <ImageView fitHeight="16.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="30.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/download.png" />
                </image>
@@ -29,6 +29,12 @@
             <Insets left="70.0" top="-40.0" />
          </VBox.margin>
       </Button>
-      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" text="Time" />
+      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" styleClass="labelTime" text="Time" translateX="5.0" translateY="-7.0">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin></Label>
    </children>
+   <padding>
+      <Insets left="5.0" top="5.0" />
+   </padding>
 </VBox>
