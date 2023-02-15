@@ -1,9 +1,13 @@
 package gov.iti.link;
 
 import java.io.IOException;
+import java.lang.Thread.State;
+import java.rmi.RemoteException;
 
+import gov.iti.link.business.services.ClientServices;
 import gov.iti.link.business.services.ServiceManager;
 import gov.iti.link.business.services.StageManager;
+import gov.iti.link.business.services.StateManager;
 import gov.iti.link.business.services.UserAuth;
 import gov.iti.link.business.services.UserService;
 import javafx.application.Application;
@@ -28,8 +32,16 @@ public class App extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
+                try {
+                    ClientServices currentCleint =  StateManager.getInstance().getClient();
+                    ServiceManager.getInstance().getUserService().userLoggedOut(currentCleint, currentCleint.getUserDTO());
+                } catch (RemoteException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
                Platform.exit();
                System.exit(0);
+              
             }
          });
     }

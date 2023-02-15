@@ -566,6 +566,7 @@ public class ChatController implements Initializable {
         lblUserName.setText(stateManager.getUser().getName());
        
             clientServices = new ClientServicesImp(this);
+            stateManager.setClient(clientServices);
             userService.userLoggedIn(clientServices, stateManager.getUser());
             fileControllerGroup = new FileControllerGroup(this);
             fileControllerSingle = new FileControllerSingle(this);
