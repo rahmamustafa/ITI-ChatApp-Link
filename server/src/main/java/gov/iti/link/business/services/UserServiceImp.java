@@ -147,9 +147,10 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         }
 
         for (ClientServices client : allClients)
-            if (!client.equals(clientServices))
+            if (!client.equals(clientServices)) {
                 client.notifyContactStatus(userDTO, true);
-            else {
+                client.notify("Your contact " + client.getUserDTO().getName() + " is online now.");
+            } else {
                 for (UserDTO onlineUserDTO : allOnlineUser)
                     client.notifyContactStatus(onlineUserDTO, true);
             }
@@ -164,8 +165,10 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
             allOnlineUser.remove(userDTO);
         }
         for (ClientServices client : allClients)
-            if (!client.equals(clientServices))
+            if (!client.equals(clientServices)) {
                 client.notifyContactStatus(userDTO, false);
+                client.notify("Your contact " + client.getUserDTO().getName() + " has disconnected.");
+            }
 
     }
 
@@ -196,6 +199,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients) {
             if (toPhone.equals(client.getUserDTO().getPhone())) {
                 client.tellMessage(message, fromPhone);
+                client.notify("You recieved a new Messege!");
             }
         }
 
@@ -209,9 +213,9 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     @Override
     public GroupDto getGroup(int id) throws RemoteException {
-    GroupDto groupDto = groupMapper.entityToDTO(this.userDAO.getGroup(id));
-    groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
-    return groupDto;
+        GroupDto groupDto = groupMapper.entityToDTO(this.userDAO.getGroup(id));
+        groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
+        return groupDto;
 
     }
 
@@ -223,6 +227,8 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients) {
             if (memberPhone.equals(client.getUserDTO().getPhone())) {
                 client.notifyYouAddedToGroup(groupDto);
+                if (!groupDto.getAdminPhone().equals(client.getUserDTO().getPhone()))
+                    client.notify("You've been invited to a group chat!");
             } else if (allMembers.contains(memberPhone)) {
                 client.notifyNewMember(groupDto, memberPhone);
             }
@@ -259,6 +265,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients) {
             if (toPhone.contains(client.getUserDTO().getPhone()) && !client.getUserDTO().getPhone().equals(fromPhone)) {
                 client.tellMessageFromGroup(message, groupId, fromPhone);
+                client.notify("You recieved a new Messege!");
             }
         }
 
@@ -270,7 +277,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients) {
             if (toPhone.contains(client.getUserDTO().getPhone()) && !client.getUserDTO().getPhone().equals(fromPhone)) {
 
-                //int index = allOnlineUser.indexOf(user);
+                // int index = allOnlineUser.indexOf(user);
 
                 File path = new File(filePath);
                 try {
@@ -281,6 +288,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
                     out.flush();
                     System.out.println("Done Writing data");
                     client.tellFileFromGroup(filePath, groupId, data, fromPhone);
+                    client.notify("You recieved a new File!");
                     out.close();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
@@ -293,32 +301,33 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     }
 
     @Override
-    public void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, String toPhone) throws RemoteException {
-  
-    for (UserDTO user : allOnlineUser) {
-        if (toPhone.contains(user.getPhone()))
-         {
-            
-            int index = allOnlineUser.indexOf(user);
-            
-            File path = new File(filePath);
-            try {
-                FileOutputStream out = new FileOutputStream(path);
-                byte [] data = filebytes;
-                System.out.println("Byte data " + data.length);
-                out.write(data);
-                out.flush();
-                System.out.println("Done Writing data");
-                allClients.get(index).tellFile(filePath ,data ,fromPhone);
-                out.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+    public void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, String toPhone)
+            throws RemoteException {
+
+        for (UserDTO user : allOnlineUser) {
+            if (toPhone.contains(user.getPhone())) {
+
+                int index = allOnlineUser.indexOf(user);
+
+                File path = new File(filePath);
+                try {
+                    FileOutputStream out = new FileOutputStream(path);
+                    byte[] data = filebytes;
+                    System.out.println("Byte data " + data.length);
+                    out.write(data);
+                    out.flush();
+                    System.out.println("Done Writing data");
+                    allClients.get(index).tellFile(filePath, data, fromPhone);
+                    allClients.get(index).notify("You recieved a new File!");
+                    out.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
+
         }
-        
-    }
-        
+
     }
 
     @Override
@@ -337,5 +346,3 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     }
 
 }
-
-

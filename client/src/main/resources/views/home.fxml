@@ -47,6 +47,17 @@
                         <Font name="Ebrima" size="26.0" />
                      </font>
                   </Label>
+                  <Label fx:id="lblContactChatName" text="01069280098">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets left="50.0" top="-5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
                </children>
             </VBox>
 
