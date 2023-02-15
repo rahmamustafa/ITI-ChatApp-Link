@@ -235,7 +235,11 @@
          </children>
       </HBox>
       <TextArea fx:id="txtMessage" layoutX="332.0" layoutY="617.0" prefHeight="58.0" prefWidth="433.0" promptText="Type a message..." style="-fx-background-radius: 30; -fx-border-radius: 50;" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="332.0" AnchorPane.rightAnchor="108.0" />
-      <ComboBox fx:id="StatusCombo" layoutX="717.0" layoutY="7.0" onAction="#ChanagingStatus" prefHeight="27.0" prefWidth="131.0" promptText="StatusCombo" />
+      <AnchorPane layoutX="717.0" layoutY="7.0" AnchorPane.leftAnchor="717.0" AnchorPane.rightAnchor="24.80000000000001" AnchorPane.topAnchor="7.0">
+         <children>
+            <ComboBox fx:id="StatusCombo" onAction="#ChanagingStatus" prefHeight="27.0" prefWidth="131.0" promptText="StatusCombo" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
       <Button fx:id="btnSend" layoutX="774.0" layoutY="622.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="37.0" prefWidth="39.0" visible="false" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="56.0">
          <graphic>
             <ImageView fitHeight="24.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane styleClass="root" stylesheets="@../css/lblcontact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
+<Pane maxHeight="-Infinity" prefHeight="80.0" styleClass="root" stylesheets="@../css/lblcontact.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.LabelContactController">
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="-3.0">
          <children>
