@@ -326,7 +326,8 @@ public class ChatController implements Initializable {
         try {
             chatVBoxs.get(user.getPhone()).getChildren().add(senderFile(user, "leftMessageFileSingle"));
             contactLabels.get(user.getPhone()).setPhone("File Recieved");
-            contactLabels.get(user.getPhone()).setSeenLastMessage(false);
+            if(!clickedContact.equals(user.getPhone()))
+                contactLabels.get(user.getPhone()).setSeenLastMessage(false);
             sendUserTopList(user.getPhone());
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -381,7 +382,8 @@ public class ChatController implements Initializable {
         try {
             chatVBoxs.get(Integer.toString(groupId)).getChildren().add(senderFileGroup(user, "leftMessageFileGroup"));
             groupLabels.get(groupId).setLastMessage("File Recieved");
-            groupLabels.get(groupId).setSeenLastMessage(false);
+            if(!clickedContact.equals(Integer.toString(groupId)))
+                groupLabels.get(groupId).setSeenLastMessage(false);
             sendGroupTopList(groupId);
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -737,7 +739,8 @@ public class ChatController implements Initializable {
             chatVBoxs.get(Integer.toString(groupId)).getChildren()
                     .add(senderMessageGroup(user, message, "leftMessageGroup"));
             groupLabels.get(groupId).setLastMessage(message);
-            groupLabels.get(groupId).setSeenLastMessage(false);
+            if(!clickedContact.equals(Integer.toString(groupId)))
+                groupLabels.get(groupId).setSeenLastMessage(false);
             sendGroupTopList(groupId);
         } catch (IOException e) {
             // TODO Auto-generated catch block
