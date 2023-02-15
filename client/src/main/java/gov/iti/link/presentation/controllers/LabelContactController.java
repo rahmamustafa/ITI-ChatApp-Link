@@ -71,7 +71,17 @@ public class LabelContactController implements Initializable{
         }
         
     }
-
+    public void setDifferentStatus(String status){
+        if(status.equals("Available")){
+            circlePicStatus.setFill(Color.web("#1fff3d"));
+        }
+        else if(status.equals("Busy")){
+            circlePicStatus.setFill(Color.web("#ffc038"));
+        }
+        else  {
+            circlePicStatus.setFill(Color.web("#e60000"));
+        }
+    }
     
     public String getName(){
         return(lblText.getText());

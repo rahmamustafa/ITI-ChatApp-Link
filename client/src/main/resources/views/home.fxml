@@ -221,7 +221,7 @@
       </ScrollPane>
       <HBox layoutY="-1.0" prefHeight="68.0" prefWidth="896.0" styleClass="HBox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="lblUserName" prefHeight="46.0" prefWidth="229.0" text="Name" textFill="WHITE">
+            <Label fx:id="lblUserName" prefHeight="46.0" prefWidth="290.0" text="Name" textFill="WHITE">
                <graphic>
                   <Circle fx:id="circleUserImage" fill="DODGERBLUE" radius="23.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                </graphic>
@@ -234,8 +234,9 @@
             </Label>
          </children>
       </HBox>
-      <TextArea fx:id="txtMessage" layoutX="332.0" layoutY="617.0" prefHeight="13.0" prefWidth="433.0" promptText="Type a message..." styleClass="txtArea" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="332.0" AnchorPane.rightAnchor="108.0" />
-      <Button fx:id="btnSend" layoutX="774.0" layoutY="622.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="37.0" styleClass="btn" translateY="15.0" visible="false" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="60.0">
+      <TextArea fx:id="txtMessage" layoutX="332.0" layoutY="617.0" prefHeight="58.0" prefWidth="433.0" promptText="Type a message..." style="-fx-background-radius: 30; -fx-border-radius: 50;" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="332.0" AnchorPane.rightAnchor="108.0" />
+      <ComboBox fx:id="StatusCombo" layoutX="717.0" layoutY="7.0" onAction="#ChanagingStatus" prefHeight="27.0" prefWidth="131.0" promptText="StatusCombo" />
+      <Button fx:id="btnSend" layoutX="774.0" layoutY="622.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="37.0" prefWidth="39.0" visible="false" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="56.0">
          <graphic>
             <ImageView fitHeight="24.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -283,6 +284,5 @@
             </StackPane>
          </children>
       </GridPane>
-      <ComboBox fx:id="StatusCombo" layoutX="711.0" layoutY="14.0" onAction="#ChanagingStatus" prefHeight="36.0" prefWidth="138.0" promptText="StatusCombo" />
    </children>
 </AnchorPane>

@@ -5,6 +5,10 @@ import gov.iti.link.business.DTOs.UserDTO;
 public class StateManager {
 
     private UserDTO user;
+    private ClientServices client;
+
+   
+
     private final static StateManager INSTANCE  = new StateManager();
 
     public static StateManager getInstance() {
@@ -22,7 +26,16 @@ public class StateManager {
     public void deleteUser(){
         this.user = null;
     }
+    public ClientServices getClient() {
+        return client;
+    }
 
+    public void setClient(ClientServices client) {
+        this.client = client;
+    }
+    public void deleteClient(){
+        this.client = null;
+    }
     private StateManager() {}
 
 }

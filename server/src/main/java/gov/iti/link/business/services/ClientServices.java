@@ -19,5 +19,7 @@ public interface ClientServices extends Remote{
     void tellFile(String file,byte[] data,String fromPhone) throws RemoteException;
     void tellAnnouce(String announcement)throws RemoteException;
     void notify(String notification) throws RemoteException;
+    void notifyMytStatus(UserDTO contactDto, String status ) throws RemoteException;
+
 
 }
