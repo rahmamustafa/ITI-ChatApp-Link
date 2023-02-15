@@ -101,7 +101,7 @@ public class LoginController implements Initializable {
                 // Remember User
                 if (cbStayLoggedIn.isSelected())
                     UserAuth.rememberUser();
-
+                txtPassword.setText("");
                 StageManager.getInstance().switchToHome();
                 // StageManager.getInstance().loadView("home");
             } else {
