@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import gov.iti.link.business.DTOs.ContactDto;
 import gov.iti.link.business.DTOs.GroupDto;
@@ -32,7 +33,7 @@ import gov.iti.link.persistence.entities.UserEntity;
 public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     Vector<ClientServices> allClients = new Vector<>();
-    Vector<UserDTO> allOnlineUser = new Vector<>();
+    public Vector<UserDTO> allOnlineUser = new Vector<>();
 
     public UserServiceImp() throws RemoteException {
         super();
@@ -146,26 +147,46 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
             allOnlineUser.add(userDTO);
         }
 
-        for (ClientServices client : allClients)
-            if (!client.equals(clientServices))
-                client.notifyContactStatus(userDTO, true);
-            else {
-                for (UserDTO onlineUserDTO : allOnlineUser)
-                    client.notifyContactStatus(onlineUserDTO, true);
-            }
+        Vector<ContactDto> allContacts = getAllContacts(userDTO.getPhone());
+        List<String> contactsPhone =  allContacts.stream().map(c -> c.getPhoneNumber()).collect(Collectors.toList());
+       
 
+        for (ClientServices client : allClients){
+                if(contactsPhone.contains(client.getUserDTO().getPhone())) {
+                    client.notifyContactStatus(userDTO, true);
+                    client.notify("Your contact " + clientServices.getUserDTO().getName() + " is online now.");
+                }  
+            }   
+        for (UserDTO onlineUserDTO : allOnlineUser)
+            if(contactsPhone.contains(onlineUserDTO.getPhone()))
+                clientServices.notifyContactStatus(onlineUserDTO, true);
     }
 
     @Override
     public void userLoggedOut(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
         System.out.println("user" + userDTO.getPhone());
         synchronized (this) {
-            allClients.remove(clientServices);
-            allOnlineUser.remove(userDTO);
+            for (int i = 0; i < allOnlineUser.size(); i++) {
+                if(userDTO.getPhone().equals(allOnlineUser.get(i).getPhone()))
+                    {
+                        allOnlineUser.remove(i);
+                        allClients.remove(i);
+                        System.out.println("user" + userDTO.getPhone() + " removed");
+
+                        break;
+                    }
+            }
+            
         }
-        for (ClientServices client : allClients)
-            if (!client.equals(clientServices))
-                client.notifyContactStatus(userDTO, false);
+        Vector<ContactDto> allContacts = getAllContacts(userDTO.getPhone());
+        List<String> contactsPhone =  allContacts.stream().map(c -> c.getPhoneNumber()).collect(Collectors.toList());
+        for (ClientServices client : allClients){
+                if(contactsPhone.contains(client.getUserDTO().getPhone())) {
+                    client.notifyContactStatus(userDTO, false);
+                    client.notify("Your contact " + clientServices.getUserDTO().getName() + " has disconnected.");
+                }  
+         }
+          
 
     }
 
@@ -196,6 +217,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients) {
             if (toPhone.equals(client.getUserDTO().getPhone())) {
                 client.tellMessage(message, fromPhone);
+                client.notify("You recieved a new Messege!");
             }
         }
 
@@ -209,9 +231,9 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     @Override
     public GroupDto getGroup(int id) throws RemoteException {
-    GroupDto groupDto = groupMapper.entityToDTO(this.userDAO.getGroup(id));
-    groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
-    return groupDto;
+        GroupDto groupDto = groupMapper.entityToDTO(this.userDAO.getGroup(id));
+        groupDto.setAllMembers(getAllGroupMembers(groupDto.getGroupId()));
+        return groupDto;
 
     }
 
@@ -223,6 +245,8 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients) {
             if (memberPhone.equals(client.getUserDTO().getPhone())) {
                 client.notifyYouAddedToGroup(groupDto);
+                if (!groupDto.getAdminPhone().equals(client.getUserDTO().getPhone()))
+                    client.notify("You've been invited to a group chat!");
             } else if (allMembers.contains(memberPhone)) {
                 client.notifyNewMember(groupDto, memberPhone);
             }
@@ -259,6 +283,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients) {
             if (toPhone.contains(client.getUserDTO().getPhone()) && !client.getUserDTO().getPhone().equals(fromPhone)) {
                 client.tellMessageFromGroup(message, groupId, fromPhone);
+                client.notify("You recieved a new Messege!");
             }
         }
 
@@ -270,7 +295,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (ClientServices client : allClients) {
             if (toPhone.contains(client.getUserDTO().getPhone()) && !client.getUserDTO().getPhone().equals(fromPhone)) {
 
-                //int index = allOnlineUser.indexOf(user);
+                // int index = allOnlineUser.indexOf(user);
 
                 File path = new File(filePath);
                 try {
@@ -281,6 +306,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
                     out.flush();
                     System.out.println("Done Writing data");
                     client.tellFileFromGroup(filePath, groupId, data, fromPhone);
+                    client.notify("You recieved a new File!");
                     out.close();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
@@ -293,34 +319,48 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     }
 
     @Override
-    public void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, String toPhone) throws RemoteException {
-  
-    for (UserDTO user : allOnlineUser) {
-        if (toPhone.contains(user.getPhone()))
-         {
-            
-            int index = allOnlineUser.indexOf(user);
-            
-            File path = new File(filePath);
-            try {
-                FileOutputStream out = new FileOutputStream(path);
-                byte [] data = filebytes;
-                System.out.println("Byte data " + data.length);
-                out.write(data);
-                out.flush();
-                System.out.println("Done Writing data");
-                allClients.get(index).tellFile(filePath ,data ,fromPhone);
-                out.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+    public void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, String toPhone)
+            throws RemoteException {
+
+        for (UserDTO user : allOnlineUser) {
+            if (toPhone.contains(user.getPhone())) {
+
+                int index = allOnlineUser.indexOf(user);
+
+                File path = new File(filePath);
+                try {
+                    FileOutputStream out = new FileOutputStream(path);
+                    byte[] data = filebytes;
+                    System.out.println("Byte data " + data.length);
+                    out.write(data);
+                    out.flush();
+                    System.out.println("Done Writing data");
+                    allClients.get(index).tellFile(filePath, data, fromPhone);
+                    allClients.get(index).notify("You recieved a new File!");
+                    out.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+
+    @Override
+    public void sendAnnounce(String announcement) throws RemoteException {
+        // TODO Auto-generated method stub
+        for (UserDTO onLineUser : allOnlineUser) {
+            for (ClientServices client : allClients) {
+                if (onLineUser.getPhone().equals(client.getUserDTO().getPhone())) {
+                    client.tellAnnouce(announcement);
+                    break;
+                }
             }
         }
-        
-    }
+
         
     }
 
 }
-
-

@@ -108,6 +108,7 @@ public class RegisterController implements Initializable {
                 StageManager.getInstance().switchToLogin();
             } catch (RemoteException e) {
                 e.printStackTrace();
+                StageManager.getInstance().switchToServerDown();
             }
 
             System.out.println("register");
@@ -159,7 +160,7 @@ public class RegisterController implements Initializable {
             for (int i = 0; i < city.length; i++) {
                 cities.add(locale.getDisplayCountry());
             }
-            cities.add(locale.getDisplayCountry());
+            //cities.add(locale.getDisplayCountry());
             
         }
         countryComboBox.setItems(cities);
@@ -227,14 +228,6 @@ public class RegisterController implements Initializable {
         else
             lblErrPhone.setVisible(false);
 
-        if (!RegisterValidation.validBio(txtBio.getText())) {
-            System.out.println("please Enter bio ");
-            errMsg += "please Enter bio \n";
-            //lblErrBio.setVisible(true);
-            userValid = true;
-        } else
-            lblErrPhone.setVisible(false);
-
         if (!RegisterValidation.validDate(convertLocalDatetoSqlDate(dateOfBirth.getValue()))) {
             System.out.println("please Enter date ");
             errMsg += "please Enter date \n";
@@ -294,6 +287,7 @@ public class RegisterController implements Initializable {
             }
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
+            StageManager.getInstance().switchToServerDown();
             e.printStackTrace();
         }
         if (phone == null) {

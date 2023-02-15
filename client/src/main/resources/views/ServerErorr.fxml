@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<DialogPane prefHeight="162.0" prefWidth="578.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane>
+         <children>
+            <Label alignment="CENTER" layoutY="19.0" prefHeight="150.0" prefWidth="578.0" text="Sorry Server is down try later" textAlignment="CENTER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="CLOSE" />
+   </buttonTypes>
+</DialogPane>

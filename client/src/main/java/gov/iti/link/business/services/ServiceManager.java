@@ -1,11 +1,17 @@
 package gov.iti.link.business.services;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import org.apache.commons.codec.digest.DigestUtils;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 
 public class ServiceManager {
     private final int PORT_NUMBER = 5678;
@@ -23,8 +29,13 @@ public class ServiceManager {
         try {
             reg = LocateRegistry.getRegistry(PORT_NUMBER);
             userService = (UserService) reg.lookup(USER_SERVICE);
+
         } catch (RemoteException | NotBoundException e) {
-            e.printStackTrace();
+            StageManager.getInstance().loadView("ServerDown");
+           // e.printStackTrace();
+            ///////////////////////////////////
+            // handel sever is dawon 
+           
         }
 
     }
@@ -37,4 +48,5 @@ public class ServiceManager {
         
         return Passoword=DigestUtils.sha256Hex(Passoword);
     }
+   
 }

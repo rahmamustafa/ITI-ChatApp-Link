@@ -21,9 +21,13 @@ import gov.iti.link.business.services.UserAuth;
 import gov.iti.link.presentation.Validations.RegisterValidation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -65,10 +69,11 @@ public class LoginController implements Initializable {
     static UserDTO user;
 
     public LoginController() {
-
+        
         serviceManager = ServiceManager.getInstance();
         userService = serviceManager.getUserService();
         stateManager = StateManager.getInstance();
+        
 
     }
 
@@ -79,10 +84,14 @@ public class LoginController implements Initializable {
                 && RegisterValidation.validPhone(txtPhone.getText())) {
             String hashedPassword = serviceManager.hashingPassword(txtPassword.getText().toString());
             try {
+
                 user = userService.findByPhone(txtPhone.getText());
             } catch (RemoteException e) {
+                StageManager.getInstance().switchToServerDown();
+                //StageManager.getInstance().switchToServerDown();
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                
             }
             if (user != null && user.getPassword().equals(hashedPassword)) {
                 System.out.println("loggged");
@@ -100,7 +109,8 @@ public class LoginController implements Initializable {
                 // System.out.println(serviceManager.hashingPassword(txtPassword.getText().toString()));
                 lblErr.setVisible(true);
             }
-        } else {
+        }
+         else {
             lblErr.setVisible(true);
         }
 

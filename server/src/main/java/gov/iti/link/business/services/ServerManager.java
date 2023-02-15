@@ -12,7 +12,7 @@ public class ServerManager {
     private final String USER_SERVICE = "user-service";
 
     private static final ServerManager instance = new ServerManager();
-
+    UserServiceImp serviceImp;
     public static ServerManager getInstance() {
         return instance;
     }
@@ -28,7 +28,7 @@ public class ServerManager {
     public void bindUserService() {
         if (this.registry == null)
             return;
-        UserServiceImp serviceImp;
+        
         try {
             serviceImp = new UserServiceImp();
             registry.bind(USER_SERVICE, serviceImp);
@@ -46,5 +46,8 @@ public class ServerManager {
             e.printStackTrace();
         }
 
+    }
+    public UserServiceImp getUserSeviceImp(){
+           return serviceImp;
     }
 }

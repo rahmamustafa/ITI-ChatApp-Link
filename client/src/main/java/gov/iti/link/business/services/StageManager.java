@@ -65,6 +65,12 @@ public class StageManager {
         primaryStage.setTitle(sceneName);
         loadView(sceneName);
     }
+    public void switchToServerDown() {
+        String sceneName = "ServerDown";
+        primaryStage.setTitle(sceneName);
+        loadView(sceneName);
+    }
+    
 
     public void loadView(String name) {
         if (primaryStage == null) {

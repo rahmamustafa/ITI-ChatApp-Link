@@ -70,13 +70,8 @@ public class RegisterValidation {
     }
 
 
-    public static boolean validBio(String bio) {
-        if (bio == null|| bio.isBlank()) {
-            return false;
-        }
-       
-        return true;
-    }
+   
+    
     public static boolean validDate(Date date) {
         if (date == null) {
             return false;
