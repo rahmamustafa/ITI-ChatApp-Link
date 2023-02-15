@@ -159,7 +159,7 @@ public class ChatController implements Initializable {
     Map<String, VBox> chatVBoxs = new HashMap<>();
     Map<String, LabelContactController> contactLabels = new HashMap<>();
     Map<Integer, LabelGroupController> groupLabels = new HashMap<>();
-    String clickedContact;
+    String clickedContact="";
 
     ObservableList<Pane> friendsList = FXCollections.observableArrayList();
     ObservableList<Pane> groupList = FXCollections.observableArrayList();
@@ -702,7 +702,8 @@ public class ChatController implements Initializable {
             e.printStackTrace();
         }
         contactLabels.get(user.getPhone()).setPhone(message);
-        contactLabels.get(user.getPhone()).setSeenLastMessage(false);
+        if(!clickedContact.equals(user.getPhone()))
+            contactLabels.get(user.getPhone()).setSeenLastMessage(false);
         sendUserTopList(user.getPhone());
 
     }
