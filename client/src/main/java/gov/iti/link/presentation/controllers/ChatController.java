@@ -640,7 +640,7 @@ public class ChatController implements Initializable {
         addGroupinListView(groupDto, groupList.size());
         chatVBoxs.put(Integer.toString(groupDto.getGroupId()), new VBox());
         if(!stateManager.getUser().getPhone().equals(groupDto.getAdminPhone()))
-            groupLabels.get(groupDto.getGroupId()).setLastMessage( "you have added to group "+groupDto.getGroupName());
+            groupLabels.get(groupDto.getGroupId()).setLastMessage( "you have joined the group "+groupDto.getGroupName());
         else
             groupLabels.get(groupDto.getGroupId()).setLastMessage( "you created group "+groupDto.getGroupName());
 
@@ -661,8 +661,7 @@ public class ChatController implements Initializable {
     }
 
     public void changeOnFriendState(ContactDto contactDto) {
-        if (!stateManager.getUser().getPhone().equals(contactDto.getPhoneNumber()))
-            contactLabels.get(contactDto.getPhoneNumber()).setStatus(contactDto.isActive());
+        contactLabels.get(contactDto.getPhoneNumber()).setStatus(contactDto.isActive());
     }
 
     public void changeOnGroupState(GroupDto groupDto,String newMemberAdded) {

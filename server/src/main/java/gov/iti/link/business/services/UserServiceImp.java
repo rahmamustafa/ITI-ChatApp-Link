@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import gov.iti.link.business.DTOs.ContactDto;
 import gov.iti.link.business.DTOs.GroupDto;
@@ -146,15 +147,19 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
             allOnlineUser.add(userDTO);
         }
 
-        for (ClientServices client : allClients)
-            if (!client.equals(clientServices)) {
-                client.notifyContactStatus(userDTO, true);
-                client.notify("Your contact " + client.getUserDTO().getName() + " is online now.");
-            } else {
-                for (UserDTO onlineUserDTO : allOnlineUser)
-                    client.notifyContactStatus(onlineUserDTO, true);
-            }
+        Vector<ContactDto> allContacts = getAllContacts(userDTO.getPhone());
+        List<String> contactsPhone =  allContacts.stream().map(c -> c.getPhoneNumber()).collect(Collectors.toList());
+       
 
+        for (ClientServices client : allClients){
+                if(contactsPhone.contains(client.getUserDTO().getPhone())) {
+                    client.notifyContactStatus(userDTO, true);
+                    client.notify("Your contact " + clientServices.getUserDTO().getName() + " is online now.");
+                }  
+            }   
+        for (UserDTO onlineUserDTO : allOnlineUser)
+            if(contactsPhone.contains(onlineUserDTO.getPhone()))
+                clientServices.notifyContactStatus(onlineUserDTO, true);
     }
 
     @Override
@@ -164,11 +169,15 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
             allClients.remove(clientServices);
             allOnlineUser.remove(userDTO);
         }
-        for (ClientServices client : allClients)
-            if (!client.equals(clientServices)) {
-                client.notifyContactStatus(userDTO, false);
-                client.notify("Your contact " + client.getUserDTO().getName() + " has disconnected.");
-            }
+        Vector<ContactDto> allContacts = getAllContacts(userDTO.getPhone());
+        List<String> contactsPhone =  allContacts.stream().map(c -> c.getPhoneNumber()).collect(Collectors.toList());
+        for (ClientServices client : allClients){
+                if(contactsPhone.contains(client.getUserDTO().getPhone())) {
+                    client.notifyContactStatus(userDTO, false);
+                    client.notify("Your contact " + clientServices.getUserDTO().getName() + " has disconnected.");
+                }  
+         }
+          
 
     }
 
