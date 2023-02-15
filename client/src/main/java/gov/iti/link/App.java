@@ -29,6 +29,7 @@ public class App extends Application {
             @Override
             public void handle(WindowEvent e) {
                Platform.exit();
+
                System.exit(0);
             }
          });

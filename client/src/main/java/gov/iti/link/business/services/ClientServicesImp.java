@@ -155,4 +155,12 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
 
     }
 
+    @Override
+    public void notifyMytStatus(UserDTO userDTO, String status) throws RemoteException {
+        // TODO Auto-generated method stub
+        ContactDto contactDto = new ContactDto(userDTO.getPhone(), userDTO.getPicture(),true, userDTO.getName());
+
+        Platform.runLater(() -> chatController.changeMyFriendState(contactDto, status));
+    }
+
 }

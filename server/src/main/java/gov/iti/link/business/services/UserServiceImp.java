@@ -354,4 +354,21 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         
     }
 
+    @Override
+    public void changingUserStatus(ClientServices clientServices, UserDTO userDTO,String status) throws RemoteException {
+        // TODO Auto-generated method stub
+
+        Vector<ContactDto> allContacts = getAllContacts(userDTO.getPhone());
+        List<String> contactsPhone =  allContacts.stream().map(c -> c.getPhoneNumber()).collect(Collectors.toList());
+       
+
+        for (ClientServices client : allClients){
+                if(contactsPhone.contains(client.getUserDTO().getPhone())) {
+                    client.notifyMytStatus(userDTO, status);
+                   
+                }  
+            }   
+        
+    }
+
 }
