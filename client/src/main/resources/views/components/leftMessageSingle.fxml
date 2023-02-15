@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox spacing="5.0" stylesheets="@../../css/msg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.MessageControllerSingle">
    <children>
-      <Label fx:id="lblMessage" styleClass="left-message" text="Message" textFill="WHITE" />
-      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" text="Time" />
+      <Label fx:id="lblMessage" text="Message" textFill="WHITE" wrapText="true">
+         <styleClass>
+            <String fx:value="left-message" />
+            <String fx:value="labelMessage" />
+         </styleClass></Label>
+      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" styleClass="labelTime" text="Time">
+         <VBox.margin>
+            <Insets top="-10.0" />
+         </VBox.margin></Label>
    </children>
 </VBox>

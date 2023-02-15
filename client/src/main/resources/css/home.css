@@ -7,3 +7,58 @@
     -fx-font-weight:bold;
     -fx-font-size:1.2em;
 }
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #dadada;
+    -fx-text-fill: white;
+}
+
+
+.list-cell:even { /* <=== changed to even */
+    -fx-background-color: #ffffff;
+}
+
+.list-cell:odd { /* <=== changed to even */
+    -fx-background-color: #ffffff;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #6F4CBB;
+    -fx-text-fill: white;
+}
+.list-cell:pressed{
+    -fx-scale-x : 0.9;
+    -fx-background-color: #6F4CBB;
+    -fx-scale-y : 0.9;
+}
+.btn {
+    
+    -fx-background-color : transparent; 
+}
+.btn:pressed{
+    
+    -fx-scale-x : 0.9;
+    -fx-scale-y : 0.9;
+}
+.HBox {
+    -fx-background-radius: 10 ;
+    -fx-background-color :  #6F4CBB; 
+    -fx-border-color : white
+}
+.leftHBox{
+    -fx-background-color :  #c9c2d7;
+    -fx-border-color : #47269b;
+    -fx-background-radius: 10px;
+}
+.txtArea{
+    -fx-background-color :  #6F4CBB;
+    -fx-background-radius: 15px;
+    -fx-text-fill : BLACK;
+}
+*{
+    -fx-background-radius: 15px;
+}
+.icon:pressed{
+    -fx-scale-x : 0.9;
+    -fx-scale-y : 0.9;
+    
+}

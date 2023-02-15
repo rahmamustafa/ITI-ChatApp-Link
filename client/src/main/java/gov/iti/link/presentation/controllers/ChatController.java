@@ -233,7 +233,7 @@ public class ChatController implements Initializable {
 
     private Node senderMessageGroup(UserDTO userDTO, String message, String type) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
-        VBox node = loader.load();
+        HBox node = loader.load();
         if (type.startsWith("rightMessage"))
             node.setAlignment(Pos.TOP_RIGHT);
         else
@@ -303,7 +303,7 @@ public class ChatController implements Initializable {
 
     private Node senderFileGroup(UserDTO userDTO, String type) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(String.format("/views/components/%s.fxml", type)));
-        VBox node = loader.load();
+        HBox node = loader.load();
         if (type.equals("rightMessageFileGroup"))
             node.setAlignment(Pos.TOP_RIGHT);
         else

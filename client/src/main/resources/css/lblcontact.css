@@ -1,10 +1,9 @@
 .root {
     -fx-cursor : hand;
-    -fx-background-color : white;
+    -fx-background-color : transparent;
+    
 }
-.root:hover {
-    -fx-background-color : grey;
-}
+
 
 .notifaction-label{
     -fx-text-fill:#ffffff;

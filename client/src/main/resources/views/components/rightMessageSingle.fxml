@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox spacing="5.0" stylesheets="@../../css/msg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.MessageControllerSingle">
+<VBox alignment="TOP_RIGHT" spacing="5.0" stylesheets="@../../css/msg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.MessageControllerSingle">
    <children>
-      <Label fx:id="lblMessage" styleClass="right-message" text="Message" textFill="WHITE" />
-      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" prefHeight="26.0" prefWidth="107.0" text="Time" />
+      <Label fx:id="lblMessage" text="Message" textFill="WHITE" wrapText="true">
+         <font>
+            <Font size="5.0" />
+         </font>
+         <styleClass>
+            <String fx:value="labelMessage" />
+            <String fx:value="right-message" />
+         </styleClass></Label>
+      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" prefHeight="21.0" prefWidth="111.0" styleClass="labelTime" text="Time">
+         <font>
+            <Font name="System Italic" size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets right="8.0" top="-12.0" />
+         </VBox.margin></Label>
    </children>
+   <padding>
+      <Insets bottom="20.0" />
+   </padding>
 </VBox>
