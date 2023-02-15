@@ -4,31 +4,30 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
 <HBox prefHeight="74.0" prefWidth="228.0" stylesheets="@../../css/msg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.MessageControllerGroup">
    <children>
       <Circle fx:id="circleImage" fill="DODGERBLUE" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
          <HBox.margin>
-            <Insets right="15.0" />
+            <Insets right="10.0" />
          </HBox.margin></Circle>
-      <Label fx:id="lblName" alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="labelMessage" text="Name" textAlignment="RIGHT" textFill="WHITE">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
-      </Label>
-      <Label fx:id="lblTime" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" styleClass="labelTime" text="Time" translateX="-30.0" translateY="55.0" />
-      <Label fx:id="lblMessage" text="Message" textFill="WHITE" translateX="-66.0" translateY="20.0">
-         <styleClass>
-            <String fx:value="left-message" />
-            <String fx:value="labelMessage" />
-         </styleClass>
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
-      </Label>
+      <VBox>
+         <children>
+            <Label fx:id="lblName" alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="labelMessage" text="Name" textAlignment="RIGHT" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Label>
+            <Label fx:id="lblMessage" text="Message" textFill="WHITE">
+               <styleClass>
+                  <String fx:value="left-message" />
+                  <String fx:value="labelMessage" />
+               </styleClass>
+            </Label>
+            <Label fx:id="lblTime" alignment="BOTTOM_LEFT" contentDisplay="RIGHT" styleClass="labelTime" text="Time" />
+         </children>
+      </VBox>
    </children>
 </HBox>

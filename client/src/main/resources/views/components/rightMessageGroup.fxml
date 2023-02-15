@@ -4,31 +4,27 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
 <HBox alignment="CENTER_RIGHT" stylesheets="@../../css/msg.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.controllers.MessageControllerGroup">
    <children>
-      <Label fx:id="lblMessage" text="Message" textAlignment="RIGHT" textFill="WHITE">
-         <styleClass>
-            <String fx:value="right-message" />
-            <String fx:value="labelMessage" />
-         </styleClass>
-         <HBox.margin>
-            <Insets right="-60.0" />
-         </HBox.margin>
-      </Label>
-      <Label fx:id="lblName" alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="labelMessage" text="Name" textAlignment="RIGHT" textFill="WHITE" translateX="15.0">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <HBox.margin>
-            <Insets top="-20.0" />
-         </HBox.margin>
-      </Label>
-      <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" styleClass="labelTime" text="Time" textAlignment="RIGHT" translateX="-5.0" translateY="15.0">
-         <HBox.margin>
-            <Insets top="20.0" />
-         </HBox.margin></Label>
+      <VBox alignment="CENTER_RIGHT">
+         <children>
+            <Label fx:id="lblName" alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="labelMessage" text="Name" textAlignment="RIGHT" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Label>
+            <Label fx:id="lblMessage" text="Message" textAlignment="RIGHT" textFill="WHITE">
+               <styleClass>
+                  <String fx:value="right-message" />
+                  <String fx:value="labelMessage" />
+               </styleClass>
+            </Label>
+            <Label fx:id="lblTime" alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" styleClass="labelTime" text="Time" textAlignment="RIGHT" />
+         </children>
+      </VBox>
       <Circle fx:id="circleImage" fill="DODGERBLUE" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
          <HBox.margin>
             <Insets left="8.0" top="-25.0" />
