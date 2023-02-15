@@ -60,6 +60,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
@@ -139,6 +140,8 @@ public class ChatController implements Initializable {
 
     @FXML
     private Label lblInvitesNotifications;
+    @FXML
+    private ComboBox<String> StatusCombo;
 
     private ServiceManager serviceManager;
     private UserService userService;
@@ -547,7 +550,10 @@ public class ChatController implements Initializable {
         InputStream imgStream = new ByteArrayInputStream(imgb);
         Image img = new Image(imgStream);
         circleUserImage.setFill(new ImagePattern(img));
-
+        StatusCombo.getItems().clear();
+       
+        StatusCombo.getItems().addAll( "Available", "Busy", "Away");
+        StatusCombo.getSelectionModel().select("Available");
         // System.out.println();
         // String imgStr = stateManager.getUser().getPicture();
         // InputStream stream = new
@@ -776,6 +782,11 @@ public class ChatController implements Initializable {
                 dialog.setY(event.getScreenY() - yOffset);
             }
         });
+    }
+    @FXML
+    void ChanagingStatus(ActionEvent event) {
+StatusCombo.getSelectionModel().getSelectedItem();
+System.out.println(StatusCombo.getSelectionModel().getSelectedItem());
     }
 
 }
