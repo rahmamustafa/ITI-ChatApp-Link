@@ -19,12 +19,11 @@ import javafx.stage.WindowEvent;
 
 public class App extends Application {
 
-
     @Override
     public void start(Stage stage) throws IOException {
         StageManager stageManager = StageManager.getInstance();
         stageManager.initStage(stage);
-        if(UserAuth.isAuthorized())
+        if (UserAuth.isAuthorized())
             stageManager.switchToHome();
         else
             stageManager.switchToLogin();
@@ -33,22 +32,25 @@ public class App extends Application {
             @Override
             public void handle(WindowEvent e) {
                 try {
-                    ClientServices currentCleint =  StateManager.getInstance().getClient();
-                    ServiceManager.getInstance().getUserService().userLoggedOut(currentCleint, currentCleint.getUserDTO());
+                    ClientServices currentCleint = StateManager.getInstance().getClient();
+                    ServiceManager.getInstance().getUserService().userLoggedOut(currentCleint,
+                            currentCleint.getUserDTO());
                 } catch (RemoteException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
+
+                } finally {
+                    Platform.exit();
+                    System.exit(0);
                 }
-               Platform.exit();
-               System.exit(0);
-              
+
             }
-         });
+        });
     }
 
     public static void main(String[] args) {
         launch();
-        
+
     }
 
 }

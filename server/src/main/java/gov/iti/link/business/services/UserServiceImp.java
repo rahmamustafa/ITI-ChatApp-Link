@@ -142,6 +142,15 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
     @Override
     public void userLoggedIn(ClientServices clientServices, UserDTO userDTO) throws RemoteException {
         System.out.println("user" + userDTO.getPhone());
+        for (int i = 0; i < allOnlineUser.size(); i++) {
+            if(userDTO.getPhone().equals(allOnlineUser.get(i).getPhone()))
+                {
+                    allOnlineUser.remove(i);
+                    allClients.remove(i);
+                    System.out.println("user" + userDTO.getPhone() + " removed");
+                    break;
+                }
+        }
         synchronized (this) {
             allClients.add(clientServices);
             allOnlineUser.add(userDTO);
