@@ -1,6 +1,7 @@
 package gov.iti.link.business.services;
 
 import java.io.IOException;
+import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -20,22 +21,36 @@ public class ServiceManager {
 
     private static ServiceManager instance = new ServiceManager();
     private Registry reg;
+    private boolean connectionEstablished = false;
+    private StageManager stageManager;
 
     public static ServiceManager getInstance() {
         return instance;
     }
 
     private ServiceManager() {
+        stageManager = StageManager.getInstance();
+    }
+
+    public void connectToServer() {
         try {
             reg = LocateRegistry.getRegistry(PORT_NUMBER);
             userService = (UserService) reg.lookup(USER_SERVICE);
+            connectionEstablished = true;
+            if (UserAuth.isAuthorized())
+                stageManager.switchToHome();
+            else
+                stageManager.switchToLogin();
 
         } catch (RemoteException | NotBoundException e) {
-            StageManager.getInstance().loadView("ServerDown");
-           // e.printStackTrace();
+            System.out.println("Server Error, " + e.getMessage());
+            connectionEstablished = false;
+            stageManager.switchToNoConnection();
+            // e.printStackTrace();
+            // StageManager.getInstance().loadView("ServerDown");
             ///////////////////////////////////
-            // handel sever is dawon 
-           
+            // handel sever is dawon
+
         }
 
     }
@@ -44,9 +59,13 @@ public class ServiceManager {
         return userService;
     }
 
-    public String hashingPassword(String Passoword){
-        
-        return Passoword=DigestUtils.sha256Hex(Passoword);
+    public String hashingPassword(String Passoword) {
+
+        return Passoword = DigestUtils.sha256Hex(Passoword);
     }
-   
+
+    public boolean isConnectionEstablished() {
+        return connectionEstablished;
+    }
+
 }

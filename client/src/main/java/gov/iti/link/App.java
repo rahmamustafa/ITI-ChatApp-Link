@@ -15,28 +15,25 @@ import javafx.stage.WindowEvent;
 
 public class App extends Application {
 
-
     @Override
     public void start(Stage stage) throws IOException {
         StageManager stageManager = StageManager.getInstance();
         stageManager.initStage(stage);
-        if(UserAuth.isAuthorized())
-            stageManager.switchToHome();
-        else
-            stageManager.switchToLogin();
+        System.out.println("connected?" + ServiceManager.getInstance().isConnectionEstablished());
+        ServiceManager.getInstance().connectToServer();
         stage.show();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
-               Platform.exit();
-               System.exit(0);
+                Platform.exit();
+                System.exit(0);
             }
-         });
+        });
     }
 
     public static void main(String[] args) {
         launch();
-        
+
     }
 
 }
