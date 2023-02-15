@@ -458,6 +458,7 @@ public class ChatController implements Initializable {
                 lblContactChat.setText(allGroups.stream()
                         .filter((group) -> group.getGroupId() == Integer.valueOf(clickedContact))
                         .map(grop -> grop.getGroupName()).collect(Collectors.toList()).get(0));
+                lblContactChatName.setText("");
                 contactImgArr = allGroups.stream()
                         .filter((group) -> group.getGroupId() == Integer.valueOf(clickedContact))
                         .map(cont -> cont.getPicture()).collect(Collectors.toList()).get(0);
