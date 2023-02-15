@@ -43,5 +43,7 @@ public interface UserService extends Remote {
     void sendFileToGroup(String fromPhone, int groupId , byte[] filebytes, String filePath, int length, Vector<String> toPhone) throws RemoteException;
     void sendFile(String fromPhone, byte[] filebytes, String filePath, int length, String toPhone) throws RemoteException;
     void sendAnnounce(String announcement) throws RemoteException;
+    void changingUserStatus(ClientServices clientServices,UserDTO userDTO,String status) throws RemoteException;
+
   
 }

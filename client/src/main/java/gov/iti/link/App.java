@@ -40,6 +40,7 @@ public class App extends Application {
                     e1.printStackTrace();
                 }
                Platform.exit();
+
                System.exit(0);
               
             }
