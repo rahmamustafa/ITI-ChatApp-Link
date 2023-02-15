@@ -70,6 +70,11 @@ public class StageManager {
         primaryStage.setTitle(sceneName);
         loadView(sceneName);
     }
+    public void switchToNoConnection(){
+        String sceneName = "noConnection";
+        primaryStage.setTitle("Connecting Failed");
+        loadView(sceneName);
+    }
     
 
     public void loadView(String name) {

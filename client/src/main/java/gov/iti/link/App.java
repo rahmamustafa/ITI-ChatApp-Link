@@ -23,32 +23,25 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         StageManager stageManager = StageManager.getInstance();
         stageManager.initStage(stage);
-        if (UserAuth.isAuthorized())
-            stageManager.switchToHome();
-        else
-            stageManager.switchToLogin();
+        ServiceManager.getInstance().connectToServer();
         stage.show();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
                 try {
                     ClientServices currentCleint = StateManager.getInstance().getClient();
-                    ServiceManager.getInstance().getUserService().userLoggedOut(currentCleint,
-                            currentCleint.getUserDTO());
+                    if (currentCleint != null)
+                        ServiceManager.getInstance().getUserService().userLoggedOut(currentCleint,
+                                currentCleint.getUserDTO());
                 } catch (RemoteException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
+                } catch (NullPointerException e2) {
+                    e2.printStackTrace();
+                } finally {
+                    Platform.exit();
+                    System.exit(0);
+                }
 
-                } 
-             catch (NullPointerException e2) {
-                // TODO Auto-generated catch block
-                e2.printStackTrace();
-            } finally {
-                Platform.exit();
-                System.exit(0);
-            }
-              
-              
             }
         });
     }
