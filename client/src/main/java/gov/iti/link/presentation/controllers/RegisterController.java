@@ -108,6 +108,7 @@ public class RegisterController implements Initializable {
                 StageManager.getInstance().switchToLogin();
             } catch (RemoteException e) {
                 e.printStackTrace();
+                StageManager.getInstance().switchToServerDown();
             }
 
             System.out.println("register");
@@ -294,6 +295,7 @@ public class RegisterController implements Initializable {
             }
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
+            StageManager.getInstance().switchToServerDown();
             e.printStackTrace();
         }
         if (phone == null) {

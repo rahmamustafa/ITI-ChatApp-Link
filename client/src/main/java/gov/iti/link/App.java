@@ -23,7 +23,7 @@ public class App extends Application {
         if(UserAuth.isAuthorized())
             stageManager.switchToHome();
         else
-            stageManager.switchToRegister();
+            stageManager.switchToLogin();
         stage.show();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override

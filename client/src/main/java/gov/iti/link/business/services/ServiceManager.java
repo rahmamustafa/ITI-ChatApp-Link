@@ -29,19 +29,13 @@ public class ServiceManager {
         try {
             reg = LocateRegistry.getRegistry(PORT_NUMBER);
             userService = (UserService) reg.lookup(USER_SERVICE);
+
         } catch (RemoteException | NotBoundException e) {
-            e.printStackTrace();
+            StageManager.getInstance().loadView("ServerDown");
+           // e.printStackTrace();
             ///////////////////////////////////
             // handel sever is dawon 
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/ServerErorr.fxml"));
-                DialogPane dialogPane = fxmlLoader.load();
-                Dialog<ButtonType> dialog = new Dialog<>();
-                dialog.setDialogPane(dialogPane);
-                dialog.show();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+           
         }
 
     }
@@ -54,4 +48,5 @@ public class ServiceManager {
         
         return Passoword=DigestUtils.sha256Hex(Passoword);
     }
+   
 }

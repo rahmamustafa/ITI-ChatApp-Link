@@ -530,6 +530,7 @@ public class ChatController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        try {
         lstFriend.setItems(friendsList);
         byte[] imgb = stateManager.getUser().getPicture();
         InputStream imgStream = new ByteArrayInputStream(imgb);
@@ -546,7 +547,7 @@ public class ChatController implements Initializable {
         lblInvitesNotifications.visibleProperty().bind(hasInvitations);
         lblInvitesNotifications.textProperty().bind(noOfInvitations.asString());
         lblUserName.setText(stateManager.getUser().getName());
-        try {
+       
             clientServices = new ClientServicesImp(this);
             userService.userLoggedIn(clientServices, stateManager.getUser());
             fileControllerGroup = new FileControllerGroup(this);
@@ -554,6 +555,7 @@ public class ChatController implements Initializable {
 
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
+            StageManager.getInstance().switchToServerDown();
             e.printStackTrace();
         }
 
