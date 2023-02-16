@@ -167,14 +167,10 @@ public class mangeServiceController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub)
-        if (switchedOn.get()) {
-            serverManager.bindUserService();
+      
             switchBtn.setText("Server is ON");
             switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;");
             switchBtn.setContentDisplay(ContentDisplay.RIGHT);
-        }
-        // switchedOn.set(false);
     }
 
     public SimpleBooleanProperty switchOnProperty() {
