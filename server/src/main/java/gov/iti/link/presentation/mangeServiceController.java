@@ -104,8 +104,7 @@ public class mangeServiceController implements Initializable {
                     public void handle(MouseEvent e) {
                         caption.setTranslateX(e.getSceneX()-caption.getLayoutX());
                         caption.setTranslateY(e.getSceneY()-caption.getLayoutY());
-                        caption.setText(String.valueOf(data.getPieValue()) + "%");
-                        caption.setText(String.valueOf(((data.getPieValue()*100.0)/allgunderSise)) + "%");
+                        caption.setText(String.valueOf(data.getPieValue()));
                     }
                 });
             }
@@ -144,7 +143,7 @@ public class mangeServiceController implements Initializable {
                     public void handle(MouseEvent e) {
                         caption.setTranslateX(e.getSceneX()-caption.getLayoutX());
                         caption.setTranslateY(e.getSceneY()-caption.getLayoutY());
-                        caption.setText(String.valueOf(((data.getPieValue()*100.0)/allcontrysize)) + "%");
+                        caption.setText(String.valueOf(data.getPieValue()));
                     }
                 });
             }
@@ -185,7 +184,7 @@ public class mangeServiceController implements Initializable {
                         
                         caption.setTranslateX(e.getSceneX()-caption.getLayoutX());
                         caption.setTranslateY(e.getSceneY()-caption.getLayoutY());
-                        caption.setText(String.valueOf(((data.getPieValue()*100.0)/allUser)) + "%");
+                        caption.setText(String.valueOf(data.getPieValue()));
                     }
                 });
             }
