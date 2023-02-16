@@ -15,7 +15,7 @@ public class ConnectionManager {
 
         try {
             Properties props = new Properties();
-            props.load(new FileInputStream(getClass().getResource("/db/db.properties").getPath()));
+            props.load(getClass().getResourceAsStream("/db/db.properties"));
             String url = props.getProperty("url");
             String username = props.getProperty("username");
             String password = props.getProperty("password");
