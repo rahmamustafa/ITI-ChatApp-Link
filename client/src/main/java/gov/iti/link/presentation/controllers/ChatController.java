@@ -729,8 +729,8 @@ public class ChatController implements Initializable {
     }
 
     public void recieveAnnounc(String announcement) {
-
         System.out.println(announcement);
+       
 
     }
 

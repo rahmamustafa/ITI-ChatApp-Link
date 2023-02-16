@@ -38,6 +38,7 @@ import javafx.stage.Stage;
 public class mangeServiceController implements Initializable {
     private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(true);
     private UserServiceImp users;
+    ServerManager serverManager = ServerManager.getInstance();
 
     // @FXML
     // private BarChart<?, ?> UserGender;
@@ -132,7 +133,7 @@ public class mangeServiceController implements Initializable {
 
     @FXML
     void changeState(ActionEvent event) throws IOException {
-        ServerManager serverManager = ServerManager.getInstance();
+       
 
         switchedOn.set(!switchedOn.get());
 
@@ -167,7 +168,12 @@ public class mangeServiceController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO Auto-generated method stub)
-
+        if (switchedOn.get()) {
+            serverManager.bindUserService();
+            switchBtn.setText("Server is ON");
+            switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;");
+            switchBtn.setContentDisplay(ContentDisplay.RIGHT);
+        }
         // switchedOn.set(false);
     }
 

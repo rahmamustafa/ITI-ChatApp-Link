@@ -363,7 +363,8 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         for (UserDTO onLineUser : allOnlineUser) {
             for (ClientServices client : allClients) {
                 if (onLineUser.getPhone().equals(client.getUserDTO().getPhone())) {
-                    client.tellAnnouce(announcement);
+                    //client.tellAnnouce(announcement);
+                    client.notify("from Linkin:  "+announcement);
                     break;
                 }
             }
