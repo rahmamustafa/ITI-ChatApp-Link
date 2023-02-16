@@ -48,8 +48,8 @@ public class CreateGroupController {
 
     public CreateGroupController(){
         try {
-            groupImg =  Files.readAllBytes(Paths.get(getClass().getResource("/images/group.png").toURI()));
-        } catch (IOException | URISyntaxException e) {
+            groupImg =  getClass().getResourceAsStream("/images/group.png").readAllBytes();
+        } catch (IOException  e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
