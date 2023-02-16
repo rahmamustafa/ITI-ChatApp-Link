@@ -12,5 +12,6 @@ module gov.iti.link{
     exports gov.iti.link.business.DTOs;
 
     requires org.apache.commons.codec;
+    requires javafx.web;
     exports gov.iti.link;
 }

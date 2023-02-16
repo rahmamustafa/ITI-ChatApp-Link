@@ -83,6 +83,9 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.StageStyle;
+import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebView;
+
 
 public class ChatController implements Initializable {
 
@@ -139,6 +142,10 @@ public class ChatController implements Initializable {
     Circle circleUserImage;
 
     @FXML
+    HTMLEditor html;
+   
+
+    @FXML
     private Label lblInvitesNotifications;
     @FXML
     private ComboBox<String> StatusCombo;
@@ -193,12 +200,12 @@ public class ChatController implements Initializable {
     void sendMessage(ActionEvent event) {
         try {
             toPhones.clear();
-            String message = txtMessage.getText().trim();
-
+            //String message = txtMessage.getText().trim();
+            String message = html.getHtmlText();
             if (clickedContact.startsWith("01")) {
                 userService.sendMessage(stateManager.getUser().getPhone(), message, clickedContact);
                 chatVBoxs.get(clickedContact).getChildren()
-                        .add(senderMessage(stateManager.getUser(), message, "rightMessageSingle"));
+                        .add(senderMessage(stateManager.getUser(), message, "rightMessageSingle - Copy"));
 
                 contactLabels.get(clickedContact).setPhone(message);
                 sendUserTopList(clickedContact);

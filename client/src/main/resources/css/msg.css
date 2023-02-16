@@ -18,8 +18,6 @@
     -fx-wrap-text:true;
     -fx-text-fill: #dadada;
 
-
-
 }
 .left-message{
     -fx-background-color: #dadada;
@@ -53,4 +51,24 @@
     
     -fx-scale-x : 0.6;
     -fx-scale-y : 0.6;
+}
+
+body {
+    background-color:#be7878;
+    /* overflow: hidden;
+    justify-content: right;
+    width: 100%;
+    height: 100%; */
+    height: fit-content;
+
+    
+}
+p ,h1, h2, h3, h4, h5, h6{
+    background-color: #632f9e;
+    color: #ffffff;
+    /* width:100%;
+    height: 100%;
+    padding: 10px;
+    border-radius:  10px ;
+    word-wrap: break-word; */
 }

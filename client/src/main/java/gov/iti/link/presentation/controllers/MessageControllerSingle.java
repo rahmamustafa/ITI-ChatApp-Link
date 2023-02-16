@@ -8,13 +8,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.web.WebView;
 
 public class MessageControllerSingle {
    
     @FXML
     private Label lblMessage;
 
-   
+    @FXML
+    WebView lblMessage1;
+    
     @FXML
     private Label lblTime;
 
@@ -23,7 +26,11 @@ public class MessageControllerSingle {
     }
 
     public void setMessage(String message) {
-        this.lblMessage.setText(message);
+        //this.lblMessage.setText(message);
+        lblMessage1.getEngine().setUserStyleSheetLocation(getClass().getResource("/css/msg.css").toString());
+        lblMessage1.getEngine().loadContent(message);
+
+        
     }
 
 
