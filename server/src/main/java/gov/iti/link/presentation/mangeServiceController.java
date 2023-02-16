@@ -22,6 +22,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,7 +34,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class mangeServiceController implements Initializable {
     private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(true);
@@ -60,6 +64,9 @@ public class mangeServiceController implements Initializable {
 
     @FXML
     private Button switchBtn;
+
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     @FXML
     void GunderbtnAction(ActionEvent event) {
@@ -149,15 +156,21 @@ public class mangeServiceController implements Initializable {
         }
     }
 
+
     @FXML
     void announcebtnAction(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Announcement.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
+            DialogPane dialogPane = fxmlLoader.load();
+            AnnouncementController controller = fxmlLoader.getController();
+            Dialog<Boolean> dialog = new Dialog<>();
+            controller.setDialog(dialog);
+            makeDialogDraggable(dialogPane, dialog);
+            dialog.setDialogPane(dialogPane);
+            dialog.initStyle(StageStyle.TRANSPARENT);
+            dialog.showAndWait();
 
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -170,9 +183,28 @@ public class mangeServiceController implements Initializable {
             switchBtn.setText("Server is ON");
             switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;");
             switchBtn.setContentDisplay(ContentDisplay.RIGHT);
+            GunderbtnAction(new ActionEvent());
     }
 
     public SimpleBooleanProperty switchOnProperty() {
         return switchedOn;
+    }
+
+    private void makeDialogDraggable(Pane pane, Dialog dialog) {
+        pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+
+        pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                dialog.setX(event.getScreenX() - xOffset);
+                dialog.setY(event.getScreenY() - yOffset);
+            }
+        });
     }
 }

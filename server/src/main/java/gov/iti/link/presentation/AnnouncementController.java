@@ -24,6 +24,7 @@ public class AnnouncementController implements Initializable{
 
     @FXML
     private TextField texmesage;
+    Dialog<Boolean> dialog;
 
     @FXML
     void sendbtnAction(ActionEvent event) throws RemoteException {
@@ -40,6 +41,16 @@ public class AnnouncementController implements Initializable{
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO Auto-generated method stub
         
+    }
+
+    public void setDialog(Dialog<Boolean> dialog){
+        this.dialog = dialog ;
+    }
+
+    @FXML
+    void onClose(){
+        this.dialog.setResult(Boolean.TRUE);
+        dialog.close();
     }
     
 }
