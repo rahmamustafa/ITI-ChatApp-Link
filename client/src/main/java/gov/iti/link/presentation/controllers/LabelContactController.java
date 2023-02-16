@@ -76,10 +76,10 @@ public class LabelContactController implements Initializable{
             circlePicStatus.setFill(Color.web("#1fff3d"));
         }
         else if(status.equals("Busy")){
-            circlePicStatus.setFill(Color.web("#ffc038"));
+            circlePicStatus.setFill(Color.web("#e60000"));
         }
         else  {
-            circlePicStatus.setFill(Color.web("#e60000"));
+            circlePicStatus.setFill(Color.web("#ffc038"));
         }
     }
     

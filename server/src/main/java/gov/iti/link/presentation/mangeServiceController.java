@@ -22,6 +22,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,7 +34,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.*;
 
 public class mangeServiceController implements Initializable {
     private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(true);
@@ -60,14 +66,16 @@ public class mangeServiceController implements Initializable {
 
     @FXML
     private Button switchBtn;
-
+    @FXML
+    private Label caption;
     @FXML
     void GunderbtnAction(ActionEvent event) {
         try {
             users = new UserServiceImp();
             Vector<UserDTO> userdto = new Vector<>(users.getAllUsers());
             ArrayList<String> gunder = new ArrayList<>();
-
+            caption.setText("");
+            final int allgunderSise=userdto.size();
             for (int i = 0; i < userdto.size(); i++) {
                 gunder.add(userdto.elementAt(i).getGender());
             }
@@ -79,6 +87,20 @@ public class mangeServiceController implements Initializable {
             piechart.getData().clear();
             piechart.getData().addAll(pieChartData);
             piechart.setTitle("User Gunder");
+            caption.setTextFill(Color.BLACK);
+            caption.setStyle("-fx-font: 24 arial;");
+
+            for (final PieChart.Data data : piechart.getData()) {
+                data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        caption.setTranslateX(e.getSceneX()-caption.getLayoutX());
+                        caption.setTranslateY(e.getSceneY()-caption.getLayoutY());
+                        caption.setText(String.valueOf(data.getPieValue()) + "%");
+                        caption.setText(String.valueOf(((data.getPieValue()*100.0)/allgunderSise)) + "%");
+                    }
+                });
+            }
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -92,7 +114,8 @@ public class mangeServiceController implements Initializable {
             users = new UserServiceImp();
             Vector<UserDTO> userdto = new Vector<>(users.getAllUsers());
             ArrayList<String> country = new ArrayList<>();
-
+            caption.setText("");
+            final int allcontrysize=userdto.size();
             for (int i = 0; i < userdto.size(); i++) {
                 country.add(userdto.elementAt(i).getCountry());
             }
@@ -104,6 +127,19 @@ public class mangeServiceController implements Initializable {
             piechart.getData().clear();
             piechart.getData().addAll(pieChartData);
             piechart.setTitle("User country");
+            caption.setTextFill(Color.BLACK);
+            caption.setStyle("-fx-font: 24 arial;");
+
+            for (final PieChart.Data data : piechart.getData()) {
+                data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        caption.setTranslateX(e.getSceneX()-caption.getLayoutX());
+                        caption.setTranslateY(e.getSceneY()-caption.getLayoutY());
+                        caption.setText(String.valueOf(((data.getPieValue()*100.0)/allcontrysize)) + "%");
+                    }
+                });
+            }
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -114,16 +150,38 @@ public class mangeServiceController implements Initializable {
     @FXML
     void onlinebtnAction(ActionEvent event) {
         try {
+           final int allUser ;
+            int onlinuser = 0;
             users = ServerManager.getInstance().getUserSeviceImp();
-            int allUser = users.getAllUsers().size();
-            int onlinuser = users.allOnlineUser.size();
+            if (users.getAllUsers() != null) {
+                allUser = users.getAllUsers().size();
+            }
+            else allUser=0;
+            if (!users.allOnlineUser.isEmpty()) {
+                onlinuser = users.allOnlineUser.size();
+            }
+            caption.setText("");
             System.out.println("All:" + allUser);
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                    new PieChart.Data("Online ", onlinuser), new PieChart.Data("OffLine ", allUser - onlinuser));
+                new PieChart.Data("Online ", onlinuser), new PieChart.Data("OffLine ", allUser - onlinuser));
 
             piechart.getData().clear();
             piechart.getData().addAll(pieChartData);
             piechart.setTitle("Online User");
+            caption.setTextFill(Color.BLACK);
+            caption.setStyle("-fx-font: 24 arial;");
+
+            for (final PieChart.Data data : piechart.getData()) {
+                data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        
+                        caption.setTranslateX(e.getSceneX()-caption.getLayoutX());
+                        caption.setTranslateY(e.getSceneY()-caption.getLayoutY());
+                        caption.setText(String.valueOf(((data.getPieValue()*100.0)/allUser)) + "%");
+                    }
+                });
+            }
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -133,7 +191,6 @@ public class mangeServiceController implements Initializable {
 
     @FXML
     void changeState(ActionEvent event) throws IOException {
-       
 
         switchedOn.set(!switchedOn.get());
 
@@ -167,13 +224,19 @@ public class mangeServiceController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-      
-            switchBtn.setText("Server is ON");
-            switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;");
-            switchBtn.setContentDisplay(ContentDisplay.RIGHT);
+
+        switchBtn.setText("Server is ON");
+        switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;");
+        switchBtn.setContentDisplay(ContentDisplay.RIGHT);
     }
 
     public SimpleBooleanProperty switchOnProperty() {
         return switchedOn;
     }
+
+    @FXML
+    void showPressent(MouseDragEvent event) {
+
+    }
+
 }

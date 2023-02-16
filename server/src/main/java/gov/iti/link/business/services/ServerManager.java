@@ -41,6 +41,7 @@ public class ServerManager {
         if (this.registry == null)
             return;
         try {
+            
             this.registry.unbind(USER_SERVICE);
         } catch (RemoteException | NotBoundException e) {
             e.printStackTrace();
