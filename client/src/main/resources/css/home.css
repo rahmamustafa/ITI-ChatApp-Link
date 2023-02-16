@@ -9,7 +9,8 @@
 }
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
     -fx-background-color: #dadada;
-    -fx-text-fill: white;
+    -fx-text-fill: #6F4CBB;
+    -fx-font-weight:bold;
 }
 
 
@@ -61,4 +62,17 @@
     -fx-scale-x : 0.9;
     -fx-scale-y : 0.9;
     
+}
+
+.combobox{
+    -fx-text-fill : black;
+}
+
+.img{
+    
+    -fx-background-image : url("..\images\bg.jpg");
+    -fx-background-repeat : no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+
 }
