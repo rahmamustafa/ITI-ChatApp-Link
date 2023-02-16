@@ -22,5 +22,6 @@ public interface ClientServices extends Remote {
     void tellAnnouce(String announcement)throws RemoteException;
     void notify(String notification) throws RemoteException;
     void notifyMytStatus(UserDTO contactDto, String status ) throws RemoteException;
+    void disconnect() throws RemoteException;
 
 }

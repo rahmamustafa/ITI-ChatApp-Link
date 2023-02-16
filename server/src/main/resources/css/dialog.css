@@ -1,0 +1,45 @@
+.header-label {
+    -fx-text-fill: #6f4cbb;
+    -fx-font-size: 24px;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+  }
+  
+  .add-button {
+    -fx-background-color: #6f4cbb;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+  }
+  
+  .error-label {
+    -fx-text-fill: #ffffff;
+    -fx-padding: 2px;
+    -fx-alignment: center;
+    -fx-background-color: #f93d5c;
+  }
+  
+  .sucess-label {
+    -fx-text-fill: #ffffff;
+    -fx-padding: 2px;
+    -fx-alignment: center;
+    -fx-background-color: #5bc3a2;
+  }
+  
+  .header{
+    -fx-background-color: #6f4cbb;
+    -fx-padding:5px;
+    /* -fx-background-radius: 10px 10px 0 0 */
+    
+  }
+  
+  .icon{
+    -fx-cursor:hand;
+  }
+  
+  .dialog{
+    -fx-border-color:#00000046;
+    /* -fx-border-radius:10px; */
+    /* -fx-background-radius:10px; */
+    /* -fx-background-color: #ffffff; */
+  }

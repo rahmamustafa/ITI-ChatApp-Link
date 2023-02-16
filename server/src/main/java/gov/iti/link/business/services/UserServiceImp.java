@@ -390,4 +390,14 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
         
     }
 
+    @Override
+    public void disconnectUsers() throws RemoteException {
+        for (ClientServices client : allClients){
+            client.disconnect();
+        }
+        allOnlineUser.clear();
+        allClients.clear();
+        
+    }
+
 }

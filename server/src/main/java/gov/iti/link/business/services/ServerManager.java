@@ -5,6 +5,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 public class ServerManager {
     private Registry registry;
@@ -31,8 +32,9 @@ public class ServerManager {
         
         try {
             serviceImp = new UserServiceImp();
-            registry.bind(USER_SERVICE, serviceImp);
-        } catch (RemoteException | AlreadyBoundException e) {
+            registry.rebind(USER_SERVICE, serviceImp);
+            // UnicastRemoteObject.exportObject(registry, PORT_NUMBER);
+        } catch (RemoteException  e) {
             e.printStackTrace();
         }
     }
@@ -43,7 +45,10 @@ public class ServerManager {
         try {
             
             this.registry.unbind(USER_SERVICE);
-        } catch (RemoteException | NotBoundException e) {
+            // UnicastRemoteObject.unexportObject(serviceImp,true);
+            System.out.println("services unbinded");
+            serviceImp.disconnectUsers();
+        } catch (RemoteException | NotBoundException  e) {
             e.printStackTrace();
         }
 

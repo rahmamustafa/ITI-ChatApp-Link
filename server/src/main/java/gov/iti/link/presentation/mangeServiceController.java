@@ -40,6 +40,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class mangeServiceController implements Initializable {
     private SimpleBooleanProperty switchedOn = new SimpleBooleanProperty(true);
@@ -68,10 +72,14 @@ public class mangeServiceController implements Initializable {
     private Button switchBtn;
     @FXML
     private Label caption;
+
+    private double xOffset = 0;
+    private double yOffset = 0;
+
     @FXML
     void GunderbtnAction(ActionEvent event) {
         try {
-            users = new UserServiceImp();
+            users = ServerManager.getInstance().getUserSeviceImp();
             Vector<UserDTO> userdto = new Vector<>(users.getAllUsers());
             ArrayList<String> gunder = new ArrayList<>();
             caption.setText("");
@@ -111,7 +119,7 @@ public class mangeServiceController implements Initializable {
     @FXML
     void countrybtnAction(ActionEvent event) {
         try {
-            users = new UserServiceImp();
+            users = ServerManager.getInstance().getUserSeviceImp();
             Vector<UserDTO> userdto = new Vector<>(users.getAllUsers());
             ArrayList<String> country = new ArrayList<>();
             caption.setText("");
@@ -141,7 +149,6 @@ public class mangeServiceController implements Initializable {
                 });
             }
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -197,25 +204,31 @@ public class mangeServiceController implements Initializable {
         if (switchedOn.get()) {
             serverManager.bindUserService();
             switchBtn.setText("Server is ON");
-            switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;");
+            switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;-fx-cursor:hand;");
             switchBtn.setContentDisplay(ContentDisplay.RIGHT);
         } else {
             serverManager.unbindUserService();
             switchBtn.setText("Server is OFF");
-            switchBtn.setStyle("-fx-background-color: red;-fx-text-fill:black;");
+            switchBtn.setStyle("-fx-background-color: red;-fx-text-fill:black;-fx-cursor:hand;");
             switchBtn.setContentDisplay(ContentDisplay.LEFT);
         }
     }
+
 
     @FXML
     void announcebtnAction(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Announcement.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
+            DialogPane dialogPane = fxmlLoader.load();
+            AnnouncementController controller = fxmlLoader.getController();
+            Dialog<Boolean> dialog = new Dialog<>();
+            controller.setDialog(dialog);
+            makeDialogDraggable(dialogPane, dialog);
+            dialog.setDialogPane(dialogPane);
+            dialog.initStyle(StageStyle.TRANSPARENT);
+            dialog.showAndWait();
 
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -224,19 +237,32 @@ public class mangeServiceController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-
-        switchBtn.setText("Server is ON");
-        switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;");
-        switchBtn.setContentDisplay(ContentDisplay.RIGHT);
+      
+            switchBtn.setText("Server is ON");
+            switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;");
+            switchBtn.setContentDisplay(ContentDisplay.RIGHT);
+            GunderbtnAction(new ActionEvent());
     }
 
     public SimpleBooleanProperty switchOnProperty() {
         return switchedOn;
     }
 
-    @FXML
-    void showPressent(MouseDragEvent event) {
+    private void makeDialogDraggable(Pane pane, Dialog dialog) {
+        pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
 
+        pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                dialog.setX(event.getScreenX() - xOffset);
+                dialog.setY(event.getScreenY() - yOffset);
+            }
+        });
     }
-
 }

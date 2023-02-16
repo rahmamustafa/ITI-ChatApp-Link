@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.AnnouncementController">
-   <children>
-      <Label layoutX="16.0" layoutY="79.0" prefHeight="131.0" prefWidth="446.0" text="Send An Announcement To All Users" textAlignment="CENTER">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <TextField fx:id="texmesage" layoutX="30.0" layoutY="288.0" prefHeight="54.0" prefWidth="342.0" />
-      <Button fx:id="sendbtn" layoutX="385.0" layoutY="287.0" mnemonicParsing="false" onAction="#sendbtnAction" prefHeight="54.0" prefWidth="80.0" text="Send" />
-   </children>
-</AnchorPane>
+<DialogPane stylesheets="@../css/dialog.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gov.iti.link.presentation.AnnouncementController">
+   <content>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="479.0" stylesheets="@../css/dialog.css">
+         <children>
+            <Label layoutX="32.0" layoutY="52.0" prefHeight="46.0" prefWidth="414.0" styleClass="header-label" text="Send An Announcement To All Users" textAlignment="CENTER">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <TextField fx:id="texmesage" layoutX="32.0" layoutY="109.0" prefHeight="38.0" prefWidth="414.0" />
+            <Button fx:id="sendbtn" layoutX="32.0" layoutY="154.0" mnemonicParsing="false" onAction="#sendbtnAction" prefHeight="38.0" prefWidth="414.0" styleClass="add-button" text="Send" />
+         </children>
+      </AnchorPane>
+   </content>
+   <header>
+      <AnchorPane prefHeight="31.0" prefWidth="479.0" styleClass="header">
+         <children>
+            <ImageView fitHeight="23.0" fitWidth="20.0" layoutX="423.0" layoutY="17.0" onMouseClicked="#onClose" pickOnBounds="true" preserveRatio="true" styleClass="icon" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../images/close.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </header>
+</DialogPane>
