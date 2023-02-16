@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     Vector<ClientServices> allClients = new Vector<>();
     public Vector<UserDTO> allOnlineUser = new Vector<>();
+    public Map<String,String> usersStatus = new HashMap<>();
 
     public UserServiceImp() throws RemoteException {
         super();
@@ -167,8 +169,10 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
                 }  
             }   
         for (UserDTO onlineUserDTO : allOnlineUser)
-            if(contactsPhone.contains(onlineUserDTO.getPhone()))
+            if(contactsPhone.contains(onlineUserDTO.getPhone())){
                 clientServices.notifyContactStatus(onlineUserDTO, true);
+                clientServices.notifyMytStatus(onlineUserDTO, usersStatus.get(onlineUserDTO.getPhone()));
+            }
     }
 
     @Override
@@ -375,19 +379,21 @@ public class UserServiceImp extends UnicastRemoteObject implements UserService {
 
     @Override
     public void changingUserStatus(ClientServices clientServices, UserDTO userDTO,String status) throws RemoteException {
-        // TODO Auto-generated method stub
 
         Vector<ContactDto> allContacts = getAllContacts(userDTO.getPhone());
         List<String> contactsPhone =  allContacts.stream().map(c -> c.getPhoneNumber()).collect(Collectors.toList());
-       
+        if(usersStatus.get(userDTO.getPhone())!= null)
+            usersStatus.replace(userDTO.getPhone(), status);
+        else
+            usersStatus.put(userDTO.getPhone(), status);
 
         for (ClientServices client : allClients){
                 if(contactsPhone.contains(client.getUserDTO().getPhone())) {
                     client.notifyMytStatus(userDTO, status);
                    
                 }  
-            }   
-        
+            }  
+           
     }
 
     @Override
