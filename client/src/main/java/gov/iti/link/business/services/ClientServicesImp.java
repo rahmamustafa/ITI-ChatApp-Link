@@ -53,14 +53,15 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
         });
 
     }
+
     @Override
     public void tellAnnouce(String announcement) throws RemoteException {
-        System.out.println("we get " + announcement + " from Sever" );
+        System.out.println("we get " + announcement + " from Sever");
 
         Platform.runLater(() -> {
-           
-               chatController.recieveAnnounc(announcement);
-            
+
+            chatController.recieveAnnounc(announcement);
+
         });
 
     }
@@ -87,9 +88,9 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
     }
 
     @Override
-    public void notifyNewMember(GroupDto groupDto,String newMemberPhone) throws RemoteException {
-        System.out.println(groupDto.getGroupId() + " " +groupDto.getGroupName() + groupDto.getAllMembers().size());
-        Platform.runLater(() -> chatController.changeOnGroupState(groupDto,newMemberPhone));
+    public void notifyNewMember(GroupDto groupDto, String newMemberPhone) throws RemoteException {
+        System.out.println(groupDto.getGroupId() + " " + groupDto.getGroupName() + groupDto.getAllMembers().size());
+        Platform.runLater(() -> chatController.changeOnGroupState(groupDto, newMemberPhone));
 
     }
 
@@ -148,19 +149,26 @@ public class ClientServicesImp extends UnicastRemoteObject implements ClientServ
         System.out.println(notification);
         Platform.runLater(() -> {
             Notifications.create().title("New Notification!")
-                    .text(notification).graphic(new ImageView(image)).darkStyle().
-                    position(Pos.BOTTOM_RIGHT).owner(StageManager.getInstance().getCurrentStage()).show();
+                    .text(notification).graphic(new ImageView(image)).darkStyle().position(Pos.BOTTOM_RIGHT)
+                    .owner(StageManager.getInstance().getCurrentStage()).show();
         });
-        
 
     }
 
     @Override
     public void notifyMytStatus(UserDTO userDTO, String status) throws RemoteException {
         // TODO Auto-generated method stub
-        ContactDto contactDto = new ContactDto(userDTO.getPhone(), userDTO.getPicture(),true, userDTO.getName());
+        ContactDto contactDto = new ContactDto(userDTO.getPhone(), userDTO.getPicture(), true, userDTO.getName());
 
         Platform.runLater(() -> chatController.changeMyFriendState(contactDto, status));
+    }
+
+    @Override
+    public void disconnect() {
+        System.out.println("disconnecting");
+        Platform.runLater(() -> StageManager.getInstance().switchToNoConnection());
+        StageManager.getInstance().deleteView("home");
+
     }
 
 }

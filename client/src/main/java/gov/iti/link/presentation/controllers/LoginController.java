@@ -87,10 +87,12 @@ public class LoginController implements Initializable {
 
                 user = userService.findByPhone(txtPhone.getText());
             } catch (RemoteException e) {
-                StageManager.getInstance().switchToServerDown();
+                // StageManager.getInstance().switchToServerDown();
                 //StageManager.getInstance().switchToServerDown();
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+
+                // e.printStackTrace();
+                System.out.println(e.getMessage());
+                StageManager.getInstance().switchToNoConnection();
                 
             }
             if (user != null && user.getPassword().equals(hashedPassword)) {

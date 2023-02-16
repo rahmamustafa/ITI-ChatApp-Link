@@ -64,7 +64,7 @@ public class mangeServiceController implements Initializable {
     @FXML
     void GunderbtnAction(ActionEvent event) {
         try {
-            users = new UserServiceImp();
+            users = ServerManager.getInstance().getUserSeviceImp();
             Vector<UserDTO> userdto = new Vector<>(users.getAllUsers());
             ArrayList<String> gunder = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class mangeServiceController implements Initializable {
             gendermap.forEach((t, u) -> pieChartData.add(new PieChart.Data(t, u)));
             piechart.getData().clear();
             piechart.getData().addAll(pieChartData);
-            piechart.setTitle("User Gunder");
+            piechart.setTitle("User Gender");
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -89,7 +89,7 @@ public class mangeServiceController implements Initializable {
     @FXML
     void countrybtnAction(ActionEvent event) {
         try {
-            users = new UserServiceImp();
+            users = ServerManager.getInstance().getUserSeviceImp();
             Vector<UserDTO> userdto = new Vector<>(users.getAllUsers());
             ArrayList<String> country = new ArrayList<>();
 
@@ -105,7 +105,6 @@ public class mangeServiceController implements Initializable {
             piechart.getData().addAll(pieChartData);
             piechart.setTitle("User country");
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -140,12 +139,12 @@ public class mangeServiceController implements Initializable {
         if (switchedOn.get()) {
             serverManager.bindUserService();
             switchBtn.setText("Server is ON");
-            switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;");
+            switchBtn.setStyle("-fx-background-color: green;-fx-text-fill:white;-fx-cursor:hand;");
             switchBtn.setContentDisplay(ContentDisplay.RIGHT);
         } else {
             serverManager.unbindUserService();
             switchBtn.setText("Server is OFF");
-            switchBtn.setStyle("-fx-background-color: red;-fx-text-fill:black;");
+            switchBtn.setStyle("-fx-background-color: red;-fx-text-fill:black;-fx-cursor:hand;");
             switchBtn.setContentDisplay(ContentDisplay.LEFT);
         }
     }
