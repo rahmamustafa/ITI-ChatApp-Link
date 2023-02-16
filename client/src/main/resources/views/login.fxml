@@ -21,6 +21,16 @@
                   <Image url="@../images/Picture1.png" />
                     </image>
                 </ImageView>
+            <Label layoutX="33.0" layoutY="46.0" prefHeight="79.0" prefWidth="185.0" text="Your Space To Be Social." textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Calibri Bold" size="30.0" />
+               </font>
+            </Label>
+            <Label layoutX="33.0" layoutY="133.0" prefHeight="37.0" prefWidth="275.0" text="Blast off today and join the fun! Getting started is only a few clicks away." textFill="#967fb9" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
         <Pane layoutX="417.0" layoutY="31.0" prefHeight="589.0" prefWidth="354.0" stylesheets="@../css/login.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="31.0">
@@ -36,10 +46,13 @@
                         <Font name="Segoe UI" size="12.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnLogin" contentDisplay="CENTER" layoutX="38.0" layoutY="349.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="45.0" prefWidth="281.0" text="Login" textAlignment="CENTER" textFill="WHITE" />
+                <Button fx:id="btnLogin" contentDisplay="CENTER" layoutX="38.0" layoutY="349.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="45.0" prefWidth="281.0" text="Login" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
             <PasswordField fx:id="txtPassword" layoutX="37.0" layoutY="234.0" prefHeight="45.0" prefWidth="281.0" promptText="password" />
             <TextField fx:id="txtPhone" layoutX="37.0" layoutY="168.0" prefHeight="45.0" prefWidth="281.0" promptText="Phone" />
-            <Label fx:id="lblLeft" alignment="CENTER" layoutX="36.0" layoutY="54.0" prefHeight="88.0" prefWidth="281.0" stylesheets="@../css/login.css" text="Login" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="lblLeft" alignment="CENTER" layoutX="36.0" layoutY="54.0" prefHeight="88.0" prefWidth="156.0" stylesheets="@../css/login.css" text="Login" textFill="WHITE">
                     <font>
                   <Font name="System Bold" size="20.0" />
                     </font>
