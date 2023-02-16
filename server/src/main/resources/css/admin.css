@@ -14,7 +14,7 @@
   }
 
   .container{
-    -fx-background-color: #6f4cbb;
+    -fx-background-color : linear-gradient(to bottom left , #431FA0 , #6F4CBB)
   }
 
   .title-label{
@@ -22,3 +22,15 @@
     -fx-font-weight: bold;
     -fx-font-size: 14;
   }
+  .btn {
+    
+    -fx-background-color : #431FA0; 
+}
+.btn:hover{
+  -fx-background-color: #6f4cbb;
+}
+.btn:pressed{
+    
+    -fx-scale-x : 0.9;
+    -fx-scale-y : 0.9;
+}
