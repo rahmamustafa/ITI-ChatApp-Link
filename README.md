@@ -1,5 +1,7 @@
 <img src="screenshots/logo.png" width=250 >
+
 ### This app provides:
+
 - Live messaging contains media
 - Send friend requset
 - Create groups
@@ -42,7 +44,6 @@
    <center><font color="indigo">Admin page</font></center>
 
  ![Login page](screenshots/server%20off.PNG)
-
  
    <center><font color="indigo">Clients</font></center>
 
