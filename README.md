@@ -31,3 +31,12 @@
   <center><font color="indigo">Admin page</font></center>
 
  ![Login page](screenshots/server.PNG)
+
+   <center><font color="indigo">Admin page</font></center>
+
+ ![Login page](screenshots/server%20off.PNG)
+
+ 
+   <center><font color="indigo">Admin page</font></center>
+
+ ![Login page](screenshots/server%20off2.PNG)
