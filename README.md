@@ -1,4 +1,11 @@
-# LINK APP
+<img src="screenshots/logo.png" width=250 >
+### This app provides:
+- Live messaging contains media
+- Send friend requset
+- Create groups
+- Notifications (messages and requests)
+- Admin dashboard
+- Admin Announcements
 
  <center><font color="indigo">Login page</font></center>
 
@@ -11,7 +18,7 @@
 
  <center><font color="indigo">Home page</font></center>
 
- ![Login page](screenshots/recieve%20request.png)
+ ![Login page](screenshots/requests.png)
 
 
  <center><font color="indigo">Home page</font></center>
@@ -37,6 +44,6 @@
  ![Login page](screenshots/server%20off.PNG)
 
  
-   <center><font color="indigo">Admin page</font></center>
+   <center><font color="indigo">Clients</font></center>
 
  ![Login page](screenshots/server%20off2.PNG)
