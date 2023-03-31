@@ -47,4 +47,4 @@
  
    <center><font color="indigo">Clients</font></center>
 
- ![Login page](screenshots/server-off2.PNG)
+ ![Login page](screenshots/server-off2.png)
