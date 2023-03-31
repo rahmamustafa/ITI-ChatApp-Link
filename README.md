@@ -25,7 +25,7 @@
  
   <center><font color="indigo">Home page</font></center>
 
- ![Login page](screenshots/add%20member%20to%20group.png)
+ ![Login page](screenshots/add%20member.png)
 
  
   <center><font color="indigo">Admin page</font></center>
