@@ -2,34 +2,32 @@
 
  <center><font color="indigo">Login page</font></center>
 
-![Login page](login.png)
+![Login page](screenshots/login.png)
 
  <center><font color="indigo">Home page</font></center>
 
- ![Login page](add-contact.png)
-
-
- <center><font color="indigo">Home page</font></center>
-
- ![Login page](recieve%20request.png)
+ ![Login page](screenshots/add-contact.png)
 
 
  <center><font color="indigo">Home page</font></center>
 
- ![Login page](send%20messages.png)
+ ![Login page](screenshots/recieve%20request.png)
+
+
+ <center><font color="indigo">Home page</font></center>
+
+ ![Login page](screenshots/send%20messages.png)
 
   <center><font color="indigo">Home page</font></center>
 
- ![Login page](recieve%20file.png)
+ ![Login page](screenshots/recieve%20file.png)
 
  
   <center><font color="indigo">Home page</font></center>
 
- ![Login page](add%20member%20to%20group.png)
-
-
+ ![Login page](screenshots/add%20member%20to%20group.png)
 
  
   <center><font color="indigo">Admin page</font></center>
 
- ![Login page](server.PNG)
+ ![Login page](screenshots/server.PNG)
