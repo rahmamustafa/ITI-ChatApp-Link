@@ -43,8 +43,8 @@
 
    <center><font color="indigo">Admin page</font></center>
 
- ![Login page](screenshots/server%20off.PNG)
+ ![Login page](screenshots/server-off.png)
  
    <center><font color="indigo">Clients</font></center>
 
- ![Login page](screenshots/server%20off2.PNG)
+ ![Login page](screenshots/server-off2.PNG)
